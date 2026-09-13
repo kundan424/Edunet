@@ -75,7 +75,7 @@ export function Header() {
         {/* Logo / Brand */}
         <div className="flex items-center gap-6 shrink-0">
           <Link to="/" className="font-degular-display text-2xl md:text-3xl leading-none font-bold tracking-heading-sm text-midnight-ink z-[60]">
-            EdTech
+            EduNet
           </Link>
         </div>
 
@@ -229,7 +229,7 @@ export function Footer() {
         {/* Brand Column */}
         <div className="flex flex-col gap-4">
           <Link to="/" className="font-degular-display text-2xl md:text-[32px] leading-none font-bold tracking-heading-sm">
-            EdTech
+            EduNet
           </Link>
           <p className="font-usual text-sm opacity-70 mt-2">
             Empowering modern learners with curated, high-quality technical education.
