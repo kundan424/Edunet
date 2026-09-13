@@ -60,12 +60,14 @@ export function AdminDashboard() {
           {dashboard.recentActivity && dashboard.recentActivity.length > 0 ? (
             <div className="flex flex-col gap-4">
               {dashboard.recentActivity.map(activity => (
-                <div key={`act-${activity.id}`} className="flex justify-between items-start p-4 border border-midnight-ink bg-cream-paper">
+                <div key={`act-${activity.referenceId}-${activity.type}`} className="flex justify-between items-start p-4 border border-midnight-ink bg-cream-paper">
                   <div className="flex flex-col gap-1">
-                    <span className="font-bold">{activity.studentName} <span className="font-normal text-sm text-midnight-ink/70">{activity.activityType}</span></span>
-                    <span className="text-sm font-semibold text-signal-blue">{activity.courseTitle}</span>
+                    <span className="font-bold">{activity.description}</span>
+                    <span className="text-sm font-semibold text-signal-blue">{activity.type}</span>
                   </div>
-                  <span className="text-xs font-mono">{new Date(activity.timestamp).toLocaleDateString()}</span>
+                  <span className="text-xs font-mono">
+                    {activity.createdAt ? new Date(activity.createdAt).toLocaleDateString() : 'Unknown date'}
+                  </span>
                 </div>
               ))}
             </div>

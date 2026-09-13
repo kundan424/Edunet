@@ -62,10 +62,9 @@ export interface AdminDashboardResponse {
     passedAttempts: number;
   };
   recentActivity: Array<{
-    id: string;
-    courseTitle: string;
-    studentName: string;
-    activityType: string;
-    timestamp: string;
+    type: string;
+    referenceId: string;
+    description: string;
+    createdAt: string;
   }>;
 }

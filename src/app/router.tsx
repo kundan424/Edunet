@@ -30,6 +30,11 @@ import { AdminCourses } from '../pages/admin/AdminCourses';
 import { AdminCourseReview } from '../pages/admin/AdminCourseReview';
 import { NotFound } from '../pages/shared/NotFound';
 
+import { About } from '../pages/info/About';
+import { Contact } from '../pages/info/Contact';
+import { Terms } from '../pages/info/Terms';
+import { Privacy } from '../pages/info/Privacy';
+
 export const router = createBrowserRouter([
   // Public Routes
   {
@@ -39,6 +44,10 @@ export const router = createBrowserRouter([
       { path: '/', element: <Home /> },
       { path: '/courses', element: <Courses /> },
       { path: '/courses/:courseId', element: <CourseDetail /> },
+      { path: '/about', element: <About /> },
+      { path: '/contact', element: <Contact /> },
+      { path: '/terms', element: <Terms /> },
+      { path: '/privacy', element: <Privacy /> },
       { 
         element: <PublicRoute />, 
         children: [
