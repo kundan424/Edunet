@@ -65,16 +65,8 @@ A modern, editorial-style E-Learning platform built to provide a distraction-fre
 * **Frontend Application**: (Local: `http://localhost:5173`)
 * **Backend Application / Repository**: Located locally at `e:\projects\E-learning`
 * **Production Backend API**: `https://edtech-g1wd.onrender.com`
-  * *Note: The frontend uses this URL as the base for all API requests when deployed. Ensure your `VITE_API_URL` is pointed here for production builds.*
 
 ---
-
-## 🎨 Design Language (Bauhaus Inspired)
-This project strictly adheres to a unique design system detailed in `docs/DESIGN.md`:
-* **Zero Elevation**: Flat surfaces defined by color contrast, not shadows.
-* **Color Palette**: Cream Paper (`#fff9f0`), Midnight Ink (`#000609`), Signal Blue (`#0a65db`), Ember Red (`#ee4623`), Saffron Yellow (`#ffd23f`), and Blush Pink (`#f4c6c6`).
-* **Typography**: Heavy, confident display typography (`degular-display`) paired with highly legible body text (`usual`).
-* **Imagery**: Zero photography. Uses geometric illustrations (squares, circles, checkerboards, starbursts) as the primary visual voice.
 
 ---
 
