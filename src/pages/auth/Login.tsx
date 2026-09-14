@@ -34,7 +34,7 @@ export function Login() {
   return (
     <div className="flex flex-col items-center justify-center py-12 md:py-24 w-full">
       <div className="w-full max-w-md flex flex-col gap-8 px-4 sm:px-0">
-        <SectionHeading className="text-center">Welcome back</SectionHeading>
+        <SectionHeading className="font-plex-mono text-center">Welcome back</SectionHeading>
         
         {error && (
           <div className="bg-ember-red text-cream-paper p-4 font-bold text-center break-words">

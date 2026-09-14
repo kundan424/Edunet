@@ -10,7 +10,7 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const location = useLocation();
-  
+
   const accountMenuRef = useRef<HTMLDivElement>(null);
   const { data: unreadData } = useUnreadNotifications(isAuthenticated);
   const unreadCount = unreadData?.totalElements || 0;
@@ -71,7 +71,7 @@ export function Header() {
 
   return (
     <div className="px-4 sm:px-6 md:px-8 w-full max-w-full mx-auto top-0 sticky z-50 ">
-      <header className="bg-cream-paper/80 backdrop-blur-md rounded-2xl  flex items-center justify-between gap-6 px-4 md:px-6 py-3 relative">
+      <header className="bg-cream-paper/80 backdrop-blur-md rounded-2xl  flex items-center justify-between gap-6 px-4 md:px-6 py-1 relative">
         {/* Logo / Brand */}
         <div className="flex items-center gap-6 shrink-0 ">
           <Link to="/" className="font-degular-display text-2xl md:text-3xl leading-none font-bold tracking-heading-sm text-midnight-ink z-60">
@@ -83,11 +83,11 @@ export function Header() {
         <div className="hidden md:flex items-center gap-4 lg:gap-6 shrink-0 relative justify-end">
           {!isAuthenticated ? (
             <>
-              <Link to="/login" className="font-usual font-bold text-midnight-ink hover:text-signal-blue transition-colors">
-                Login
+              <Link to="/login">
+                <PillButton className="border-none py-2 px-6">Login</PillButton>
               </Link>
               <Link to="/register">
-                <PillButton className="py-2 px-6">Register</PillButton>
+                <PillButton className="border-none py-2 px-6">Register</PillButton>
               </Link>
             </>
           ) : (
@@ -102,7 +102,7 @@ export function Header() {
               </Link>
 
               <div className="relative" ref={accountMenuRef}>
-                <button 
+                <button
                   onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
                   className="flex items-center gap-3 focus:outline-none group hover:opacity-80 transition-opacity"
                   title={user?.name}
@@ -118,7 +118,7 @@ export function Header() {
                     <ChevronDown size={16} className={`text-midnight-ink transition-transform duration-200 ${isAccountMenuOpen ? 'rotate-180' : ''}`} />
                   </div>
                 </button>
-                
+
                 {isAccountMenuOpen && (
                   <div className="absolute right-0 mt-4 w-56 bg-white border-2 border-midnight-ink rounded-lg shadow-lg z-50 flex flex-col py-2">
                     <div className="px-4 py-3 border-b border-midnight-ink/10 mb-2 flex flex-col">
@@ -141,7 +141,7 @@ export function Header() {
                       </>
                     )}
                     <div className="border-t border-midnight-ink/10 my-1"></div>
-                    <button 
+                    <button
                       onClick={logout}
                       className="px-4 py-2 text-sm font-bold text-left text-ember-red hover:bg-ember-red/10 transition-colors w-full"
                     >
@@ -166,8 +166,8 @@ export function Header() {
               )}
             </Link>
           )}
-          <button 
-            className="p-2 -mr-2 text-midnight-ink z-60 focus:outline-none" 
+          <button
+            className="p-2 -mr-2 text-midnight-ink z-60 focus:outline-none"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileMenuOpen}
@@ -183,7 +183,7 @@ export function Header() {
               <nav className="flex flex-col gap-6 items-start">
                 {renderLinks()}
               </nav>
-              
+
               <div className="mt-auto pt-8 border-t border-midnight-ink/10 flex flex-col gap-6">
                 {!isAuthenticated ? (
                   <>
@@ -225,7 +225,7 @@ export function Footer() {
   return (
     <footer className="border-t border-midnight-ink/10 bg-white text-midnight-ink py-12 md:py-20 mt-12 md:mt-24">
       <div className="max-w-300 mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 md:gap-8">
-        
+
         {/* Brand Column */}
         <div className="flex flex-col gap-4">
           <Link to="/" className="font-degular-display text-2xl md:text-[32px] leading-none font-bold tracking-heading-sm">
@@ -259,7 +259,7 @@ export function Footer() {
           <Link to="/privacy" className="font-usual text-sm hover:text-signal-blue transition-colors w-fit">Privacy</Link>
         </div>
       </div>
-      
+
       <div className="max-w-300 mx-auto px-4 sm:px-6 md:px-8 mt-12 pt-8 border-t border-midnight-ink/10">
         <div className="font-usual text-sm opacity-50 text-center md:text-left">
           © {new Date().getFullYear()} EdTech Platform. All rights reserved.
