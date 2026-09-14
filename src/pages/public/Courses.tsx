@@ -61,7 +61,7 @@ export function Courses() {
 
       {/* Filter and Search Bar */}
       <form onSubmit={handleSearchSubmit} className="flex flex-col lg:flex-row flex-wrap gap-4 items-stretch lg:items-center border-y border-midnight-ink py-6">
-        <div className="relative flex-grow sm:w-80">
+        <div className="relative grow sm:w-80">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 opacity-50" />
           <input 
             type="text" 

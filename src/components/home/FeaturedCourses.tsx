@@ -37,18 +37,20 @@ export function FeaturedCourses() {
 
       {isLoading && <LoadingState message="Loading courses..." />}
       {error && <ErrorState message="Failed to load featured courses." />}
-      
+
       {!isLoading && !error && data?.content && data.content.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {data.content.map(course => (
-            <CourseCard 
-              key={course.id} 
+            <CourseCard
+              key={course.id}
               id={course.id}
               title={course.title}
               description={course.description}
               difficulty={course.difficulty}
               price={course.price}
               instructorName={course.instructorName}
+              rating={course.rating}
+              studentCount={course.studentCount}
             />
           ))}
         </div>

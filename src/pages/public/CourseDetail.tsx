@@ -79,7 +79,7 @@ export function CourseDetail() {
       
       {/* Hero Section */}
       <section className="flex flex-col lg:flex-row gap-8 lg:gap-16 items-start border border-midnight-ink bg-cream-paper p-6 sm:p-8 md:p-12">
-        <div className="flex flex-col gap-6 flex-grow">
+        <div className="flex flex-col gap-6 grow">
           <div className="flex flex-wrap items-center gap-4">
             <span className="text-xs font-bold uppercase tracking-widest px-3 py-1 border border-midnight-ink rounded-full">
               {course.difficulty}
@@ -91,7 +91,7 @@ export function CourseDetail() {
             )}
           </div>
           
-          <DisplayHeading className="text-4xl sm:text-5xl md:text-6xl lg:text-[80px] break-words">
+          <DisplayHeading className="text-4xl sm:text-5xl md:text-6xl lg:text-heading wrap-break-words">
             {course.title}
           </DisplayHeading>
 

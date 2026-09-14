@@ -56,8 +56,8 @@ export function Curriculum({ sections, completedLessonIds = [], activeLessonId, 
                   <div className={`mt-1 ${isActive ? 'text-cream-paper' : 'text-midnight-ink group-hover:text-cream-paper'}`}>
                     {getIcon(lesson.lessonType, isCompleted)}
                   </div>
-                  <div className="flex flex-col flex-grow min-w-0">
-                    <span className="font-bold text-base sm:text-lg break-words">
+                  <div className="flex flex-col grow min-w-0">
+                    <span className="font-bold text-base sm:text-lg wrap-break-words">
                       {lIdx + 1}. {lesson.title}
                     </span>
                     {lesson.description && !isClickable && ( // Only show desc in public view to save space in workspace
