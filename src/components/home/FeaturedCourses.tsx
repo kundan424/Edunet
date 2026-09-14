@@ -20,7 +20,7 @@ export function FeaturedCourses() {
   });
 
   return (
-    <section className="py-16 md:py-24 px-4 sm:px-6 md:px-8 w-full max-w-[1200px] mx-auto">
+    <section className="py-16 md:py-24 px-4 sm:px-6 md:px-8 w-full max-w-300 mx-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
         <div className="flex flex-col gap-2">
           <h2 className="font-degular-display text-3xl md:text-4xl font-bold text-midnight-ink">
@@ -39,7 +39,7 @@ export function FeaturedCourses() {
       {error && <ErrorState message="Failed to load featured courses." />}
       
       {!isLoading && !error && data?.content && data.content.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {data.content.map(course => (
             <CourseCard 
               key={course.id} 

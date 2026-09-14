@@ -15,7 +15,7 @@ export interface CourseCardProps {
 
 export function CourseCard({ id, title, description, difficulty, price, thumbnailUrl, instructorName, rating, studentCount }: CourseCardProps) {
   return (
-    <Link to={`/courses/${id}`} className="group flex flex-col border border-midnight-ink bg-cream-paper hover:bg-midnight-ink hover:text-cream-paper transition-colors duration-300 w-full h-full min-h-[400px]">
+    <Link to={`/courses/${id}`} className="group flex flex-col border border-midnight-ink bg-cream-paper hover:bg-midnight-ink hover:text-cream-paper transition-colors duration-300 w-full h-full min-h-100">
       {/* Thumbnail Placeholder - Bauhaus Style */}
       <div className="h-40 sm:h-48 w-full border-b border-midnight-ink bg-saffron-yellow flex items-center justify-center overflow-hidden shrink-0">
         {thumbnailUrl ? (
@@ -25,7 +25,7 @@ export function CourseCard({ id, title, description, difficulty, price, thumbnai
         )}
       </div>
 
-      <div className="p-6 sm:p-8 flex flex-col flex-grow">
+      <div className="p-6 sm:p-8 flex flex-col grow">
         <div className="flex justify-between items-start gap-4 mb-4">
           <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest px-3 py-1 border border-current rounded-full shrink-0">
             {difficulty}
@@ -35,7 +35,7 @@ export function CourseCard({ id, title, description, difficulty, price, thumbnai
           </span>
         </div>
 
-        <h3 className="font-degular-display text-xl sm:text-2xl font-bold mb-3 break-words line-clamp-2">
+        <h3 className="font-degular-display text-xl sm:text-2xl font-bold mb-3 wrap-break-words line-clamp-2">
           {title}
         </h3>
         
