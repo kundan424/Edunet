@@ -29,7 +29,7 @@ export function FinalCtaSection() {
               <PillButton className="px-8 py-3 text-lg">Continue Learning</PillButton>
             </Link>
             <Link to="/courses">
-              <PillButton className="px-8 py-3 text-lg bg-transparent border-white border-2 text-white hover:bg-white hover:text-signal-blue">
+              <PillButton className="px-8 py-3 text-lg">
                 Explore More
               </PillButton>
             </Link>
@@ -66,9 +66,9 @@ export function FinalCtaSection() {
   return (
     <section className="py-24 px-4 sm:px-6 md:px-8 w-full mt-12 bg-cream-paper  relative overflow-hidden">
       {/* Decorative background element */}
-      <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
+      <div className="absolute top-0 right-0 w-200 h-200 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
       
-      <div className="max-w-[800px] mx-auto text-center relative z-10 flex flex-col items-center gap-8">
+      <div className="max-w-200 mx-auto text-center relative z-10 flex flex-col items-center gap-8">
         <h2 className="font-degular-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
           Ready to focus on what matters?
         </h2>

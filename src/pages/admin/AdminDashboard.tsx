@@ -34,7 +34,7 @@ export function AdminDashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="p-6 border border-midnight-ink bg-saffron-yellow flex flex-col items-center text-center gap-4">
               <h4 className="font-bold text-xl uppercase tracking-wider">Instructor Verification</h4>
-              <DisplayHeading className="!text-5xl text-midnight-ink">{dashboard.instructors.pending}</DisplayHeading>
+              <DisplayHeading className="text-5xl! text-midnight-ink">{dashboard.instructors.pending}</DisplayHeading>
               <span className="text-sm font-bold opacity-80">Pending Requests</span>
               <Link to="/admin/instructors">
                 <PillButton className="mt-4 bg-midnight-ink text-white hover:bg-signal-blue w-full">Review Profiles</PillButton>
@@ -43,7 +43,7 @@ export function AdminDashboard() {
             
             <div className="p-6 border border-midnight-ink bg-signal-blue flex flex-col items-center text-center gap-4">
               <h4 className="font-bold text-xl uppercase tracking-wider text-white">Course Moderation</h4>
-              <DisplayHeading className="!text-5xl text-white">{dashboard.courses.pendingApproval}</DisplayHeading>
+              <DisplayHeading className="text-5xl! text-white">{dashboard.courses.pendingApproval}</DisplayHeading>
               <span className="text-sm font-bold text-white/80">Pending Approvals</span>
               <Link to="/admin/courses">
                 <PillButton className="mt-4 w-full justify-center">Review Courses</PillButton>
@@ -85,6 +85,6 @@ export function AdminDashboard() {
 const StatCard = ({ title, value }: { title: string; value: string | number }) => (
   <div className="p-6 border border-midnight-ink flex flex-col gap-2 bg-white">
     <span className="text-sm font-bold uppercase tracking-wider text-gray-500">{title}</span>
-    <DisplayHeading className="!text-4xl text-midnight-ink">{value}</DisplayHeading>
+    <DisplayHeading className="text-4xl! text-midnight-ink">{value}</DisplayHeading>
   </div>
 );

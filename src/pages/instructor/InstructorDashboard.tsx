@@ -96,6 +96,6 @@ export function InstructorDashboard() {
 const StatCard = ({ title, value }: { title: string; value: string | number }) => (
   <div className="p-6 border border-midnight-ink flex flex-col gap-2 bg-white">
     <span className="text-sm font-bold uppercase tracking-wider">{title}</span>
-    <DisplayHeading className="!text-4xl text-signal-blue">{value}</DisplayHeading>
+    <DisplayHeading className="text-4xl! text-signal-blue">{value}</DisplayHeading>
   </div>
 );

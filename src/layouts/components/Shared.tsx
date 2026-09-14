@@ -70,11 +70,11 @@ export function Header() {
   );
 
   return (
-    <div className="pt-4 md:pt-6 px-4 sm:px-6 md:px-8 w-full max-w-[800px] mx-auto  sticky top-0 z-50 ">
+    <div className="pt-4 md:pt-6 px-4 sm:px-6 md:px-8 w-full max-w-full mx-auto top-0 z-50 ">
       <header className="bg-cream-paper/80 backdrop-blur-md rounded-2xl  flex items-center justify-between gap-6 px-4 md:px-6 py-3 relative">
         {/* Logo / Brand */}
         <div className="flex items-center gap-6 shrink-0">
-          <Link to="/" className="font-degular-display text-2xl md:text-3xl leading-none font-bold tracking-heading-sm text-midnight-ink z-[60]">
+          <Link to="/" className="font-degular-display text-2xl md:text-3xl leading-none font-bold tracking-heading-sm text-midnight-ink z-60">
             EduNet
           </Link>
         </div>
@@ -112,7 +112,7 @@ export function Header() {
                     {user?.name.charAt(0).toUpperCase()}
                   </div>
                   <div className="hidden lg:flex items-center gap-1">
-                    <span className="font-usual text-sm font-bold text-midnight-ink max-w-[120px] truncate">
+                    <span className="font-usual text-sm font-bold text-midnight-ink max-w-120 truncate">
                       {user?.name}
                     </span>
                     <ChevronDown size={16} className={`text-midnight-ink transition-transform duration-200 ${isAccountMenuOpen ? 'rotate-180' : ''}`} />
@@ -167,7 +167,7 @@ export function Header() {
             </Link>
           )}
           <button 
-            className="p-2 -mr-2 text-midnight-ink z-[60] focus:outline-none" 
+            className="p-2 -mr-2 text-midnight-ink z-60 focus:outline-none" 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMobileMenuOpen}
@@ -179,7 +179,7 @@ export function Header() {
         {/* Mobile Nav Overlay */}
         {isMobileMenuOpen && (
           <div className="md:hidden absolute top-full mt-2 left-0 right-0 max-h-[calc(100vh-100px)] bg-cream-paper z-50 flex flex-col border border-midnight-ink/20 shadow-lg rounded-2xl overflow-y-auto">
-            <div className="p-6 flex flex-col flex-grow">
+            <div className="p-6 flex flex-col grow">
               <nav className="flex flex-col gap-6 items-start">
                 {renderLinks()}
               </nav>
@@ -201,7 +201,7 @@ export function Header() {
                         {user?.name.charAt(0).toUpperCase()}
                       </div>
                       <div className="flex flex-col">
-                        <span className="font-usual text-lg font-bold text-midnight-ink leading-tight truncate max-w-[200px]">
+                        <span className="font-usual text-lg font-bold text-midnight-ink leading-tight truncate max-w-50">
                           {user?.name}
                         </span>
                         <span className="text-xs uppercase tracking-wider text-signal-blue font-bold mt-1">{user?.role}</span>
@@ -224,7 +224,7 @@ export function Header() {
 export function Footer() {
   return (
     <footer className="border-t border-midnight-ink/10 bg-white text-midnight-ink py-12 md:py-20 mt-12 md:mt-24">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 md:gap-8">
+      <div className="max-w-300 mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 md:gap-8">
         
         {/* Brand Column */}
         <div className="flex flex-col gap-4">
@@ -260,7 +260,7 @@ export function Footer() {
         </div>
       </div>
       
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-8 mt-12 pt-8 border-t border-midnight-ink/10">
+      <div className="max-w-300 mx-auto px-4 sm:px-6 md:px-8 mt-12 pt-8 border-t border-midnight-ink/10">
         <div className="font-usual text-sm opacity-50 text-center md:text-left">
           © {new Date().getFullYear()} EdTech Platform. All rights reserved.
         </div>
