@@ -1,83 +1,125 @@
-import { Link } from 'react-router-dom';
-import { PillButton } from '../ui/Button';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthProvider';
+import { ArrowRight } from 'lucide-react';
 
 export function FinalCtaSection() {
   const { user, isAuthenticated } = useAuth();
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
 
-  const renderActions = () => {
-    if (!isAuthenticated || !user) {
-      return (
-        <>
-          <Link to="/courses">
-            <PillButton className="px-8 py-3 text-lg">Explore Courses</PillButton>
-          </Link>
-          <Link to="/register">
-            <PillButton className="px-8 py-3 text-lg ">
-              Create Account
-            </PillButton>
-          </Link>
-        </>
-      );
-    }
-
-    switch (user.role) {
-      case 'STUDENT':
-        return (
-          <>
-            <Link to="/learn">
-              <PillButton className="px-8 py-3 text-lg">Continue Learning</PillButton>
-            </Link>
-            <Link to="/courses">
-              <PillButton className="px-8 py-3 text-lg">
-                Explore More
-              </PillButton>
-            </Link>
-          </>
-        );
-      case 'INSTRUCTOR':
-        return (
-          <>
-            <Link to="/instructor">
-              <PillButton className="px-8 py-3 text-lg">Instructor Dashboard</PillButton>
-            </Link>
-            <Link to="/instructor/courses">
-              <PillButton className="px-8 py-3 text-lg bg-transparent border-white border-2 text-white hover:bg-white hover:text-signal-blue">
-                Create Course
-              </PillButton>
-            </Link>
-          </>
-        );
-      case 'ADMIN':
-        return (
-          <Link to="/admin">
-            <PillButton className="px-8 py-3 text-lg">Admin Dashboard</PillButton>
-          </Link>
-        );
-      default:
-        return (
-          <Link to="/courses">
-            <PillButton className="px-8 py-3 text-lg">Explore Courses</PillButton>
-          </Link>
-        );
+  const handleEmailSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim()) {
+      setSubmitted(true);
+      setTimeout(() => {
+        navigate(`/register?email=${encodeURIComponent(email.trim())}`);
+      }, 600);
     }
   };
 
   return (
-    <section className="py-24 px-4 sm:px-6 md:px-8 w-full mt-12 bg-cream-paper  relative overflow-hidden">
-      {/* Decorative background element */}
-      <div className="absolute top-0 right-0 w-200 h-200 bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
-      
-      <div className="max-w-200 mx-auto text-center relative z-10 flex flex-col items-center gap-8">
-        <h2 className="font-degular-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-          Ready to focus on what matters?
-        </h2>
-        <p className="font-usual text-lg md:text-xl opacity-90 max-w-2xl">
-          Join our community of modern learners and experience education designed for clarity, depth, and results.
-        </p>
-        
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-4 w-full sm:w-auto">
-          {renderActions()}
+    <section className="py-16 lg:py-24 w-full">
+      <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full bg-[#ffffff] rounded-[24px] p-8 sm:p-14 shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-[#e7e6e1] text-center max-w-[840px] mx-auto">
+          
+          {/* Clay Accent Dot */}
+          <span className="w-2.5 h-2.5 rounded-full bg-[#d97757] inline-block mb-3.5"></span>
+          
+          {/* Headline */}
+          <h2 className="font-heading text-2xl sm:text-3xl leading-tight text-[#121212] mb-2 font-semibold">
+            Start learning with top faculties today.
+          </h2>
+          
+          {/* Subtitle */}
+          <p className="font-body text-[#373734] text-xs sm:text-sm max-w-[520px] mx-auto mb-6 leading-relaxed">
+            Join over 140,000 engineers and researchers advancing their craft. Create an account to access free lectures, syllabus previews, and admission schedules.
+          </p>
+
+          {!isAuthenticated ? (
+            <div>
+              <form 
+                onSubmit={handleEmailSubmit}
+                className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-[480px] mx-auto w-full"
+              >
+                <input 
+                  type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your academic or work email" 
+                  required 
+                  className="w-full px-4 py-3 rounded-lg bg-[#efeeeb] text-[#121212] text-[14px] placeholder:text-[#7b7974] outline-none border border-transparent focus:border-[#b7b7b5] focus:bg-[#ffffff] transition-all"
+                />
+                <button 
+                  type="submit" 
+                  className="w-full sm:w-auto shrink-0 px-6 py-3 rounded-lg bg-[#121212] text-[#f8f8f6] text-[14px] font-medium hover:bg-[#000000] transition-colors shadow-sm cursor-pointer flex items-center justify-center gap-1.5"
+                >
+                  <span>{submitted ? 'Redirecting...' : 'Join for Free'}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </form>
+
+              {submitted && (
+                <p className="text-[#d97757] text-[12px] mt-3 font-medium animate-in fade-in">
+                  Welcome to Lumina. Redirecting to complete your profile...
+                </p>
+              )}
+
+              <p className="text-[11.5px] text-[#7b7974] mt-4">
+                Free forever to audit. No credit card required. Transferable credits certified upon enrollment.
+              </p>
+            </div>
+          ) : (
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5">
+              {user?.role === 'STUDENT' && (
+                <>
+                  <Link 
+                    to="/learn"
+                    className="px-6 py-3 rounded-lg bg-[#121212] text-[#f8f8f6] text-[14px] font-medium hover:bg-[#000000] transition-colors shadow-sm flex items-center gap-2"
+                  >
+                    <span>Continue Learning</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <Link 
+                    to="/courses"
+                    className="px-6 py-3 rounded-lg bg-[#efeeeb] hover:bg-[#e7e6e1] text-[#121212] text-[14px] font-medium transition-colors border border-[#e7e6e1]"
+                  >
+                    Explore More Pathways
+                  </Link>
+                </>
+              )}
+
+              {user?.role === 'INSTRUCTOR' && (
+                <>
+                  <Link 
+                    to="/instructor"
+                    className="px-6 py-3 rounded-lg bg-[#121212] text-[#f8f8f6] text-[14px] font-medium hover:bg-[#000000] transition-colors shadow-sm flex items-center gap-2"
+                  >
+                    <span>Instructor Dashboard</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <Link 
+                    to="/instructor/courses"
+                    className="px-6 py-3 rounded-lg bg-[#efeeeb] hover:bg-[#e7e6e1] text-[#121212] text-[14px] font-medium transition-colors border border-[#e7e6e1]"
+                  >
+                    Create New Course
+                  </Link>
+                </>
+              )}
+
+              {user?.role === 'ADMIN' && (
+                <Link 
+                  to="/admin"
+                  className="px-6 py-3 rounded-lg bg-[#121212] text-[#f8f8f6] text-[14px] font-medium hover:bg-[#000000] transition-colors shadow-sm flex items-center gap-2"
+                >
+                  <span>Admin Hub &amp; Moderation</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              )}
+            </div>
+          )}
+
         </div>
       </div>
     </section>

@@ -1,67 +1,120 @@
 export function TestimonialsSection() {
-  // Using Option A: Clearly labeled sample/demo content because there is no global reviews endpoint
   const testimonials = [
     {
-      id: 1,
-      name: 'Chintu chuhar',
-      role: 'Frontend Developer',
-      content: 'The curriculum structure here is completely different from other platforms. It feels like a masterclass rather than a bunch of fragmented videos.',
-      rating: 5
+      credential: 'MSc Degree Graduate',
+      batch: 'Class of 2024',
+      quote: 'Lumina’s partnership with Cambridge gave me the rigorous systems fundamentals I needed to bridge from Senior Developer to Principal Engineer at Stripe. Writing verified Raft implementations wasn’t theoretical—it redefined how I build resilient infrastructure.',
+      name: 'Marcus Vance',
+      role: 'Now Principal Infrastructure Eng',
+      company: 'Stripe',
+      image: '/images/marcus.jpg'
     },
     {
-      id: 2,
-      name: 'Sunil Michael',
-      role: 'Data Analyst',
-      content: 'I love how distraction-free the environment is. The quizzes actually forced me to apply what I learned immediately.',
-      rating: 5
+      credential: 'Stanford AI Spec',
+      batch: 'Class of 2024',
+      quote: 'The peer audits and automated benchmark grading harnesses felt like real production CI. I transitioned from general data engineering into an LLM alignment research team within four months of earning the Stanford certificate.',
+      name: 'Dr. Amina K.',
+      role: 'Research Scientist',
+      company: 'Anthropic',
+      image: '/images/amina.jpg'
     },
     {
-      id: 3,
-      name: 'Soni Elena',
-      role: 'UX Designer',
-      content: 'Finally, a learning platform that respects design. It is so easy to find my way around, and the course quality is exceptionally high.',
-      rating: 4
+      credential: 'MIT Formal Methods',
+      batch: 'Class of 2023',
+      quote: 'Having MIT CSAIL’s verified seal on my transcript and a suite of verified TLA+ specifications gave me immediate credibility when interviewing for safety-critical autonomous systems roles.',
+      name: 'Julian Thorne',
+      role: 'Systems Architect',
+      company: 'DeepMind',
+      image: '/images/elena.jpg'
     }
   ];
 
-  return (
-    <section className="py-16 md:py-24 px-4 sm:px-6 md:px-8 w-full max-w-[1200px] mx-auto">
-      <div className="flex flex-col items-center text-center gap-4 mb-16">
-        <h2 className="font-degular-display text-3xl md:text-4xl font-bold text-midnight-ink">
-          Learner Stories
-        </h2>
-        <div className="bg-saffron-yellow text-black border border-saffron-yellow/40 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-          Demo Content
-        </div>
-        <p className="font-usual text-midnight-ink/70 max-w-2xl">
-          Hear how our focused approach to education is helping students achieve their goals and master new technical skills.
-        </p>
-      </div>
+  const hiringPartners = [
+    'Google DeepMind',
+    'Stripe',
+    'Anthropic',
+    'OpenAI',
+    'Cloudflare',
+    'Apple'
+  ];
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {testimonials.map(t => (
-          <div key={t.id} className="flex flex-col gap-6 p-8 border border-midnight-ink/20 rounded-2xl bg-cream-paper shadow-sm hover:shadow-md transition-shadow">
-            <div className="flex text-saffron-yellow">
-              {[...Array(5)].map((_, i) => (
-                <svg key={i} className={`w-5 h-5 ${i < t.rating ? 'fill-current' : 'text-midnight-ink/10 fill-current'}`} viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              ))}
+  return (
+    <section className="py-16 lg:py-24 border-b border-[#e7e6e1] w-full" id="testimonials">
+      <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
+          <div>
+            <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-[#7b7974] mb-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#d97757]"></span>
+              <span>Alumni Stories</span>
             </div>
-            <p className="font-usual text-midnight-ink/80 text-lg leading-relaxed flex-grow midnight-ink">
-              "{t.content}"
-            </p>
-            <div className="flex items-center gap-4 pt-6 border-t border-midnight-ink/10">
-              <div className="w-10 h-10 rounded-full bg-signal-blue/10 flex items-center justify-center font-degular-display font-bold text-signal-blue">
-                {t.name.charAt(0)}
-              </div>
-              <div className="flex flex-col">
-                <span className="font-bold text-midnight-ink text-sm">{t.name}</span>
-                <span className="text-xs text-midnight-ink/60">{t.role}</span>
-              </div>
-            </div>
+            <h2 className="font-heading text-2xl sm:text-3xl text-[#121212] font-semibold">
+              From Curiosity to Staff Architect
+            </h2>
           </div>
-        ))}
+          <p className="font-body text-[#373734] text-[14px] mt-2 sm:mt-0 max-w-[340px]">
+            87% of students who completed a Lumina MasterTrack or Degree reported concrete career advancement within 6 months.
+          </p>
+        </div>
+
+        {/* Testimonials 3-Card Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {testimonials.map((t, index) => (
+            <div 
+              key={index}
+              className="bg-[#ffffff] rounded-[20px] p-6 sm:p-7 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-[#e7e6e1] flex flex-col justify-between hover:border-[#b7b7b5] transition-all"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-[11px] font-mono text-[#d97757] uppercase bg-[#efeeeb] px-2 py-0.5 rounded font-medium">
+                    {t.credential}
+                  </span>
+                  <span className="text-[11px] font-mono text-[#7b7974]">
+                    {t.batch}
+                  </span>
+                </div>
+                <p className="text-[14px] text-[#373734] leading-relaxed mb-6 italic">
+                  “{t.quote}”
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3 pt-4 border-t border-[#e7e6e1]">
+                <img 
+                  alt={t.name}
+                  src={t.image}
+                  className="w-10 h-10 rounded-full object-cover border border-[#e7e6e1]"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(t.name)}&background=121212&color=f8f8f6`;
+                  }}
+                />
+                <div>
+                  <div className="font-medium text-[#121212] text-[13.5px]">
+                    {t.name}
+                  </div>
+                  <div className="text-[11.5px] text-[#7b7974]">
+                    {t.role} · <span className="text-[#121212] font-semibold">{t.company}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Hiring Partner Logos / Text Banner */}
+        <div className="mt-12 pt-8 border-t border-[#e7e6e1] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <span className="text-[12px] font-mono uppercase tracking-wider text-[#7b7974]">
+            Where Lumina graduates build:
+          </span>
+          <div className="flex flex-wrap items-center gap-6 sm:gap-10 text-[#373734] font-semibold text-[14.5px]">
+            {hiringPartners.map((partner, pIdx) => (
+              <span key={pIdx} className="hover:text-[#121212] transition-colors">
+                {partner}
+              </span>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );

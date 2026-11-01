@@ -1,77 +1,114 @@
+import { Link } from 'react-router-dom';
+import { Terminal, GraduationCap, Building2, CheckCircle2, ArrowRight } from 'lucide-react';
+
 export function LearningBenefits() {
-  const benefits = [
+  const pillars = [
     {
-      title: 'Structured Curriculum',
-      description: 'Follow clear, step-by-step learning paths instead of disjointed tutorials. Every lesson builds on the last.',
-      icon: (
-        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      )
+      icon: Terminal,
+      title: 'Job-Ready Skills & Sandboxes',
+      description: 'Execute live workloads in isolated Linux microVMs. Write production code against automated test harnesses that mimic FAANG and tier-1 lab infrastructure.',
+      bullets: [
+        'Interactive QEMU/Firecracker sandbox',
+        'Portfolio of 6+ audited GitHub repositories'
+      ],
+      linkText: 'Browse Professional Certs',
+      linkHref: '/courses?search=Certificate'
     },
     {
-      title: 'Learn at Your Own Pace',
-      description: 'No deadlines. No pressure. Revisit complex topics whenever you need, and practice until you master them.',
-      icon: (
-        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-      )
+      icon: GraduationCap,
+      title: 'Transferable University Degrees',
+      description: 'Start with a MasterTrack™ or MicroMasters credential and transfer earned credits directly toward an accredited Master of Science with partner universities.',
+      bullets: [
+        'Same university diploma as on-campus',
+        'Fraction of the on-campus tuition cost'
+      ],
+      linkText: 'Explore Online Degrees',
+      linkHref: '/courses?search=Degree'
     },
     {
-      title: 'Interactive Practice',
-      description: 'Solidify your knowledge with integrated quizzes and hands-on assignments reviewed by instructors.',
-      icon: (
-        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-        </svg>
-      )
-    },
-    {
-      title: 'Expert Instructors',
-      description: 'Learn directly from verified industry professionals who bring real-world experience to their teaching.',
-      icon: (
-        <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="square" strokeLinejoin="miter" strokeWidth="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-        </svg>
-      )
+      icon: Building2,
+      title: 'Upskill Engineering Organizations',
+      description: 'Custom enterprise cohorts designed for tech leads and staff engineers. Private benchmarks, team performance analytics, and tailored faculty instruction.',
+      bullets: [
+        'Skill benchmarking & SLA audit reporting',
+        'Dedicated faculty office hours for your org'
+      ],
+      linkText: 'Lumina for Enterprise',
+      linkHref: '#enterprise-section'
     }
   ];
 
   return (
-    <section className="py-20 md:py-32 px-4 sm:px-6 md:px-8 w-full bg-cream-paper relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-saffron-yellow/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"></div>
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-signal-blue/10 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none"></div>
-
-      <div className="max-w-[1200px] mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          
-          <div className="flex flex-col gap-6">
-            <h2 className="font-degular-display text-4xl md:text-5xl font-bold text-midnight-ink leading-tight">
-              Structured for <span className="text-signal-blue">clarity.</span>
-            </h2>
-            <p className="font-usual text-lg md:text-xl text-midnight-ink/80 leading-relaxed max-w-lg">
-              Our platform replaces cluttered dashboards with clean, focused environments. Every lesson, quiz, and assignment is crafted to let the content breathe, helping you learn faster.
-            </p>
+    <section className="py-16 lg:py-24 border-b border-[#e7e6e1] w-full" id="outcomes">
+      <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Header */}
+        <div className="max-w-[720px] mb-12 text-left">
+          <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-[#7b7974] mb-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#d97757]"></span>
+            <span>Outcome Framework</span>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-            {benefits.map((benefit, idx) => (
-              <div key={idx} className="flex flex-col gap-4 p-6 bg-white rounded-2xl border border-midnight-ink/10 shadow-sm hover:border-signal-blue/50 transition-colors">
-                <div className="w-14 h-14 bg-cream-paper rounded-xl flex items-center justify-center text-signal-blue border border-midnight-ink/10">
-                  {benefit.icon}
-                </div>
-                <h3 className="font-degular-display text-xl font-bold text-midnight-ink">
-                  {benefit.title}
-                </h3>
-                <p className="font-usual text-sm text-midnight-ink/70 leading-relaxed">
-                  {benefit.description}
-                </p>
-              </div>
-            ))}
-          </div>
-
+          <h2 className="font-heading text-2xl sm:text-3xl text-[#121212] leading-tight font-semibold">
+            Achieve your specific academic &amp; career ambitions
+          </h2>
+          <p className="font-body text-[#373734] text-sm sm:text-base mt-2 leading-relaxed">
+            Whether preparing for a Staff Engineer promotion, pivoting to AI research, or earning an accredited university degree while working full-time.
+          </p>
         </div>
+
+        {/* 3 Pillars Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {pillars.map((pillar, idx) => {
+            const Icon = pillar.icon;
+            return (
+              <div 
+                key={idx}
+                className="bg-[#ffffff] rounded-[20px] p-7 border border-[#e7e6e1] shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between hover:border-[#b7b7b5] transition-all"
+              >
+                <div>
+                  <div className="w-12 h-12 rounded-xl bg-[#efeeeb] flex items-center justify-center text-[#121212] mb-5">
+                    <Icon className="w-6 h-6 text-[#121212]" />
+                  </div>
+                  <h3 className="font-heading text-[22px] text-[#121212] mb-2 leading-snug">
+                    {pillar.title}
+                  </h3>
+                  <p className="text-[13.5px] text-[#373734] leading-relaxed mb-5">
+                    {pillar.description}
+                  </p>
+                  <ul className="text-[12.5px] text-[#373734] space-y-2 mb-6">
+                    {pillar.bullets.map((bullet, bIdx) => (
+                      <li key={bIdx} className="flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-[#d97757] shrink-0" />
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="pt-5 border-t border-[#e7e6e1]">
+                  {pillar.linkHref.startsWith('#') ? (
+                    <a 
+                      href={pillar.linkHref}
+                      className="text-[13px] font-medium text-[#121212] hover:text-[#d97757] inline-flex items-center gap-1 transition-colors"
+                    >
+                      <span>{pillar.linkText}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </a>
+                  ) : (
+                    <Link 
+                      to={pillar.linkHref}
+                      className="text-[13px] font-medium text-[#121212] hover:text-[#d97757] inline-flex items-center gap-1 transition-colors"
+                    >
+                      <span>{pillar.linkText}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
       </div>
     </section>
   );

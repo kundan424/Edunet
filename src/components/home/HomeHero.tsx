@@ -1,20 +1,63 @@
-import { HeroSearch } from './HeroSearch';
+import { Link } from 'react-router-dom';
+import { PlayCircle } from 'lucide-react';
 
 export function HomeHero() {
   return (
-    <section className="flex flex-col items-center text-center mt-12 md:mt-20 lg:mt-24 px-4 sm:px-6 w-full max-w-4xl mx-auto">
-      <h1 className="font-plex-mono text-5xl md:text-6xl lg:text-heading leading-heading font-bold text-midnight-ink tracking-tight mb-6">
-        Learn without <span className="text-signal-blue relative inline-block">compromise.<svg className="absolute w-full h-3 -bottom-1 left-0 text-saffron-yellow opacity-60" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q50,10 100,5" stroke="currentColor" strokeWidth="8" fill="none"/></svg></span>
-      </h1>
-      
-      <p className="font-usual text-lg md:text-xl text-midnight-ink/80 max-w-2xl mb-8 leading-relaxed">
-        Master the skills of tomorrow in a focused, modern learning environment designed to remove friction and emphasize deep understanding.
-      </p>
+    <section className="pt-12 sm:pt-16 pb-16 lg:pb-24 border-b border-[#e7e6e1] w-full">
+      <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center text-center max-w-3xl mx-auto">
+          
+          {/* Accreditation Badge */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#efeeeb] text-[#7b7974] font-body text-xs tracking-wider uppercase mb-5 border border-[#e7e6e1]/80">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#d97757] inline-block animate-pulse"></span>
+            <span className="font-medium text-[#373734]">Accredited Academic Consortium · Fall 2026 Enrollment</span>
+          </div>
 
-      <HeroSearch />
-      
-      {/* Bauhaus Geometric Hero Visual */}
-      
+          {/* Main Headline */}
+          <h1 className="font-heading text-3xl sm:text-4xl lg:text-[44px] leading-[1.18] text-[#121212] tracking-tight mb-4 font-semibold">
+            Learn without limits.
+          </h1>
+
+          {/* Subtitle */}
+          <p className="font-body text-[#373734] text-sm sm:text-base leading-relaxed max-w-2xl mb-7">
+            Lumina partners with foundational research institutions—including <span className="text-[#121212] font-medium">MIT CSAIL</span>, <span className="text-[#121212] font-medium">Stanford AI Lab</span>, <span className="text-[#121212] font-medium">Cambridge Systems Group</span>, and <span className="text-[#121212] font-medium">Max Planck Institute</span>—to deliver verifiable degrees, professional specializations, and audited computing masterclasses.
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
+            <Link 
+              to="/courses"
+              className="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-[#121212] text-[#f8f8f6] font-medium text-xs sm:text-sm hover:bg-[#000000] transition-colors shadow-sm"
+            >
+              Explore Degrees &amp; Certificates
+            </Link>
+            <Link 
+              to="/courses"
+              className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-[#efeeeb] hover:bg-[#e7e6e1] text-[#121212] font-medium text-xs sm:text-sm transition-colors border border-[#e7e6e1]"
+            >
+              <PlayCircle className="w-4 h-4 text-[#d97757]" />
+              <span>Try 80+ Free Courses</span>
+            </Link>
+          </div>
+
+          {/* Hero Trust Bullets */}
+          <div className="grid grid-cols-3 gap-6 sm:gap-10 pt-6 border-t border-[#e7e6e1] w-full max-w-2xl">
+            <div>
+              <div className="font-heading text-xl sm:text-2xl text-[#121212] font-semibold">100%</div>
+              <div className="text-[11px] text-[#7b7974] mt-0.5">Online &amp; Self-Paced</div>
+            </div>
+            <div>
+              <div className="font-heading text-xl sm:text-2xl text-[#121212] font-semibold">ECTS / US</div>
+              <div className="text-[11px] text-[#7b7974] mt-0.5">Accredited Credits</div>
+            </div>
+            <div>
+              <div className="font-heading text-xl sm:text-2xl text-[#121212] font-semibold">4.89 / 5</div>
+              <div className="text-[11px] text-[#7b7974] mt-0.5">From 142k+ Evaluated Labs</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </section>
   );
 }

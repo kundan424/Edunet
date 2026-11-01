@@ -1,61 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
-
 @theme {
-  /* Colors */
-  --color-cream-paper: #fff9f0;
-  --color-midnight-ink: #000609;
-  --color-signal-blue: #0a65db;
-  --color-ember-red: #ee4623;
-  --color-saffron-yellow: #ffd23f;
-  --color-blush-pink: #f4c6c6;
+  /* Design Tokens from DESIGN.md (Claude Warm Parchment Editorial) */
+  --color-bone-parchment: #f8f8f6;
+  --color-paper-white: #ffffff;
+  --color-soft-stone: #efeeeb;
+  --color-carbon-ink: #121212;
+  --color-graphite: #373734;
+  --color-ashen: #7b7974;
+  --color-pebble: #9c9a92;
+  --color-mist: #b7b7b5;
+  --color-chalk: #e7e6e1;
+  --color-obsidian: #000000;
+  --color-clay: #d97757;
 
   /* Typography */
-  --font-degular-display: 'Space Grotesk', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-usual: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-plex-mono: 'IBM Plex Mono', monospace;
-  --font-plex-sans: 'IBM Plex Sans', sans-serif;
+  --font-anthropic-serif: 'Newsreader', 'Source Serif 4', 'Anthropic Serif', ui-serif, Charter, Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-anthropic-sans: 'Inter', 'Anthropic Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-heading: 'Newsreader', 'Source Serif 4', Georgia, serif;
+  --font-heading-sm: 'Newsreader', 'Source Serif 4', Georgia, serif;
+  --font-body: 'Inter', sans-serif;
+  --font-caption: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-  /* Typography — Scale */
-  --text-caption: 16px;
-  --leading-caption: 1.78;
-  --text-body: 18px;
-  --leading-body: 1.82;
-  --text-subheading: 22px;
-  --leading-subheading: 1.82;
-  --text-heading-sm: 52px;
-  --leading-heading-sm: 1.23;
-  --tracking-heading-sm: 0.47px;
-  --text-heading: 80px;
-  --leading-heading: 1.1;
-  --tracking-heading: 1.04px;
-  --text-display: 116px;
-  --leading-display: 1.03;
-  --tracking-display: 2.2px;
+  /* Compatibility aliases with existing codebase */
+  --color-claude-primary: #d97757;
+  --color-claude-primary-active: #c56545;
+  --color-claude-primary-disabled: #e7e6e1;
+  --color-claude-ink: #121212;
+  --color-claude-body: #373734;
+  --color-claude-body-strong: #121212;
+  --color-claude-muted: #7b7974;
+  --color-claude-muted-soft: #9c9a92;
+  --color-claude-hairline: #e7e6e1;
+  --color-claude-hairline-soft: #efeeeb;
+  --color-claude-canvas: #f8f8f6;
+  --color-claude-surface-soft: #efeeeb;
+  --color-claude-surface-card: #ffffff;
+  --color-claude-surface-cream-strong: #e7e6e1;
+  --color-claude-surface-dark: #121212;
+  --color-claude-surface-dark-elevated: #1e1e1d;
+  --color-claude-surface-dark-soft: #181817;
+  --color-claude-on-primary: #ffffff;
+  --color-claude-on-dark: #f8f8f6;
+  --color-claude-on-dark-soft: #9c9a92;
+  --color-claude-accent-teal: #4d9386;
+  --color-claude-accent-amber: #d97757;
+  --color-claude-success: #3c8254;
+  --color-claude-warning: #c48818;
+  --color-claude-error: #c24141;
 
-  /* Spacing */
-  --spacing-16: 16px;
-  --spacing-20: 20px;
-  --spacing-24: 24px;
-  --spacing-32: 32px;
-  --spacing-40: 40px;
-  --spacing-44: 44px;
-  --spacing-48: 48px;
-  --spacing-96: 96px;
-  --spacing-104: 104px;
-  --spacing-120: 120px;
-  --spacing-128: 128px;
+  --color-cream-paper: #f8f8f6;
+  --color-midnight-ink: #121212;
+  --color-signal-blue: #121212;
+  --color-ember-red: #c24141;
+  --color-saffron-yellow: #d97757;
+  --color-blush-pink: #efeeeb;
+
+  --font-serif-display: 'Source Serif 4', 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-degular-display: 'Source Serif 4', Georgia, serif;
+  --font-usual: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-plex-mono: 'JetBrains Mono', monospace;
+  --font-plex-sans: 'Inter', sans-serif;
 
   /* Border Radius */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 8px;
+  --radius-xl: 16px;
+  --radius-2xl: 16px;
+  --radius-3xl: 24px;
+  --radius-pill: 9999px;
   --radius-full: 9999px;
 }
 
+html {
+  font-size: 14.5px;
+}
+
 body {
-  @apply bg-cream-paper text-midnight-ink font-usual selection:bg-signal-blue selection:text-white antialiased;
-  background-image:
-    repeating-linear-gradient(0deg, rgba(0, 6, 9, 0.1) 0px, rgba(0, 6, 9, 0.1) 1px, transparent 1px, transparent 32px),
-    repeating-linear-gradient(90deg, rgba(0, 6, 9, 0.1) 0px, rgba(0, 6, 9, 0.1) 1px, transparent 1px, transparent 32px);
-  background-attachment: fixed;
+  background-color: #f8f8f6;
+  color: #121212;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+::selection {
+  background-color: #efeeeb;
+  color: #121212;
+}
+
+/* Subtle float animation for editorial cards */
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float-subtle {
+  animation: float-subtle 5s ease-in-out infinite;
 }
