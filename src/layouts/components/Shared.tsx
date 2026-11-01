@@ -10,12 +10,7 @@ import {
   LogOut,
   User as UserIcon,
   LayoutDashboard,
-  ShieldAlert,
-  Terminal,
-  Cpu,
-  Network,
-  ShieldCheck,
-  Sigma
+  ShieldAlert
 } from 'lucide-react';
 import { useUnreadNotifications } from '../../features/notifications/queries';
 
@@ -43,11 +38,9 @@ export function Header() {
   const { user, isAuthenticated, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
-  const [isCatalogMenuOpen, setIsCatalogMenuOpen] = useState(false);
   const location = useLocation();
 
   const accountMenuRef = useRef<HTMLDivElement>(null);
-  const catalogMenuRef = useRef<HTMLDivElement>(null);
   const prevPathRef = useRef(location.pathname);
   const { data: unreadData } = useUnreadNotifications(isAuthenticated);
   const unreadCount = unreadData?.totalElements || 0;
@@ -57,7 +50,6 @@ export function Header() {
       prevPathRef.current = location.pathname;
       setIsMobileMenuOpen(false);
       setIsAccountMenuOpen(false);
-      setIsCatalogMenuOpen(false);
     }
   }, [location.pathname]);
 
@@ -66,14 +58,10 @@ export function Header() {
       if (accountMenuRef.current && !accountMenuRef.current.contains(event.target as Node)) {
         setIsAccountMenuOpen(false);
       }
-      if (catalogMenuRef.current && !catalogMenuRef.current.contains(event.target as Node)) {
-        setIsCatalogMenuOpen(false);
-      }
     }
     function handleEscape(event: KeyboardEvent) {
       if (event.key === 'Escape') {
         setIsAccountMenuOpen(false);
-        setIsCatalogMenuOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
