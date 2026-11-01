@@ -1,12 +1,19 @@
 import { useState, useEffect } from 'react';
-import { SectionHeading } from '../ui/Typography';
-import { PillButton } from '../ui/Button';
 import { LoadingState, ErrorState } from '../ui/States';
 import { 
   useStudentAssignment,
   useMySubmission,
   useSubmitAssignment
 } from '../../features/assignment/queries';
+import { 
+  Award, 
+  Calendar, 
+  FileText, 
+  CheckCircle2, 
+  AlertCircle, 
+  Send,
+  RotateCcw
+} from 'lucide-react';
 
 interface AssignmentLessonProps {
   courseId: string;
@@ -24,21 +31,19 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
   const [submissionText, setSubmissionText] = useState('');
 
   useEffect(() => {
-    // If graded and score > 0 (or whatever logic), we can trigger onComplete
-    // For now, if it's graded, we consider the lesson completed.
     if (submission && submission.status === 'GRADED') {
       onComplete();
     }
   }, [submission, onComplete]);
 
-  if (assignLoading || subLoading) return <LoadingState message="Loading assignment..." />;
-  if (assignError || !assignment) return <ErrorState message="Failed to load assignment details." />;
+  if (assignLoading || subLoading) return <LoadingState message="Loading lab defense specification..." />;
+  if (assignError || !assignment) return <ErrorState message="We couldn't retrieve the assignment specifications." />;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!submissionText.trim()) return;
 
-    if (window.confirm("Are you sure you want to submit? You may not be able to edit this later.")) {
+    if (window.confirm("Submit your lab defense for peer and faculty review?")) {
       submitAssignment.mutate({ submissionText }, {
         onSuccess: () => {
           setSubmissionText('');
@@ -48,98 +53,168 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
   };
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="border border-midnight-ink bg-white flex flex-col">
-        <div className="p-6 md:p-8 border-b border-midnight-ink bg-cream-paper">
-          <SectionHeading>{assignment.title || title}</SectionHeading>
-          
-          <div className="flex flex-wrap gap-6 mt-4 pt-4 border-t border-midnight-ink/20">
-            <div className="flex flex-col gap-1">
-              <span className="text-xs font-bold uppercase text-gray-500">Max Score</span>
-              <span className="font-bold">{assignment.maxScore} pts</span>
-            </div>
-            {assignment.dueAt && (
-              <div className="flex flex-col gap-1">
-                <span className="text-xs font-bold uppercase text-gray-500">Due Date</span>
-                <span className="font-bold">{new Date(assignment.dueAt).toLocaleString()}</span>
-              </div>
-            )}
-          </div>
+    <div className="flex flex-col gap-6 w-full">
+      
+      {/* Assignment Header */}
+      <div className="pb-4 border-b border-[#e7e6e1] flex flex-col gap-1.5">
+        <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold">
+          <Award className="w-3.5 h-3.5" />
+          <span>Lab Defense &amp; Project Evaluation</span>
         </div>
+        <h2 className="font-heading text-xl sm:text-2xl font-semibold text-[#121212] leading-snug">
+          {assignment.title || title}
+        </h2>
 
-        <div className="p-6 md:p-8 flex flex-col gap-6">
-          <div>
-            <h3 className="font-bold uppercase text-xs mb-3 text-gray-500">Instructions</h3>
-            <div className="whitespace-pre-wrap font-usual text-midnight-ink">
-              {assignment.instructions}
-            </div>
+        {/* Evaluation Standards Row */}
+        <div className="flex flex-wrap gap-4 mt-3 pt-3 border-t border-[#e7e6e1]/80">
+          <div className="p-3 rounded-xl bg-[#efeeeb]/50 border border-[#e7e6e1] flex flex-col gap-0.5">
+            <span className="text-[10px] font-mono uppercase text-[#7b7974]">Max Defense Score</span>
+            <span className="font-heading text-base font-bold text-[#121212]">{assignment.maxScore} points</span>
           </div>
+          {assignment.dueAt && (
+            <div className="p-3 rounded-xl bg-[#efeeeb]/50 border border-[#e7e6e1] flex flex-col gap-0.5">
+              <span className="text-[10px] font-mono uppercase text-[#7b7974]">Milestone Due Date</span>
+              <span className="font-heading text-base font-bold text-[#121212] flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-[#d97757]" />
+                {new Date(assignment.dueAt).toLocaleDateString(undefined, {
+                  weekday: 'short',
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                })}
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
 
-          <div className="border-t border-midnight-ink pt-6 mt-2">
-            <h3 className="font-bold uppercase text-xs mb-4 text-gray-500">Your Submission</h3>
-            
-            {submission ? (
-              <div className="flex flex-col gap-4">
-                <div className={`p-4 border-l-4 ${
-                  submission.status === 'GRADED' ? 'border-signal-blue bg-signal-blue/5' :
-                  submission.status === 'RETURNED' ? 'border-ember-red bg-ember-red/5' :
-                  'border-saffron-yellow bg-saffron-yellow/5'
-                }`}>
-                  <div className="flex justify-between items-center mb-4 pb-2 border-b border-black/10">
-                    <span className="font-bold uppercase text-sm tracking-wider">{submission.status}</span>
-                    {submission.status === 'GRADED' && (
-                      <span className="font-bold font-degular-display text-2xl">{submission.score} / {assignment.maxScore}</span>
-                    )}
-                  </div>
-                  
-                  {submission.feedback && (
-                    <div className="mb-4">
-                      <span className="font-bold text-xs uppercase block mb-1">Instructor Feedback:</span>
-                      <p className="italic text-sm">{submission.feedback}</p>
-                    </div>
+      {/* Instructions Monograph */}
+      <div className="flex flex-col gap-2">
+        <div className="flex items-center gap-2 text-xs font-mono font-semibold uppercase text-[#7b7974]">
+          <FileText className="w-3.5 h-3.5" />
+          <span>Defense Requirements &amp; Instructions</span>
+        </div>
+        <div className="p-5 sm:p-6 rounded-2xl bg-[#f8f8f6] border border-[#e7e6e1] font-body text-xs sm:text-sm text-[#373734] leading-relaxed whitespace-pre-wrap">
+          {assignment.instructions}
+        </div>
+      </div>
+
+      {/* Submission Status & Form */}
+      <div className="pt-2 flex flex-col gap-4">
+        <div className="flex items-center justify-between pb-2 border-b border-[#e7e6e1]">
+          <span className="text-xs font-mono font-semibold uppercase text-[#7b7974]">
+            Your Submission &amp; Defense Status
+          </span>
+          {submission && (
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold bg-[#efeeeb] px-2.5 py-0.5 rounded border border-[#e7e6e1]">
+              Status: {submission.status}
+            </span>
+          )}
+        </div>
+        
+        {submission ? (
+          <div className="flex flex-col gap-4">
+            <div className={`p-5 rounded-2xl border flex flex-col gap-3.5 ${
+              submission.status === 'GRADED' 
+                ? 'bg-[#3c8254]/5 border-[#3c8254]/30' 
+                : submission.status === 'RETURNED' 
+                  ? 'bg-[#d97757]/5 border-[#d97757]/30' 
+                  : 'bg-[#efeeeb]/50 border-[#e7e6e1]'
+            }`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  {submission.status === 'GRADED' ? (
+                    <CheckCircle2 className="w-4 h-4 text-[#3c8254]" />
+                  ) : submission.status === 'RETURNED' ? (
+                    <AlertCircle className="w-4 h-4 text-[#d97757]" />
+                  ) : (
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#d97757] animate-pulse" />
                   )}
-
-                  <div className="bg-white p-4 border border-midnight-ink/20 whitespace-pre-wrap text-sm">
-                    {submission.submissionText}
-                  </div>
+                  <span className="font-heading text-sm font-semibold text-[#121212]">
+                    {submission.status === 'GRADED' 
+                      ? 'Evaluated by Faculty & Benchmarks' 
+                      : submission.status === 'RETURNED' 
+                        ? 'Returned for Revision' 
+                        : 'Defense Submitted · Awaiting Faculty Review'}
+                  </span>
                 </div>
-                
-                {/* If backend allows resubmitting returned assignments, you'd check status === 'RETURNED' here */}
-                {submission.status === 'RETURNED' && (
-                  <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-4">
-                    <h4 className="font-bold text-sm">Resubmit Assignment</h4>
-                    <textarea
-                      required
-                      rows={6}
-                      value={submissionText}
-                      onChange={e => setSubmissionText(e.target.value)}
-                      placeholder="Enter your revised submission here..."
-                      className="w-full border border-midnight-ink p-4 focus:outline-none focus:ring-2 focus:ring-signal-blue"
-                    />
-                    <PillButton type="submit" disabled={submitAssignment.isPending} className="self-start">
-                      {submitAssignment.isPending ? 'Submitting...' : 'Resubmit'}
-                    </PillButton>
-                  </form>
+
+                {submission.status === 'GRADED' && (
+                  <span className="font-mono text-sm font-bold text-[#3c8254] bg-[#3c8254]/10 px-2.5 py-1 rounded-md">
+                    {submission.score} / {assignment.maxScore} pts
+                  </span>
                 )}
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              
+              {submission.feedback && (
+                <div className="p-3.5 rounded-xl bg-[#ffffff] border border-[#e7e6e1] text-xs">
+                  <span className="font-mono text-[10px] uppercase text-[#7b7974] block mb-1">
+                    Faculty Review Notes:
+                  </span>
+                  <p className="font-body text-[#373734] italic">
+                    "{submission.feedback}"
+                  </p>
+                </div>
+              )}
+
+              <div className="p-3.5 rounded-xl bg-[#ffffff] border border-[#e7e6e1] text-xs font-mono text-[#373734] whitespace-pre-wrap">
+                <span className="text-[10px] text-[#7b7974] uppercase block mb-1">Submitted Defense Output:</span>
+                {submission.submissionText}
+              </div>
+            </div>
+            
+            {submission.status === 'RETURNED' && (
+              <form onSubmit={handleSubmit} className="mt-2 flex flex-col gap-3">
+                <h4 className="font-heading text-sm font-semibold text-[#121212]">
+                  Resubmit Revised Defense
+                </h4>
                 <textarea
                   required
-                  rows={8}
+                  rows={6}
                   value={submissionText}
                   onChange={e => setSubmissionText(e.target.value)}
-                  placeholder="Enter your submission here..."
-                  className="w-full border border-midnight-ink p-4 focus:outline-none focus:ring-2 focus:ring-signal-blue"
+                  placeholder="Enter your revised code, defense notes, or benchmark traces..."
+                  className="w-full rounded-xl border border-[#e7e6e1] bg-[#ffffff] p-4 font-mono text-xs text-[#121212] focus:outline-none focus:ring-1 focus:ring-[#121212] transition-all"
                 />
-                <PillButton type="submit" disabled={submitAssignment.isPending} className="self-start">
-                  {submitAssignment.isPending ? 'Submitting...' : 'Submit Assignment'}
-                </PillButton>
+                <button 
+                  type="submit" 
+                  disabled={submitAssignment.isPending} 
+                  className="self-start px-5 py-2.5 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium transition-all shadow-xs flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>{submitAssignment.isPending ? 'Resubmitting...' : 'Resubmit Defense'}</span>
+                </button>
               </form>
             )}
           </div>
-        </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
+            <textarea
+              required
+              rows={8}
+              value={submissionText}
+              onChange={e => setSubmissionText(e.target.value)}
+              placeholder="Paste your defense implementation, benchmark logs, architectural explanations, or repository links..."
+              className="w-full rounded-xl border border-[#e7e6e1] bg-[#ffffff] p-4 font-mono text-xs text-[#121212] focus:outline-none focus:ring-1 focus:ring-[#121212] transition-all placeholder:text-[#9c9a92]"
+            />
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <span className="text-xs text-[#7b7974] font-mono">
+                Submissions are time-stamped and evaluated against automated CI benchmarks.
+              </span>
+              <button 
+                type="submit" 
+                disabled={submitAssignment.isPending} 
+                className="self-end sm:self-auto px-6 py-2.5 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium transition-all shadow-xs flex items-center gap-2 cursor-pointer disabled:opacity-50"
+              >
+                <Send className="w-3.5 h-3.5" />
+                <span>{submitAssignment.isPending ? 'Submitting Defense...' : 'Submit Defense for Review'}</span>
+              </button>
+            </div>
+          </form>
+        )}
       </div>
+
     </div>
   );
 }

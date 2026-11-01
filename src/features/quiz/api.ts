@@ -24,8 +24,13 @@ export const deleteQuestion = (courseId: string, lessonId: string, questionId: s
   api.delete<any, void>(`/api/v1/instructors/courses/${courseId}/lessons/${lessonId}/quiz/questions/${questionId}`);
 
 // Student Taking
-export const getStudentQuizDetails = (courseId: string, quizId: string) =>
-  api.get<any, StudentQuizResponse>(`/api/v1/courses/${courseId}/quizzes/${quizId}/details`);
+export const getStudentQuizDetails = async (courseId: string, quizId: string) => {
+  try {
+    return await api.get<any, StudentQuizResponse>(`/api/v1/courses/${courseId}/quizzes/${quizId}/attempts/details`);
+  } catch {
+    return await api.get<any, StudentQuizResponse>(`/api/v1/courses/${courseId}/quizzes/${quizId}/details`);
+  }
+};
 
 export const startQuizAttempt = (courseId: string, quizId: string) =>
   api.post<any, QuizAttemptResponse>(`/api/v1/courses/${courseId}/quizzes/${quizId}/attempts`);
