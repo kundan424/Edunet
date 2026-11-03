@@ -1,7 +1,12 @@
+import { useMemo } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '../../auth/AuthProvider';
 import { useStudentDashboard } from '../../features/dashboard/queries';
 import { useInstructorDashboard } from '../../features/instructor/queries';
 import { useAdminDashboard } from '../../features/admin/queries';
+import { api } from '../../lib/api';
+import type { Page } from '../../features/courses/types';
+import type { EnrollmentResponseDTO } from '../../features/learning/types';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   BookOpen,
@@ -30,6 +35,24 @@ function formatCohortDate(dateString?: string) {
   } catch {
     return 'Recent';
   }
+}
+
+function getCourseLiveProgress(cId: string, backendPct?: number) {
+  let storedProg: { completedCount: number; totalLessons: number; percentage: number } | null = null;
+  try {
+    storedProg = JSON.parse(localStorage.getItem(`lumina_course_progress_${cId}`) || 'null');
+  } catch {}
+
+  let storedCompleted: string[] = [];
+  try {
+    storedCompleted = JSON.parse(localStorage.getItem(`lumina_completed_lessons_${cId}`) || '[]');
+  } catch {}
+
+  const completed = storedProg?.completedCount ?? storedCompleted.length;
+  const total = storedProg?.totalLessons ?? (completed > 0 ? completed : 6);
+  const pct = storedProg?.percentage ?? (backendPct != null && backendPct > 0 ? backendPct : (total > 0 && completed > 0 ? Math.round((completed / total) * 100) : 0));
+
+  return { completed, total, pct };
 }
 
 export function Dashboard() {
@@ -64,6 +87,75 @@ export function Dashboard() {
     isLoading: adminLoading,
     error: adminError 
   } = useAdminDashboard({ enabled: isAdmin });
+
+  // Query real student enrollments to combine with continueLearning
+  const { data: enrollmentsPage } = useQuery<Page<EnrollmentResponseDTO>>({
+    queryKey: ['enrollments'],
+    queryFn: () => api.get('/api/v1/enrollments'),
+    enabled: isStudent,
+  });
+
+  const realEnrollments = enrollmentsPage?.content || [];
+
+  // Reactive student courses list with live progress synced across workspaces
+  const studentCourses = useMemo(() => {
+    if (!isStudent) return [];
+    
+    const backendList = studentData?.continueLearning || [];
+    const courseMap = new Map<string, {
+      courseId: string;
+      courseTitle: string;
+      progressPercentage: number;
+      lastLessonId: string | null;
+      lastLessonTitle: string | null;
+    }>();
+
+    // 1. Add backend courses with resolved live progress
+    for (const item of backendList) {
+      const { pct } = getCourseLiveProgress(item.courseId, item.progressPercentage);
+      const effectivePct = Math.max(item.progressPercentage || 0, pct);
+      courseMap.set(item.courseId, {
+        ...item,
+        progressPercentage: effectivePct,
+      });
+    }
+
+    // 2. Add real enrollments if not already present in continueLearning
+    for (const enr of realEnrollments) {
+      if (!courseMap.has(enr.courseId)) {
+        const { pct } = getCourseLiveProgress(enr.courseId);
+        courseMap.set(enr.courseId, {
+          courseId: enr.courseId,
+          courseTitle: enr.courseTitle || 'Enrolled Course',
+          progressPercentage: pct,
+          lastLessonId: null,
+          lastLessonTitle: null,
+        });
+      }
+    }
+
+    return Array.from(courseMap.values());
+  }, [isStudent, studentData?.continueLearning, realEnrollments]);
+
+  // Computed live metrics for student KPI cards
+  const liveTotalEnrolled = Math.max(studentData?.totalEnrolledCourses || 0, realEnrollments.length, studentCourses.length);
+  const liveCompletedCourses = Math.max(
+    studentData?.completedCourses || 0,
+    studentCourses.filter(c => c.progressPercentage >= 100).length
+  );
+  const liveCompletedLessons = Math.max(
+    studentData?.totalLessonsCompleted || 0,
+    studentCourses.reduce((sum, c) => sum + getCourseLiveProgress(c.courseId).completed, 0)
+  );
+  const liveTotalLessons = Math.max(
+    studentData?.totalLessonsInEnrolledCourses || 0,
+    studentCourses.reduce((sum, c) => sum + getCourseLiveProgress(c.courseId).total, 0)
+  );
+  const liveAvgProgress = studentCourses.length > 0
+    ? Math.round(studentCourses.reduce((sum, c) => sum + c.progressPercentage, 0) / studentCourses.length)
+    : (studentData?.overallCourseCompletionPercentage || 0);
+  const liveOverallProgress = Math.max(studentData?.overallCourseCompletionPercentage || 0, liveAvgProgress);
+  const liveActiveCoursesCount = studentCourses.filter(c => c.progressPercentage < 100).length;
 
   const isLoading = (isStudent && studentLoading) || (isInstructor && instructorLoading) || (isAdmin && adminLoading);
   const error = (isStudent && studentError) || (isInstructor && instructorError) || (isAdmin && adminError);
@@ -203,10 +295,10 @@ export function Dashboard() {
                 <BookOpen className="w-4 h-4 text-[#9c9a92]" />
               </div>
               <span className="font-heading text-3xl sm:text-4xl text-[#121212] font-normal">
-                {studentData?.totalEnrolledCourses || 0}
+                {liveTotalEnrolled}
               </span>
               <span className="font-mono text-[10px] text-[#7b7974] flex items-center gap-1 pt-1">
-                <span>{studentData?.activeCourses || 0} currently active</span>
+                <span>{liveActiveCoursesCount} currently active</span>
               </span>
             </div>
 
@@ -218,10 +310,10 @@ export function Dashboard() {
                 <Play className="w-4 h-4 text-[#9c9a92]" />
               </div>
               <span className="font-heading text-3xl sm:text-4xl text-[#121212] font-normal">
-                {studentData?.totalLessonsCompleted || 0}
+                {liveCompletedLessons}
               </span>
               <span className="font-mono text-[10px] text-[#7b7974] flex items-center gap-1 pt-1">
-                <span>of {studentData?.totalLessonsInEnrolledCourses || 0} lessons total</span>
+                <span>of {liveTotalLessons} lessons total</span>
               </span>
             </div>
 
@@ -248,10 +340,10 @@ export function Dashboard() {
                 <CheckCircle2 className="w-4 h-4 text-[#4b7a47]" />
               </div>
               <span className="font-heading text-3xl sm:text-4xl text-[#d97757] font-normal">
-                {studentData?.overallCourseCompletionPercentage || 0}%
+                {liveOverallProgress}%
               </span>
               <span className="font-mono text-[10px] text-[#7b7974] flex items-center gap-1 pt-1">
-                <span>{studentData?.completedCourses || 0} monographs certified</span>
+                <span>{liveCompletedCourses} monographs certified</span>
               </span>
             </div>
           </>
@@ -413,9 +505,9 @@ export function Dashboard() {
                 </Link>
               </div>
 
-              {studentData?.continueLearning && studentData.continueLearning.length > 0 ? (
+              {studentCourses && studentCourses.length > 0 ? (
                 <div className="flex flex-col gap-3.5">
-                  {studentData.continueLearning.map(item => {
+                  {studentCourses.map(item => {
                     const isCompleted = (item.progressPercentage || 0) >= 100;
                     return (
                       <div

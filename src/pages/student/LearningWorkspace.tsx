@@ -120,8 +120,8 @@ export function LearningWorkspace() {
 
   // Mutations
   const progressMutation = useMutation({
-    mutationFn: ({ lessonId, positionSeconds }: { lessonId: string, positionSeconds: number }) => 
-      api.post(`/api/v1/courses/${courseId}/lessons/${lessonId}/progress`, { positionSeconds }),
+    mutationFn: ({ lessonId, positionSeconds, completed }: { lessonId: string; positionSeconds: number; completed?: boolean }) => 
+      api.post(`/api/v1/courses/${courseId}/lessons/${lessonId}/progress`, { positionSeconds, completed }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['progress', courseId] });
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
@@ -209,11 +209,12 @@ export function LearningWorkspace() {
     }));
 
     // 3. Dispatch progress mutation to backend
-    progressMutation.mutate({ lessonId: idToComplete, positionSeconds: 99999 });
+    progressMutation.mutate({ lessonId: idToComplete, positionSeconds: 99999, completed: true });
+    api.post(`/api/v1/courses/${courseId}/lessons/${idToComplete}/complete`).catch(() => {});
 
     // 4. Invalidate related queries so other views update
     queryClient.invalidateQueries({ queryKey: ['progress', courseId] });
-    queryClient.invalidateQueries({ queryKey: ['student-dashboard'] });
+    queryClient.invalidateQueries({ queryKey: ['dashboard'] });
     queryClient.invalidateQueries({ queryKey: ['enrollments'] });
   };
 
