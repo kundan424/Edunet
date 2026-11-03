@@ -17,8 +17,20 @@ import {
   Shield,
   ShieldCheck,
   Clock,
-  ChevronRight
+  ChevronRight,
+  ExternalLink
 } from 'lucide-react';
+
+function formatCohortDate(dateString?: string) {
+  if (!dateString) return 'Recent';
+  try {
+    const d = new Date(dateString);
+    if (isNaN(d.getTime())) return 'Recent';
+    return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+  } catch {
+    return 'Recent';
+  }
+}
 
 export function Dashboard() {
   const { user } = useAuth();
@@ -403,38 +415,65 @@ export function Dashboard() {
 
               {studentData?.continueLearning && studentData.continueLearning.length > 0 ? (
                 <div className="flex flex-col gap-3.5">
-                  {studentData.continueLearning.map(item => (
-                    <div
-                      key={item.courseId}
-                      className="p-4 rounded-xl bg-[#f8f8f6] hover:bg-[#efeeeb]/70 border border-[#e7e6e1] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-                    >
-                      <div className="flex flex-col gap-1 min-w-0 flex-1">
-                        <span className="font-heading text-base text-[#121212] truncate">
-                          {item.courseTitle}
-                        </span>
-                        {item.lastLessonTitle && (
-                          <span className="font-mono text-[11px] text-[#7b7974] truncate">
-                            Next: {item.lastLessonTitle}
-                          </span>
-                        )}
-                        {/* Progress Bar */}
-                        <div className="w-full max-w-xs bg-[#e7e6e1] rounded-full h-1.5 mt-1 overflow-hidden">
-                          <div
-                            className="bg-[#121212] h-1.5 rounded-full"
-                            style={{ width: `${item.progressPercentage || 0}%` }}
-                          />
-                        </div>
-                      </div>
-
-                      <Link
-                        to={`/learn/${item.courseId}`}
-                        className="px-4 py-2 rounded-xl bg-[#121212] text-[#f8f8f6] hover:bg-black font-body text-xs font-medium transition-all shadow-xs flex items-center gap-1.5 shrink-0 self-start sm:self-auto"
+                  {studentData.continueLearning.map(item => {
+                    const isCompleted = (item.progressPercentage || 0) >= 100;
+                    return (
+                      <div
+                        key={item.courseId}
+                        className="p-4 rounded-xl bg-[#f8f8f6] hover:bg-[#efeeeb]/70 border border-[#e7e6e1] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                       >
-                        <Play className="w-3 h-3 text-[#d97757]" />
-                        <span>Resume ({item.progressPercentage || 0}%)</span>
-                      </Link>
-                    </div>
-                  ))}
+                        <div className="flex flex-col gap-1 min-w-0 flex-1">
+                          <div className="flex items-center gap-2">
+                            <span className="font-heading text-base text-[#121212] truncate">
+                              {item.courseTitle}
+                            </span>
+                            {isCompleted && (
+                              <span className="px-2 py-0.5 rounded bg-[#eaf4ea] text-[#245222] font-mono text-[10px] font-bold">
+                                COMPLETED
+                              </span>
+                            )}
+                          </div>
+                          {item.lastLessonTitle && !isCompleted && (
+                            <span className="font-mono text-[11px] text-[#7b7974] truncate">
+                              Next: {item.lastLessonTitle}
+                            </span>
+                          )}
+                          {/* Progress Bar */}
+                          <div className="w-full max-w-xs bg-[#e7e6e1] rounded-full h-1.5 mt-1 overflow-hidden">
+                            <div
+                              className={`h-1.5 rounded-full ${isCompleted ? 'bg-[#4b7a47]' : 'bg-[#121212]'}`}
+                              style={{ width: `${item.progressPercentage || 0}%` }}
+                            />
+                          </div>
+                        </div>
+
+                        {/* When 100% completed, don't show Resume; show Course Details */}
+                        {isCompleted ? (
+                          <div className="flex items-center gap-2 shrink-0 self-start sm:self-auto">
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#eaf4ea] text-[#245222] font-mono text-[11px] font-bold">
+                              <CheckCircle2 className="w-3.5 h-3.5 text-[#4b7a47]" />
+                              <span>100% Complete</span>
+                            </span>
+                            <Link
+                              to={`/courses/${item.courseId}`}
+                              className="px-3.5 py-2 rounded-xl bg-[#ffffff] hover:bg-[#efeeeb] text-[#121212] font-body text-xs font-medium border border-[#e7e6e1] transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer"
+                            >
+                              <span>Course Details</span>
+                              <ExternalLink className="w-3 h-3 text-[#7b7974]" />
+                            </Link>
+                          </div>
+                        ) : (
+                          <Link
+                            to={item.lastLessonId ? `/learn/${item.courseId}?lessonId=${item.lastLessonId}` : `/learn/${item.courseId}`}
+                            className="px-4 py-2 rounded-xl bg-[#121212] text-[#f8f8f6] hover:bg-black font-body text-xs font-medium transition-all shadow-xs flex items-center gap-1.5 shrink-0 self-start sm:self-auto cursor-pointer"
+                          >
+                            <Play className="w-3 h-3 text-[#d97757]" />
+                            <span>Resume ({item.progressPercentage || 0}%)</span>
+                          </Link>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               ) : (
                 <div className="p-8 rounded-xl border border-dashed border-[#e7e6e1] bg-[#f8f8f6] text-center flex flex-col items-center justify-center gap-2.5">
@@ -477,43 +516,46 @@ export function Dashboard() {
 
               {instructorData?.recentCourses && instructorData.recentCourses.length > 0 ? (
                 <div className="flex flex-col gap-3">
-                  {instructorData.recentCourses.map(course => (
-                    <div
-                      key={course.id}
-                      className="p-4 rounded-xl bg-[#f8f8f6] hover:bg-[#efeeeb]/70 border border-[#e7e6e1] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
-                    >
-                      <div className="flex flex-col gap-1 min-w-0 flex-1">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-heading text-base text-[#121212] truncate">
-                            {course.title}
-                          </span>
-                          <span className="px-2 py-0.5 rounded bg-[#efeeeb] text-[#373734] font-mono text-[10px] uppercase font-bold">
-                            {course.publishStatus}
+                  {instructorData.recentCourses.map(course => {
+                    const resolvedCourseId = course.id || course.courseId || '';
+                    return (
+                      <div
+                        key={resolvedCourseId || course.title}
+                        className="p-4 rounded-xl bg-[#f8f8f6] hover:bg-[#efeeeb]/70 border border-[#e7e6e1] transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+                      >
+                        <div className="flex flex-col gap-1 min-w-0 flex-1">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-heading text-base text-[#121212] truncate">
+                              {course.title}
+                            </span>
+                            <span className="px-2 py-0.5 rounded bg-[#efeeeb] text-[#373734] font-mono text-[10px] uppercase font-bold">
+                              {course.publishStatus}
+                            </span>
+                          </div>
+                          <span className="font-mono text-[11px] text-[#7b7974]">
+                            {course.studentCount} enrolled learners • {course.category || 'General Discipline'}
                           </span>
                         </div>
-                        <span className="font-mono text-[11px] text-[#7b7974]">
-                          {course.studentCount} enrolled learners • {course.category || 'General Discipline'}
-                        </span>
-                      </div>
 
-                      <div className="flex items-center gap-2 shrink-0 self-start sm:self-auto">
-                        <Link
-                          to={`/instructor/courses/${course.id}`}
-                          className="px-3.5 py-1.5 rounded-lg bg-[#ffffff] hover:bg-[#e7e6e1] text-[#121212] font-body text-xs font-medium border border-[#e7e6e1] shadow-2xs"
-                        >
-                          Edit Syllabus
-                        </Link>
-                        <Link
-                          to={`/courses/${course.id}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="px-3 py-1.5 rounded-lg text-xs font-medium text-[#7b7974] hover:text-[#121212]"
-                        >
-                          Preview
-                        </Link>
+                        <div className="flex items-center gap-2 shrink-0 self-start sm:self-auto">
+                          <Link
+                            to={`/instructor/courses/${resolvedCourseId}`}
+                            className="px-3.5 py-1.5 rounded-lg bg-[#ffffff] hover:bg-[#e7e6e1] text-[#121212] font-body text-xs font-medium border border-[#e7e6e1] shadow-2xs hover:border-[#121212] transition-colors cursor-pointer"
+                          >
+                            Edit Syllabus
+                          </Link>
+                          <Link
+                            to={`/courses/${resolvedCourseId}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="px-3 py-1.5 rounded-lg bg-[#efeeeb] hover:bg-[#e7e6e1] text-[#121212] text-xs font-medium border border-[#e7e6e1] transition-colors cursor-pointer"
+                          >
+                            Preview
+                          </Link>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               ) : (
                 <div className="p-8 rounded-xl border border-dashed border-[#e7e6e1] bg-[#f8f8f6] text-center flex flex-col items-center justify-center gap-2.5">
@@ -637,7 +679,7 @@ export function Dashboard() {
             </div>
           )}
 
-          {/* INSTRUCTOR: Recent Enrollments & Review Feed */}
+          {/* INSTRUCTOR: Recent Enrollments & Review Feed with Correct Synced Dates */}
           {isInstructor && (
             <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-4">
               <div className="flex items-center justify-between pb-2 border-b border-[#e7e6e1]">
@@ -647,15 +689,48 @@ export function Dashboard() {
 
               <div className="flex flex-col gap-3">
                 {instructorData?.recentEnrollments && instructorData.recentEnrollments.length > 0 ? (
-                  instructorData.recentEnrollments.slice(0, 4).map(act => (
-                    <div key={`enr-${act.id}`} className="flex flex-col gap-0.5 text-xs pb-2 border-b border-[#e7e6e1]/60 last:border-0 last:pb-0">
-                      <span className="font-semibold text-[#121212]">{act.studentName}</span>
-                      <span className="text-[#7b7974] text-[11px] truncate">enrolled in {act.courseTitle}</span>
-                      <span className="font-mono text-[10px] text-[#9c9a92] pt-0.5">{new Date(act.timestamp).toLocaleDateString()}</span>
-                    </div>
-                  ))
+                  instructorData.recentEnrollments.slice(0, 4).map((act, actIdx) => {
+                    const rawDate = act.createdAt || act.timestamp;
+                    const activityDescription = act.description || (act.studentName ? `${act.studentName} enrolled in ${act.courseTitle}` : 'Scholar enrolled in curriculum');
+                    return (
+                      <div key={act.id || act.referenceId || `enr-${actIdx}`} className="flex flex-col gap-0.5 text-xs pb-2 border-b border-[#e7e6e1]/60 last:border-0 last:pb-0">
+                        <span className="font-semibold text-[#121212] leading-snug">
+                          {activityDescription}
+                        </span>
+                        <span className="font-mono text-[10px] text-[#9c9a92] pt-0.5">
+                          {formatCohortDate(rawDate)}
+                        </span>
+                      </div>
+                    );
+                  })
                 ) : (
-                  <span className="text-xs text-[#7b7974] italic">No new cohort enrollments recorded.</span>
+                  <span className="text-xs text-[#7b7974] italic">No recent enrollments recorded.</span>
+                )}
+
+                {/* Also render recent reviews if present */}
+                {instructorData?.recentReviews && instructorData.recentReviews.length > 0 && (
+                  <div className="pt-3 border-t border-[#e7e6e1] flex flex-col gap-3">
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-[#7b7974] font-semibold">
+                      Recent Peer Reviews
+                    </span>
+                    {instructorData.recentReviews.slice(0, 3).map((rev, revIdx) => (
+                      <div key={rev.id || rev.courseId || `rev-${revIdx}`} className="flex flex-col gap-1 text-xs pb-2 border-b border-[#e7e6e1]/40 last:border-0 last:pb-0">
+                        <div className="flex items-center justify-between">
+                          <span className="font-semibold text-[#121212]">
+                            {rev.reviewerName || rev.studentName || 'Peer Scholar'}
+                          </span>
+                          <span className="text-[#d97757] font-mono text-[10px]">★ {rev.rating}</span>
+                        </div>
+                        <span className="text-[#7b7974] text-[11px] truncate">{rev.courseTitle}</span>
+                        {rev.comment && (
+                          <p className="text-[11px] text-[#373734] italic line-clamp-1">"{rev.comment}"</p>
+                        )}
+                        <span className="font-mono text-[10px] text-[#9c9a92]">
+                          {formatCohortDate(rev.createdAt)}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
             </div>
@@ -676,7 +751,7 @@ export function Dashboard() {
                       <div className="flex items-center justify-between">
                         <span className="font-mono text-[10px] uppercase font-bold text-[#373734]">{act.type}</span>
                         <span className="font-mono text-[10px] text-[#9c9a92]">
-                          {act.createdAt ? new Date(act.createdAt).toLocaleDateString() : ''}
+                          {formatCohortDate(act.createdAt)}
                         </span>
                       </div>
                       <p className="text-[#121212] text-xs leading-snug">{act.description}</p>

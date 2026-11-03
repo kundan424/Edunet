@@ -99,6 +99,8 @@ export const useStartAttempt = (courseId: string, quizId: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: quizKeys.activeAttempt(courseId, quizId) });
       queryClient.invalidateQueries({ queryKey: quizKeys.attempts(courseId, quizId) });
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      queryClient.invalidateQueries({ queryKey: ['progress', courseId] });
     },
   });
 };
@@ -110,6 +112,8 @@ export const useSubmitAttempt = (courseId: string, quizId: string, attemptId: st
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: quizKeys.activeAttempt(courseId, quizId) });
       queryClient.invalidateQueries({ queryKey: quizKeys.attempts(courseId, quizId) });
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      queryClient.invalidateQueries({ queryKey: ['progress', courseId] });
     },
   });
 };

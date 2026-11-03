@@ -9,9 +9,10 @@ import {
   GraduationCap, 
   ShieldCheck, 
   TrendingUp, 
-  Flame,
-  CheckCircle2,
-  X
+  Flame, 
+  CheckCircle2, 
+  X,
+  ExternalLink
 } from 'lucide-react';
 import { useStudentDashboard } from '../../features/dashboard/queries';
 import { useAuth } from '../../auth/AuthProvider';
@@ -68,6 +69,7 @@ export function MyLearning() {
           institution: 'Lumina Verified',
           subtitle: 'Accredited Curriculum Program',
           nextLesson: backendMatch?.lastLessonTitle || 'Module 1 — Foundations',
+          lastLessonId: backendMatch?.lastLessonId || null,
           progressPercentage: pct,
           completedModules: completed,
           totalModules: total,
@@ -85,6 +87,7 @@ export function MyLearning() {
             institution: 'Lumina Verified',
             subtitle: 'Accredited Curriculum Program',
             nextLesson: c.lastLessonTitle || 'Module 1 — Foundations',
+            lastLessonId: c.lastLessonId || null,
             progressPercentage: pct,
             completedModules: completed,
             totalModules: total,
@@ -364,17 +367,32 @@ export function MyLearning() {
                         </div>
 
                         {/* Resume CTA */}
-                        <Link 
-                          to={`/learn/${course.courseId}`}
-                          className={`self-start sm:self-center px-4 py-2 rounded-lg text-xs font-medium font-mono transition-all flex items-center gap-1.5 shrink-0 shadow-xs ${
-                            isFirst 
-                              ? 'bg-carbon-ink hover:bg-graphite text-paper-white' 
-                              : 'bg-paper-white hover:bg-soft-stone text-carbon-ink border border-chalk'
-                          }`}
-                        >
-                          <span>{course.resumeLabel}</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </Link>
+                        {course.progressPercentage >= 100 ? (
+                          <div className="flex items-center gap-2 self-start sm:self-center shrink-0">
+                            <span className="font-mono text-xs px-2.5 py-1 rounded bg-carbon-ink/5 text-carbon-ink border border-chalk font-semibold">
+                              100% Completed
+                            </span>
+                            <Link
+                              to={`/courses/${course.courseId}`}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-soft-stone hover:bg-chalk text-carbon-ink font-mono text-xs font-medium border border-chalk transition-colors"
+                            >
+                              <span>Course Details</span>
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </Link>
+                          </div>
+                        ) : (
+                          <Link 
+                            to={`/learn/${course.courseId}${course.lastLessonId ? `?lessonId=${course.lastLessonId}` : ''}`}
+                            className={`self-start sm:self-center px-4 py-2 rounded-lg text-xs font-medium font-mono transition-all flex items-center gap-1.5 shrink-0 shadow-xs ${
+                              isFirst 
+                                ? 'bg-carbon-ink hover:bg-graphite text-paper-white' 
+                                : 'bg-paper-white hover:bg-soft-stone text-carbon-ink border border-chalk'
+                            }`}
+                          >
+                            <span>{course.resumeLabel}</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </Link>
+                        )}
                       </div>
 
                       {/* Progress & Contextual Step */}

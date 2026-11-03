@@ -1,30 +1,37 @@
 import type { CourseDifficulty, PublishStatus, LessonType } from '../courses/types';
 
 export interface CourseSummaryDTO {
-  id: string;
+  id?: string;
+  courseId?: string;
   title: string;
-  category: string;
-  difficulty: CourseDifficulty;
+  category?: string;
+  difficulty?: CourseDifficulty;
   price: number | null;
   publishStatus: PublishStatus;
   rating: number | null;
   studentCount: number;
-  thumbnailUrl: string | null;
-  createdAt: string;
+  thumbnailUrl?: string | null;
+  createdAt?: string;
 }
 
 export interface RecentActivityDTO {
-  id: string;
-  courseTitle: string;
-  studentName: string;
-  activityType: string;
-  timestamp: string;
+  id?: string;
+  referenceId?: string;
+  type?: string;
+  activityType?: string;
+  description?: string;
+  courseTitle?: string;
+  studentName?: string;
+  createdAt?: string;
+  timestamp?: string;
 }
 
 export interface RecentReviewDTO {
-  id: string;
+  id?: string;
+  courseId?: string;
   courseTitle: string;
-  studentName: string;
+  studentName?: string;
+  reviewerName?: string;
   rating: number;
   comment: string | null;
   createdAt: string;

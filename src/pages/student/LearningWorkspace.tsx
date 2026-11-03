@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../lib/api';
 import { LoadingState, ErrorState } from '../../components/ui/States';
@@ -40,8 +40,10 @@ interface DiscussionThread {
 
 export function LearningWorkspace() {
   const { courseId } = useParams<{ courseId: string }>();
+  const [searchParams] = useSearchParams();
+  const urlLessonId = searchParams.get('lessonId');
   const queryClient = useQueryClient();
-  const [activeLessonId, setActiveLessonId] = useState<string | null>(null);
+  const [activeLessonId, setActiveLessonId] = useState<string | null>(urlLessonId || null);
   
   // Interactive View: 'lesson' | 'quiz'
   const [activeView, setActiveView] = useState<'lesson' | 'quiz'>('lesson');
@@ -104,7 +106,9 @@ export function LearningWorkspace() {
 
   // Initialization: Set active lesson on first load
   useEffect(() => {
-    if (!activeLessonId && course && course.sections.length > 0) {
+    if (urlLessonId) {
+      setActiveLessonId(urlLessonId);
+    } else if (!activeLessonId && course && course.sections.length > 0) {
       if (progress?.lastAccessedLessonId) {
         setActiveLessonId(progress.lastAccessedLessonId);
       } else {
@@ -112,7 +116,7 @@ export function LearningWorkspace() {
         if (firstLesson) setActiveLessonId(firstLesson.id);
       }
     }
-  }, [course, progress, activeLessonId]);
+  }, [course, progress, activeLessonId, urlLessonId]);
 
   // Mutations
   const progressMutation = useMutation({
@@ -120,7 +124,7 @@ export function LearningWorkspace() {
       api.post(`/api/v1/courses/${courseId}/lessons/${lessonId}/progress`, { positionSeconds }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['progress', courseId] });
-      queryClient.invalidateQueries({ queryKey: ['student-dashboard'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
       queryClient.invalidateQueries({ queryKey: ['enrollments'] });
     }
   });
