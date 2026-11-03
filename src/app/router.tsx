@@ -14,6 +14,7 @@ import { NotificationsPage } from '../pages/shared/NotificationsPage';
 import { PaymentSuccess } from '../pages/payment/PaymentSuccess';
 import { PaymentCancel } from '../pages/payment/PaymentCancel';
 import { Profile } from '../pages/profile/Profile';
+import { Dashboard } from '../pages/dashboard/Dashboard';
 
 // Instructor pages
 import { InstructorDashboard } from '../pages/instructor/InstructorDashboard';
@@ -65,6 +66,7 @@ export const router = createBrowserRouter([
     children: [
       { path: '/notifications', element: <NotificationsPage /> },
       { path: '/profile', element: <Profile /> },
+      { path: '/dashboard', element: <Dashboard /> },
       {
         element: <RoleRoute allowedRoles={['STUDENT']} />,
         children: [

@@ -185,26 +185,39 @@ export function Header() {
 
                     <div className="py-1">
                       {user?.role === 'STUDENT' && (
-                        <Link
-                          to="/learn"
-                          className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
-                        >
-                          <BookOpen className="w-4 h-4 text-[#7b7974]" />
-                          <span>My Learning</span>
-                        </Link>
+                        <>
+                          <Link
+                            to="/dashboard"
+                            onClick={() => setIsAccountMenuOpen(false)}
+                            className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
+                          >
+                            <LayoutDashboard className="w-4 h-4 text-[#7b7974]" />
+                            <span>Scholar Dashboard</span>
+                          </Link>
+                          <Link
+                            to="/learn"
+                            onClick={() => setIsAccountMenuOpen(false)}
+                            className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
+                          >
+                            <BookOpen className="w-4 h-4 text-[#7b7974]" />
+                            <span>My Learning</span>
+                          </Link>
+                        </>
                       )}
 
                       {user?.role === 'INSTRUCTOR' && (
                         <>
                           <Link
-                            to="/instructor"
+                            to="/dashboard"
+                            onClick={() => setIsAccountMenuOpen(false)}
                             className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
                           >
                             <LayoutDashboard className="w-4 h-4 text-[#7b7974]" />
-                            <span>Instructor Dashboard</span>
+                            <span>Faculty Dashboard</span>
                           </Link>
                           <Link
                             to="/instructor/courses"
+                            onClick={() => setIsAccountMenuOpen(false)}
                             className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
                           >
                             <BookOpen className="w-4 h-4 text-[#7b7974]" />
@@ -216,24 +229,35 @@ export function Header() {
                       {user?.role === 'ADMIN' && (
                         <>
                           <Link
-                            to="/admin"
+                            to="/dashboard"
+                            onClick={() => setIsAccountMenuOpen(false)}
                             className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
                           >
-                            <ShieldAlert className="w-4 h-4 text-[#7b7974]" />
-                            <span>Admin Hub</span>
+                            <LayoutDashboard className="w-4 h-4 text-[#7b7974]" />
+                            <span>Senate Dashboard</span>
                           </Link>
                           <Link
                             to="/admin/courses"
+                            onClick={() => setIsAccountMenuOpen(false)}
                             className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
                           >
                             <BookOpen className="w-4 h-4 text-[#7b7974]" />
-                            <span>Moderation</span>
+                            <span>Course Moderation</span>
+                          </Link>
+                          <Link
+                            to="/admin/instructors"
+                            onClick={() => setIsAccountMenuOpen(false)}
+                            className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
+                          >
+                            <ShieldAlert className="w-4 h-4 text-[#7b7974]" />
+                            <span>Faculty Applications</span>
                           </Link>
                         </>
                       )}
 
                       <Link
                         to="/profile"
+                        onClick={() => setIsAccountMenuOpen(false)}
                         className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
                       >
                         <UserIcon className="w-4 h-4 text-[#7b7974]" />
@@ -303,17 +327,22 @@ export function Header() {
             </a>
 
             {isAuthenticated && user?.role === 'STUDENT' && (
-              <Link to="/learn" className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
-                My Learning
-              </Link>
+              <>
+                <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
+                  Scholar Dashboard
+                </Link>
+                <Link to="/learn" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
+                  My Learning
+                </Link>
+              </>
             )}
 
             {isAuthenticated && user?.role === 'INSTRUCTOR' && (
               <>
-                <Link to="/instructor" className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
-                  Instructor Dashboard
+                <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
+                  Faculty Dashboard
                 </Link>
-                <Link to="/instructor/courses" className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
+                <Link to="/instructor/courses" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
                   My Courses
                 </Link>
               </>
@@ -321,13 +350,22 @@ export function Header() {
 
             {isAuthenticated && user?.role === 'ADMIN' && (
               <>
-                <Link to="/admin" className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
-                  Admin Hub
+                <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
+                  Senate Dashboard
                 </Link>
-                <Link to="/admin/courses" className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
-                  Moderation
+                <Link to="/admin/courses" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
+                  Course Moderation
+                </Link>
+                <Link to="/admin/instructors" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
+                  Faculty Applications
                 </Link>
               </>
+            )}
+
+            {isAuthenticated && (
+              <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
+                Profile Settings
+              </Link>
             )}
           </nav>
 
