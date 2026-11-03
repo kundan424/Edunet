@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { LessonResponse } from '../../features/instructor/types';
 import { PillButton } from '../ui/Button';
 import { useUpdateLesson, useDeleteLesson } from '../../features/instructor/queries';
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export function LessonEditor({ courseId, sectionId, lesson, isEditable, index }: Props) {
+  const navigate = useNavigate();
   const updateLesson = useUpdateLesson(courseId);
   const deleteLesson = useDeleteLesson(courseId);
 
@@ -106,13 +108,20 @@ export function LessonEditor({ courseId, sectionId, lesson, isEditable, index }:
               <MediaUploader courseId={courseId} lessonId={lesson.id} hasMedia={!!lesson.durationSeconds} />
             </div>
           )}
+
+          {lesson.lessonType === 'RESOURCE' && (
+            <div className="mt-4 pt-4 border-t border-midnight-ink">
+              <h5 className="text-xs font-bold uppercase mb-2">Resource Attachment (PDF, Code, ZIP, etc.)</h5>
+              <MediaUploader courseId={courseId} lessonId={lesson.id} hasMedia={!!lesson.durationSeconds} isResource={true} />
+            </div>
+          )}
           
           {lesson.lessonType === 'QUIZ' && (
             <div className="mt-4 pt-4 border-t border-midnight-ink flex flex-col gap-2">
               <h5 className="text-xs font-bold uppercase mb-2">Quiz Content</h5>
               <PillButton 
                 type="button" 
-                onClick={() => window.location.href = `/instructor/courses/${courseId}/quiz/${lesson.id}`}
+                onClick={() => navigate(`/instructor/courses/${courseId}/quiz/${lesson.id}`)}
                 className="bg-transparent hover:bg-black/10 w-full justify-center !py-2 !text-xs"
               >
                 Manage Quiz Questions & Settings
@@ -125,7 +134,7 @@ export function LessonEditor({ courseId, sectionId, lesson, isEditable, index }:
               <h5 className="text-xs font-bold uppercase mb-2">Assignment Content</h5>
               <PillButton 
                 type="button" 
-                onClick={() => window.location.href = `/instructor/courses/${courseId}/assignment/${lesson.id}`}
+                onClick={() => navigate(`/instructor/courses/${courseId}/assignment/${lesson.id}`)}
                 className="bg-transparent hover:bg-black/10 w-full justify-center !py-2 !text-xs"
               >
                 Manage Assignment Details

@@ -489,6 +489,51 @@ export function LearningWorkspace() {
                           title={activeLesson.title}
                           onComplete={() => handleLessonComplete(activeLesson?.id)}
                         />
+                      ) : activeLesson.lessonType === 'RESOURCE' ? (
+                        <div className="p-10 text-center flex flex-col items-center gap-4 bg-[#ffffff] rounded-2xl border border-[#e7e6e1] shadow-xs max-w-xl mx-auto">
+                          <div className="w-12 h-12 rounded-full bg-[#efeeeb] flex items-center justify-center text-[#d97757]">
+                            <Download className="w-6 h-6" />
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <h3 className="font-heading text-lg font-semibold text-[#121212]">{activeLesson.title}</h3>
+                            <p className="font-body text-xs text-[#7b7974] leading-relaxed">
+                              {activeLesson.description || 'Supplementary course files, reference notes, and downloadable assets.'}
+                            </p>
+                          </div>
+                          <div className="flex flex-wrap items-center justify-center gap-3 mt-2">
+                            <button
+                              type="button"
+                              onClick={async () => {
+                                try {
+                                  const response = await api.get(`/api/v1/courses/${courseId}/lessons/${activeLesson.id}/media`, { responseType: 'blob' });
+                                  const blob = response as unknown as Blob;
+                                  const url = window.URL.createObjectURL(blob);
+                                  const a = document.createElement('a');
+                                  a.href = url;
+                                  a.download = `${activeLesson.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-resource`;
+                                  document.body.appendChild(a);
+                                  a.click();
+                                  a.remove();
+                                  window.URL.revokeObjectURL(url);
+                                  handleLessonComplete(activeLesson?.id);
+                                } catch {
+                                  alert('Could not download resource file or no file attached yet.');
+                                }
+                              }}
+                              className="px-5 py-2.5 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium transition-all shadow-xs flex items-center gap-2 cursor-pointer"
+                            >
+                              <Download className="w-4 h-4" />
+                              <span>Download Attached Resource</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleLessonComplete(activeLesson?.id)}
+                              className="px-5 py-2.5 rounded-xl bg-[#efeeeb] hover:bg-[#e7e6e1] text-[#121212] text-xs font-medium transition-all border border-[#e7e6e1] cursor-pointer"
+                            >
+                              Mark Completed
+                            </button>
+                          </div>
+                        </div>
                       ) : (
                         <div className="p-12 text-center flex flex-col items-center gap-3 bg-[#efeeeb]/50 rounded-xl border border-[#e7e6e1]">
                           <FileText className="w-8 h-8 text-[#7b7974]" />

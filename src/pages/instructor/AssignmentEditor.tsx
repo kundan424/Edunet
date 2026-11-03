@@ -27,7 +27,15 @@ export function AssignmentEditor() {
     dueAt: '',
   });
 
-  const isNew = !assignment && error?.message?.includes('404');
+  const is404 = Boolean(
+    (error as any)?.status === 404 ||
+    (error as any)?.code === 'RESOURCE_NOT_FOUND' ||
+    (error as any)?.code === 'NOT_FOUND' ||
+    error?.message?.includes('404') ||
+    error?.message?.toLowerCase().includes('not found')
+  );
+
+  const isNew = (!assignment && !isLoading) && (!error || is404);
   const [activeTab, setActiveTab] = useState<'editor' | 'submissions'>('editor');
 
   useEffect(() => {

@@ -16,7 +16,12 @@ export const useInstructorQuiz = (courseId: string, lessonId: string) => {
   return useQuery({
     queryKey: quizKeys.instructorQuiz(courseId, lessonId),
     queryFn: () => api.getInstructorQuiz(courseId, lessonId),
-    retry: 1, // Don't retry much if it's 404 (needs to be created)
+    retry: (failureCount, error: any) => {
+      if (error?.status === 404 || error?.code === 'RESOURCE_NOT_FOUND' || error?.message?.toLowerCase().includes('not found')) {
+        return false;
+      }
+      return failureCount < 1;
+    },
   });
 };
 

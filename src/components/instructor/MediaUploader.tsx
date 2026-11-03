@@ -6,16 +6,17 @@ interface Props {
   courseId: string;
   lessonId: string;
   hasMedia: boolean;
+  isResource?: boolean;
 }
 
-export function MediaUploader({ courseId, lessonId, hasMedia }: Props) {
+export function MediaUploader({ courseId, lessonId, hasMedia, isResource }: Props) {
   const uploadMedia = useUploadMedia(courseId);
   const deleteMedia = useDeleteMedia(courseId);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [dragActive, setDragActive] = useState(false);
 
   const handleFile = (file: File) => {
-    if (!file.type.startsWith('video/')) {
+    if (!isResource && !file.type.startsWith('video/')) {
       alert('Please upload a valid video file.');
       return;
     }
@@ -38,16 +39,19 @@ export function MediaUploader({ courseId, lessonId, hasMedia }: Props) {
   };
 
   const handleDelete = () => {
-    if (window.confirm('Are you sure you want to remove the media for this lesson?')) {
+    const itemType = isResource ? 'resource attachment' : 'video';
+    if (window.confirm(`Are you sure you want to remove the ${itemType} for this lesson?`)) {
       deleteMedia.mutate(lessonId);
     }
   };
+
+  const acceptType = isResource ? '*/*' : 'video/*';
 
   if (hasMedia) {
     return (
       <div className="flex items-center justify-between p-4 border border-midnight-ink bg-black/5">
         <span className="text-sm font-bold flex items-center gap-2">
-          <span className="text-signal-blue">✓</span> Video Attached
+          <span className="text-signal-blue">✓</span> {isResource ? 'Resource Attached' : 'Video Attached'}
         </span>
         <div className="flex gap-2">
           <PillButton 
@@ -70,7 +74,7 @@ export function MediaUploader({ courseId, lessonId, hasMedia }: Props) {
         <input 
           ref={fileInputRef} 
           type="file" 
-          accept="video/*" 
+          accept={acceptType} 
           className="hidden" 
           onChange={handleChange} 
         />
@@ -90,17 +94,23 @@ export function MediaUploader({ courseId, lessonId, hasMedia }: Props) {
       <input 
         ref={fileInputRef} 
         type="file" 
-        accept="video/*" 
+        accept={acceptType} 
         className="hidden" 
         onChange={handleChange} 
       />
       
       {uploadMedia.isPending ? (
-        <span className="font-bold text-sm text-signal-blue animate-pulse">Uploading video... Please wait.</span>
+        <span className="font-bold text-sm text-signal-blue animate-pulse">
+          Uploading {isResource ? 'resource file' : 'video'}... Please wait.
+        </span>
       ) : (
         <>
-          <span className="font-bold text-sm">Drag and drop a video file here</span>
-          <span className="text-xs text-gray-500">MP4, WebM, or OGG up to 2GB</span>
+          <span className="font-bold text-sm">
+            Drag and drop a {isResource ? 'resource file (PDF, ZIP, DOC, code)' : 'video file'} here
+          </span>
+          <span className="text-xs text-gray-500">
+            {isResource ? 'Upload supplementary materials up to 500MB' : 'MP4, WebM, or OGG up to 2GB'}
+          </span>
           <PillButton 
             type="button" 
             onClick={() => fileInputRef.current?.click()} 

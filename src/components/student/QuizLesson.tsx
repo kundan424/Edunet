@@ -7,7 +7,7 @@ import {
   useStartAttempt,
   useSubmitAttempt
 } from '../../features/quiz/queries';
-import type { QuizSubmitRequest, QuizAttemptResponse } from '../../features/quiz/types';
+import type { QuizSubmitRequest } from '../../features/quiz/types';
 import { 
   ListChecks, 
   CheckCircle2, 
@@ -33,68 +33,11 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
   const submitAttempt = useSubmitAttempt(courseId, quizId, activeAttempt?.id || '');
 
   const [answers, setAnswers] = useState<Record<string, string[]>>({});
-  const [localActiveAttempt, setLocalActiveAttempt] = useState(false);
-  const [localHistory, setLocalHistory] = useState<QuizAttemptResponse[]>(() => {
-    try {
-      return JSON.parse(localStorage.getItem(`quiz_history_${quizId}`) || '[]');
-    } catch {
-      return [];
-    }
-  });
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
 
-  const fallbackQuiz = {
-    id: quizId || 'fallback-quiz',
-    title: title || 'Module Knowledge Assessment & Invariant Check',
-    description: 'Evaluates comprehension of memory fencing, distributed consensus invariants, and zero-copy boundary guarantees.',
-    passScore: 70,
-    attemptsAllowed: 3,
-    timeLimitSeconds: 1200,
-    questions: [
-      {
-        id: 'q1',
-        questionText: 'In an eBPF tracepoint probe monitoring zero-copy ringbuffers, what condition triggers a boundary violation when userspace lags behind producers?',
-        questionType: 'SINGLE_CHOICE' as const,
-        points: 10,
-        displayOrder: 1,
-        options: [
-          { id: 'opt1_1', optionText: 'Drop counter increments and backpressure throttle engages without memory leaks', displayOrder: 1 },
-          { id: 'opt1_2', optionText: 'Unbounded heap allocation causing kernel thread deadlock', displayOrder: 2 },
-          { id: 'opt1_3', optionText: 'Immediate SIGSEGV in userspace context switch', displayOrder: 3 },
-          { id: 'opt1_4', optionText: 'Silent buffer wrap-around with stale descriptor overwrites', displayOrder: 4 },
-        ]
-      },
-      {
-        id: 'q2',
-        questionText: 'Under Byzantine Fault Tolerant (BFT) consensus, what is the maximum number of faulty nodes f that a system of 3f + 1 nodes can tolerate?',
-        questionType: 'SINGLE_CHOICE' as const,
-        points: 10,
-        displayOrder: 2,
-        options: [
-          { id: 'opt2_1', optionText: 'f faulty or Byzantine nodes', displayOrder: 1 },
-          { id: 'opt2_2', optionText: '2f faulty nodes', displayOrder: 2 },
-          { id: 'opt2_3', optionText: 'f + 1 faulty nodes', displayOrder: 3 },
-          { id: 'opt2_4', optionText: '3f faulty nodes', displayOrder: 4 },
-        ]
-      },
-      {
-        id: 'q3',
-        questionText: 'Which formal method technique guarantees absence of deadlock in TLA+ specifications?',
-        questionType: 'SINGLE_CHOICE' as const,
-        points: 10,
-        displayOrder: 3,
-        options: [
-          { id: 'opt3_1', optionText: 'Exhaustive state-space model checking with TLC', displayOrder: 1 },
-          { id: 'opt3_2', optionText: 'Statistical sampling of random executions', displayOrder: 2 },
-          { id: 'opt3_3', optionText: 'Static AST linting with Clippy', displayOrder: 3 },
-          { id: 'opt3_4', optionText: 'Dynamic eBPF tracepoint counting', displayOrder: 4 },
-        ]
-      }
-    ]
-  };
-
-  const effectiveQuiz = quiz || fallbackQuiz;
-  const effectiveAttempt = activeAttempt || (localActiveAttempt ? { id: 'local-attempt' } : null);
-  const effectiveHistory = (history && history.length > 0) ? history : localHistory;
+  const effectiveQuiz = quiz;
+  const effectiveAttempt = activeAttempt;
+  const effectiveHistory = history || [];
 
   useEffect(() => {
     if (effectiveHistory && effectiveHistory.some(h => h.passed)) {
@@ -104,20 +47,42 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
 
   if (quizLoading || attemptLoading) return <LoadingState message="Loading knowledge assessment..." />;
 
+  if (!effectiveQuiz || !effectiveQuiz.questions || effectiveQuiz.questions.length === 0) {
+    return (
+      <div className="p-8 sm:p-12 text-center flex flex-col items-center gap-4 bg-[#ffffff] border border-[#e7e6e1] rounded-2xl shadow-xs">
+        <div className="w-12 h-12 rounded-full bg-[#efeeeb] flex items-center justify-center text-[#7b7974]">
+          <ListChecks className="w-6 h-6" />
+        </div>
+        <div className="flex flex-col gap-1 max-w-md">
+          <h3 className="font-heading text-lg font-semibold text-[#121212]">{title || 'Graded Assessment'}</h3>
+          <p className="font-body text-xs text-[#7b7974] leading-relaxed">
+            No graded quiz has been published for this lesson yet. When the instructor adds questions, they will appear here automatically.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={onComplete}
+          className="mt-2 px-5 py-2 rounded-xl bg-[#121212] text-[#f8f8f6] text-xs font-medium hover:bg-black/80 transition-colors cursor-pointer"
+        >
+          Mark Lesson Complete
+        </button>
+      </div>
+    );
+  }
+
   const attemptsTaken = effectiveHistory?.length || 0;
-  const attemptsRemaining = effectiveQuiz.attemptsAllowed - attemptsTaken;
+  const attemptsRemaining = Math.max(0, effectiveQuiz.attemptsAllowed - attemptsTaken);
   const isOutOfAttempts = attemptsRemaining <= 0 && !effectiveAttempt;
   
   const lastAttempt = effectiveHistory?.[0];
 
   const handleStart = () => {
-    if (quiz) {
-      startAttempt.mutate(undefined, {
-        onError: () => setLocalActiveAttempt(true)
-      });
-    } else {
-      setLocalActiveAttempt(true);
-    }
+    setSubmissionError(null);
+    startAttempt.mutate(undefined, {
+      onError: (err: any) => {
+        setSubmissionError(err.message || 'Failed to start quiz attempt.');
+      }
+    });
   };
 
   const handleToggleAnswer = (questionId: string, optionId: string, isMulti: boolean) => {
@@ -137,6 +102,7 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
 
   const handleSubmit = () => {
     if (!effectiveAttempt) return;
+    setSubmissionError(null);
     
     const submission: QuizSubmitRequest = {
       answers: Object.entries(answers).map(([questionId, selectedOptionIds]) => ({
@@ -146,53 +112,17 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
     };
 
     if (window.confirm("Submit your verification answers for automated grading?")) {
-      if (quiz && activeAttempt) {
-        submitAttempt.mutate(submission, {
-          onSuccess: (data) => {
-            if (data.passed) {
-              onComplete();
-            }
-            setAnswers({});
-          },
-          onError: () => {
-            const record: QuizAttemptResponse = {
-              id: `local-attempt-${Date.now()}`,
-              quizId,
-              attemptNumber: (effectiveHistory?.length || 0) + 1,
-              status: 'COMPLETED',
-              score: 30,
-              percentage: 100,
-              passed: true,
-              startedAt: new Date().toISOString(),
-              completedAt: new Date().toISOString()
-            };
-            const updated = [record, ...effectiveHistory];
-            setLocalHistory(updated);
-            localStorage.setItem(`quiz_history_${quizId}`, JSON.stringify(updated));
-            setLocalActiveAttempt(false);
+      submitAttempt.mutate(submission, {
+        onSuccess: (data) => {
+          if (data.passed) {
             onComplete();
-            setAnswers({});
           }
-        });
-      } else {
-        const record: QuizAttemptResponse = {
-          id: `local-attempt-${Date.now()}`,
-          quizId,
-          attemptNumber: (effectiveHistory?.length || 0) + 1,
-          status: 'COMPLETED',
-          score: 30,
-          percentage: 100,
-          passed: true,
-          startedAt: new Date().toISOString(),
-          completedAt: new Date().toISOString()
-        };
-        const updated = [record, ...effectiveHistory];
-        setLocalHistory(updated);
-        localStorage.setItem(`quiz_history_${quizId}`, JSON.stringify(updated));
-        setLocalActiveAttempt(false);
-        onComplete();
-        setAnswers({});
-      }
+          setAnswers({});
+        },
+        onError: (err: any) => {
+          setSubmissionError(err.message || 'Failed to submit quiz attempt.');
+        }
+      });
     }
   };
 
@@ -237,6 +167,13 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
           )}
         </div>
       </div>
+
+      {submissionError && (
+        <div className="p-4 rounded-xl bg-[#ba1a1a]/10 border border-[#ba1a1a]/30 text-[#ba1a1a] text-xs font-medium flex items-center gap-2">
+          <AlertCircle className="w-4 h-4 shrink-0" />
+          <span>{submissionError}</span>
+        </div>
+      )}
 
       {!effectiveAttempt ? (
         <div className="flex flex-col gap-5">

@@ -55,109 +55,15 @@ export function FeaturedCourses() {
     }
   };
 
-  // Curated showcase programs directly from Stitch design specification (Lumina Warm Editorial)
-  const curatedShowcasePrograms = [
-    {
-      id: 'stanford-llm',
-      title: 'Large Language Model Systems, Alignment & Reasoning Engines',
-      description: 'Transformer math, speculative decoding, RLHF/DPO algorithms, and distributed inference orchestration on raw GPUs.',
-      difficulty: 'ADVANCED',
-      price: 0,
-      instructorName: 'Prof. Christopher Manning',
-      rating: 4.9,
-      studentCount: 18400,
-      institution: 'Stanford AI Lab',
-      duration: '3 months · 6 hrs/wk',
-      credentialType: 'Specialization',
-      tags: ['PyTorch', 'vLLM', 'TRL & DPO', 'MCTS'],
-      category: 'specializations'
-    },
-    {
-      id: 'cambridge-consensus',
-      title: 'Distributed Consensus, eBPF & Fault-Tolerant Microkernels',
-      description: 'Build a production Raft consensus engine, instrument Linux kernel tracepoints, and audit distributed crash recovery.',
-      difficulty: 'ADVANCED',
-      price: 0,
-      instructorName: 'Prof. Elena Rostova, PhD',
-      rating: 4.95,
-      studentCount: 9120,
-      institution: 'Univ. of Cambridge',
-      duration: '4 months · 8 hrs/wk',
-      credentialType: 'Degree Credit Eligible',
-      tags: ['Rust', 'eBPF / Linux', 'Raft Consensus', 'Jepsen Tests'],
-      category: 'degrees'
-    },
-    {
-      id: 'mit-formal-methods',
-      title: 'Formal Methods, TLA+ Verification & Cryptographic Protocols',
-      description: 'Rigorous specification of concurrent software architectures, state-space model checking, and zero-knowledge proof primitives.',
-      difficulty: 'ADVANCED',
-      price: 0,
-      instructorName: 'MIT CSAIL Research Faculty',
-      rating: 4.92,
-      studentCount: 7650,
-      institution: 'MIT CSAIL',
-      duration: '3 months · 6 hrs/wk',
-      credentialType: 'Professional Certificate',
-      tags: ['TLA+ / PlusCal', 'Coq Proofs', 'ZK-SNARKs', 'Protocol Security'],
-      category: 'certificates'
-    },
-    {
-      id: 'cmu-msc-ai',
-      title: 'Master of Science in Software Systems & Autonomous Intelligence',
-      description: 'The identical diploma awarded on campus in Pittsburgh. Comprehensive curriculum spanning compiler engineering, distributed clusters, and embodied AI.',
-      difficulty: 'ADVANCED',
-      price: 1200,
-      instructorName: 'Carnegie Mellon SCS Faculty',
-      rating: 4.98,
-      studentCount: 120,
-      institution: 'Carnegie Mellon SCS',
-      duration: '18-24 months · Flexible',
-      credentialType: 'Full Master\'s Degree',
-      tags: ['Accredited MSc', 'Compilers', 'HPC Systems', 'Thesis Option'],
-      category: 'degrees'
-    },
-    {
-      id: 'eth-quantum',
-      title: 'Quantum Computing Primitives, Qiskit & Quantum Information',
-      description: 'Linear algebraic foundations, quantum circuits, Grover and Shor algorithms, and simulated noisy intermediate-scale quantum devices.',
-      difficulty: 'INTERMEDIATE',
-      price: 0,
-      instructorName: 'ETH Zürich D-INFK Faculty',
-      rating: 4.88,
-      studentCount: 6410,
-      institution: 'ETH Zürich D-INFK',
-      duration: '2 months · 5 hrs/wk',
-      credentialType: 'Specialization',
-      tags: ['Qiskit', 'Quantum Algorithms', 'Error Mitigation'],
-      category: 'specializations'
-    },
-    {
-      id: 'oxford-type-theory',
-      title: 'Applied Category Theory, Type Systems & Compiler Frontends',
-      description: 'Monadic effects, dependent types, Hindley-Milner inference engines, and formally verified intermediate representations.',
-      difficulty: 'ADVANCED',
-      price: 0,
-      instructorName: 'Oxford Dept. of Computing',
-      rating: 4.97,
-      studentCount: 5320,
-      institution: 'University of Oxford',
-      duration: '3 months · 7 hrs/wk',
-      credentialType: 'MasterTrack™ Certificate',
-      tags: ['Haskell', 'Type Theory', 'LLVM IR', 'Compilers'],
-      category: 'mastertracks'
-    }
-  ];
+  const realCourses = data?.content || [];
+  const hasBackendCourses = !isLoading && !error && realCourses.length > 0;
 
-  // Map real backend courses or showcase programs
-  const hasBackendCourses = !isLoading && !error && data?.content && data.content.length > 0;
-
-  // Filter curated programs by selected tab
-  const filteredCurated = curatedShowcasePrograms.filter(p => {
-    if (activeTab === 'specializations') return p.category === 'specializations' || p.credentialType?.includes('Specialization');
-    if (activeTab === 'certificates') return p.category === 'certificates' || p.credentialType?.includes('Certificate');
-    if (activeTab === 'degrees') return p.category === 'degrees' || p.credentialType?.includes('Degree');
-    if (activeTab === 'mastertracks') return p.category === 'mastertracks' || p.credentialType?.includes('MasterTrack');
+  // Filter real backend courses by tab if category matches, or show all
+  const filteredCourses = realCourses.filter(course => {
+    if (activeTab === 'specializations') return true;
+    if (activeTab === 'certificates') return course.difficulty === 'BEGINNER' || course.difficulty === 'INTERMEDIATE';
+    if (activeTab === 'degrees') return course.difficulty === 'ADVANCED';
+    if (activeTab === 'mastertracks') return course.difficulty === 'ADVANCED' || course.difficulty === 'INTERMEDIATE';
     return true;
   });
 
@@ -328,13 +234,13 @@ export function FeaturedCourses() {
         </div>
 
         {/* Live Course Cards Grid */}
-        {isLoading && <LoadingState message="Loading accredited catalog programs..." />}
-        {error && <ErrorState message="Could not fetch live catalog programs. Displaying academic pathways." />}
+        {isLoading && <LoadingState message="Loading catalog programs..." />}
+        {error && <ErrorState message="Could not fetch live catalog programs. Please check back later." />}
 
-        {/* Show live backend courses if present, or curated programs */}
+        {/* Show live backend courses */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {hasBackendCourses ? (
-            data.content.map(course => (
+            filteredCourses.map(course => (
               <CourseCard
                 key={course.id}
                 id={course.id}
@@ -347,25 +253,25 @@ export function FeaturedCourses() {
                 studentCount={course.studentCount}
               />
             ))
-          ) : (
-            filteredCurated.map(program => (
-              <CourseCard
-                key={program.id}
-                id={program.id}
-                title={program.title}
-                description={program.description}
-                difficulty={program.difficulty}
-                price={program.price}
-                instructorName={program.instructorName}
-                rating={program.rating}
-                studentCount={program.studentCount}
-                institution={program.institution}
-                duration={program.duration}
-                credentialType={program.credentialType}
-                tags={program.tags}
-              />
-            ))
-          )}
+          ) : !isLoading && !error ? (
+            <div className="col-span-1 md:col-span-2 lg:col-span-3 p-12 text-center flex flex-col items-center justify-center gap-4 bg-[#ffffff] border border-[#e7e6e1] rounded-2xl shadow-xs">
+              <div className="w-12 h-12 rounded-full bg-[#efeeeb] flex items-center justify-center text-[#7b7974]">
+                <Terminal className="w-6 h-6" />
+              </div>
+              <div className="flex flex-col gap-1 max-w-md">
+                <h3 className="font-heading text-lg font-semibold text-[#121212]">Catalog Courses Coming Soon</h3>
+                <p className="font-body text-xs text-[#7b7974] leading-relaxed">
+                  Instructors are currently publishing courses in the system. Check back shortly or view our complete catalog page.
+                </p>
+              </div>
+              <Link
+                to="/courses"
+                className="mt-2 px-5 py-2.5 rounded-xl bg-[#121212] text-[#f8f8f6] text-xs font-medium hover:bg-black/80 transition-colors"
+              >
+                Explore Catalog
+              </Link>
+            </div>
+          ) : null}
         </div>
 
         {/* Footer Link to Full Catalog */}

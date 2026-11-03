@@ -11,7 +11,6 @@ import {
   TrendingUp, 
   Flame,
   CheckCircle2,
-  ExternalLink,
   X
 } from 'lucide-react';
 import { useStudentDashboard } from '../../features/dashboard/queries';
@@ -35,50 +34,6 @@ export function MyLearning() {
   if (dashLoading || enrollLoading) return <LoadingState message="Loading your academic dashboard..." />;
   if (dashError) return <ErrorState title="Failed to load dashboard" message="We couldn't retrieve your learning data." onRetry={() => refetch()} />;
 
-  // Default curated curriculum tracks matching Lumina Consortium standards
-  const defaultCourses = [
-    {
-      courseId: 'eee8a2dcd67a4bbe9781d4645e684cb1',
-      courseTitle: 'Autonomous Reasoning & Swarms',
-      code: 'CS-334A',
-      institution: 'Stanford AI Lab',
-      subtitle: 'Distributed systems, memory safety & concurrent tree search',
-      nextLesson: 'Lesson 2.1 — Fault Isolation & System Architecture',
-      defaultProgress: 0,
-      totalModules: 6,
-    },
-    {
-      courseId: 'cambridge-consensus',
-      courseTitle: 'Byzantine Fault Tolerant Consensus',
-      code: '6.824-DIST',
-      institution: 'MIT PDOS',
-      subtitle: 'TLA+ state machine verification, Raft invariants & Paxos split-brain mitigations',
-      nextLesson: 'Lesson 1.3 — Formal Verification in TLA+',
-      defaultProgress: 0,
-      totalModules: 8,
-    },
-    {
-      courseId: 'stanford-llm',
-      courseTitle: 'Large Language Model Systems, Alignment & Reasoning Engines',
-      code: 'CS-324',
-      institution: 'Stanford AI Lab',
-      subtitle: 'Transformer math, speculative decoding, RLHF/DPO algorithms & distributed inference',
-      nextLesson: 'Lesson 3.2 — Speculative Token Planning',
-      defaultProgress: 0,
-      totalModules: 5,
-    },
-    {
-      courseId: 'formal-methods',
-      courseTitle: 'Formal Methods, TLA+ Verification & Cryptographic Protocols',
-      code: 'MIT-6.875',
-      institution: 'MIT CSAIL',
-      subtitle: 'State-space model checking, zero-knowledge proof primitives & formal invariants',
-      nextLesson: 'Lesson 1.1 — State-Space Bounds',
-      defaultProgress: 0,
-      totalModules: 6,
-    }
-  ];
-
   // Helper to resolve live course progress from localStorage or backend
   const getCourseLiveProgress = (cId: string, backendPct?: number) => {
     let storedProg: { completedCount: number; totalLessons: number; percentage: number } | null = null;
@@ -100,20 +55,19 @@ export function MyLearning() {
 
   const realEnrollments = enrollmentsPage?.content || [];
 
-  // Build reactive continue courses list
+  // Build reactive continue courses list strictly from real enrollments or backend dashboard
   const continueCourses = realEnrollments.length > 0
-    ? realEnrollments.map((enr, idx) => {
+    ? realEnrollments.map((enr) => {
         const backendMatch = dashboard?.continueLearning?.find(c => c.courseId === enr.courseId);
-        const fallback = defaultCourses[idx % defaultCourses.length];
         const { completed, total, pct } = getCourseLiveProgress(enr.courseId, backendMatch?.progressPercentage);
 
         return {
           courseId: enr.courseId,
-          courseTitle: enr.courseTitle || fallback.courseTitle,
-          code: fallback.code,
-          institution: fallback.institution,
-          subtitle: fallback.subtitle,
-          nextLesson: backendMatch?.lastLessonTitle || fallback.nextLesson,
+          courseTitle: enr.courseTitle || 'Enrolled Course',
+          code: 'ACAD',
+          institution: 'Lumina Verified',
+          subtitle: 'Accredited Curriculum Program',
+          nextLesson: backendMatch?.lastLessonTitle || 'Module 1 — Foundations',
           progressPercentage: pct,
           completedModules: completed,
           totalModules: total,
@@ -121,39 +75,23 @@ export function MyLearning() {
         };
       })
     : (dashboard?.continueLearning && dashboard.continueLearning.length > 0)
-      ? dashboard.continueLearning.map((c, idx) => {
-          const fallback = defaultCourses[idx % defaultCourses.length];
+      ? dashboard.continueLearning.map((c) => {
           const { completed, total, pct } = getCourseLiveProgress(c.courseId, c.progressPercentage);
 
           return {
             courseId: c.courseId,
-            courseTitle: c.courseTitle || fallback.courseTitle,
-            code: fallback.code,
-            institution: fallback.institution,
-            subtitle: fallback.subtitle,
-            nextLesson: c.lastLessonTitle || fallback.nextLesson,
+            courseTitle: c.courseTitle || 'Enrolled Course',
+            code: 'ACAD',
+            institution: 'Lumina Verified',
+            subtitle: 'Accredited Curriculum Program',
+            nextLesson: c.lastLessonTitle || 'Module 1 — Foundations',
             progressPercentage: pct,
             completedModules: completed,
             totalModules: total,
             resumeLabel: pct > 0 ? 'Resume Lesson' : 'Start Course'
           };
         })
-      : defaultCourses.map(c => {
-          const { completed, total, pct } = getCourseLiveProgress(c.courseId, c.defaultProgress);
-
-          return {
-            courseId: c.courseId,
-            courseTitle: c.courseTitle,
-            code: c.code,
-            institution: c.institution,
-            subtitle: c.subtitle,
-            nextLesson: c.nextLesson,
-            progressPercentage: pct,
-            completedModules: completed,
-            totalModules: total,
-            resumeLabel: pct > 0 ? 'Resume Lesson' : 'Start Course'
-          };
-        });
+      : [];
 
   const primaryCourse = continueCourses[0];
 
@@ -378,71 +316,91 @@ export function MyLearning() {
               <span className="text-xs font-mono text-ashen">{continueCourses.length} Programs</span>
             </div>
 
-            <div className="space-y-4">
-              {continueCourses.map((course, idx) => {
-                const isFirst = idx === 0;
-                return (
-                  <div 
-                    key={course.courseId}
-                    className={`paper-card paper-card-hover p-5 relative overflow-hidden border-l-4 ${
-                      isFirst ? 'border-l-carbon-ink' : 'border-l-pebble'
-                    }`}
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
-                      <div className="space-y-1.5">
-                        <div className="flex items-center gap-2">
-                          <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-soft-stone text-graphite border border-chalk">
-                            {course.institution}
-                          </span>
-                          <span className="text-[11px] font-mono text-ashen">{course.code}</span>
+            {continueCourses.length === 0 ? (
+              <div className="paper-card p-10 text-center flex flex-col items-center justify-center gap-4 border border-chalk">
+                <div className="w-12 h-12 rounded-full bg-soft-stone flex items-center justify-center text-graphite">
+                  <BookOpen className="w-6 h-6" />
+                </div>
+                <div className="space-y-1 max-w-sm">
+                  <h3 className="font-serif text-lg font-medium text-carbon-ink">No Enrolled Courses Yet</h3>
+                  <p className="text-xs text-ashen leading-relaxed">
+                    Explore our academic pathways and enroll in an accredited program to begin learning.
+                  </p>
+                </div>
+                <Link
+                  to="/courses"
+                  className="px-5 py-2.5 rounded-xl bg-carbon-ink hover:bg-graphite text-paper-white text-xs font-mono transition-colors shadow-xs"
+                >
+                  Explore Course Catalog
+                </Link>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {continueCourses.map((course, idx) => {
+                  const isFirst = idx === 0;
+                  return (
+                    <div 
+                      key={course.courseId}
+                      className={`paper-card paper-card-hover p-5 relative overflow-hidden border-l-4 ${
+                        isFirst ? 'border-l-carbon-ink' : 'border-l-pebble'
+                      }`}
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
+                        <div className="space-y-1.5">
+                          <div className="flex items-center gap-2">
+                            <span className="px-2 py-0.5 rounded text-[11px] font-mono bg-soft-stone text-graphite border border-chalk">
+                              {course.institution}
+                            </span>
+                            <span className="text-[11px] font-mono text-ashen">{course.code}</span>
+                          </div>
+                          <h3 className="text-lg font-serif font-medium text-carbon-ink tracking-tight">
+                            <Link to={`/learn/${course.courseId}`} className="hover:text-clay transition-colors">
+                              {course.courseTitle}
+                            </Link>
+                          </h3>
+                          <p className="text-xs text-graphite font-serif italic">
+                            {course.subtitle}
+                          </p>
                         </div>
-                        <h3 className="text-lg font-serif font-medium text-carbon-ink tracking-tight">
-                          <Link to={`/learn/${course.courseId}`} className="hover:text-clay transition-colors">
-                            {course.courseTitle}
-                          </Link>
-                        </h3>
-                        <p className="text-xs text-graphite font-serif italic">
-                          {course.subtitle}
-                        </p>
+
+                        {/* Resume CTA */}
+                        <Link 
+                          to={`/learn/${course.courseId}`}
+                          className={`self-start sm:self-center px-4 py-2 rounded-lg text-xs font-medium font-mono transition-all flex items-center gap-1.5 shrink-0 shadow-xs ${
+                            isFirst 
+                              ? 'bg-carbon-ink hover:bg-graphite text-paper-white' 
+                              : 'bg-paper-white hover:bg-soft-stone text-carbon-ink border border-chalk'
+                          }`}
+                        >
+                          <span>{course.resumeLabel}</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </Link>
                       </div>
 
-                      {/* Resume CTA */}
-                      <Link 
-                        to={`/learn/${course.courseId}`}
-                        className={`self-start sm:self-center px-4 py-2 rounded-lg text-xs font-medium font-mono transition-all flex items-center gap-1.5 shrink-0 shadow-xs ${
-                          isFirst 
-                            ? 'bg-carbon-ink hover:bg-graphite text-paper-white' 
-                            : 'bg-paper-white hover:bg-soft-stone text-carbon-ink border border-chalk'
-                        }`}
-                      >
-                        <span>{course.resumeLabel}</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
-                    </div>
-
-                    {/* Progress & Contextual Step */}
-                    <div className="p-3 rounded-lg bg-soft-stone border border-chalk space-y-2">
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-graphite font-mono text-[11px] truncate max-w-[70%]">
-                          <span className="text-clay font-medium">Up next:</span> {course.nextLesson}
-                        </span>
-                        <span className="font-mono text-ashen text-[11px] shrink-0">
-                          {course.progressPercentage}% ({course.completedModules} of {course.totalModules} Modules)
-                        </span>
-                      </div>
-                      
-                      {/* Dynamic Progress bar */}
-                      <div className="w-full h-1.5 bg-chalk rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-carbon-ink rounded-full transition-all duration-500" 
-                          style={{ width: `${course.progressPercentage}%` }}
-                        />
+                      {/* Progress & Contextual Step */}
+                      <div className="p-3 rounded-lg bg-soft-stone border border-chalk space-y-2">
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-graphite font-mono text-[11px] truncate max-w-[70%]">
+                            <span className="text-clay font-medium">Up next:</span> {course.nextLesson}
+                          </span>
+                          <span className="font-mono text-ashen text-[11px] shrink-0">
+                            {course.progressPercentage}% ({course.completedModules} of {course.totalModules} Modules)
+                          </span>
+                        </div>
+                        
+                        {/* Dynamic Progress bar */}
+                        <div className="w-full h-1.5 bg-chalk rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-carbon-ink rounded-full transition-all duration-500" 
+                            style={{ width: `${course.progressPercentage}%` }}
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* Bottom Left: Peer Feedback & Evaluated Defenses Drawer */}
@@ -453,48 +411,45 @@ export function MyLearning() {
                 <h3 className="text-sm font-semibold text-carbon-ink tracking-tight">Peer Feedback &amp; Evaluated Defenses</h3>
               </div>
               <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-soft-stone text-graphite border border-chalk">
-                Double-Blind Audited
+                Verified Progress
               </span>
             </div>
 
-            {/* Recent Graded Submission */}
-            <div className="p-4 rounded-lg bg-soft-stone border border-chalk space-y-3">
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-xs font-semibold text-carbon-ink">Lab 01: Raft Consensus Leader Election</div>
-                  <div className="text-[11px] text-ashen">Course: Byzantine Fault Tolerant Consensus</div>
-                </div>
-                <span className="px-2.5 py-1 rounded bg-paper-white border border-chalk text-carbon-ink font-mono font-medium text-xs">
-                  Grade: A+ (98/100)
+            {/* Real Graded Metrics */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="p-3.5 rounded-lg bg-soft-stone border border-chalk flex flex-col gap-1">
+                <span className="text-[11px] font-mono text-ashen uppercase">Graded Assignments</span>
+                <span className="font-heading text-lg font-bold text-carbon-ink">
+                  {dashboard?.assignmentsGraded || 0} / {dashboard?.assignmentsSubmitted || 0}
+                </span>
+                <span className="text-[10px] text-graphite">
+                  Avg Score: {dashboard?.averageAssignmentScore != null && dashboard.averageAssignmentScore > 0 ? `${Math.round(dashboard.averageAssignmentScore)}%` : 'N/A'}
                 </span>
               </div>
-
-              {/* Peer Quote */}
-              <div className="p-3 rounded bg-paper-white border-l-2 border-l-clay text-xs font-serif italic text-graphite">
-                “Raft consensus state machine passed all network partition invariants cleanly under 40ms. Code telemetry reflects strict deterministic log compaction.”
-                <div className="mt-1.5 text-[11px] font-sans font-normal not-italic text-ashen flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-clay"></span>
-                  Verified Peer Reviewer <span className="font-mono text-graphite">#409</span> (Stanford Fellow)
-                </div>
-              </div>
-
-              {/* Automated CI Grading Logs Terminal Pill */}
-              <button 
-                type="button"
-                onClick={() => setShowCiLogs(true)}
-                className="w-full flex items-center justify-between p-2.5 rounded bg-paper-white border border-chalk hover:border-mist text-xs font-mono text-graphite transition-colors group cursor-pointer"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-clay">✓</span>
-                  <span className="text-ashen">SWE-bench / QEMU Harness:</span>
-                  <span className="text-carbon-ink font-medium">42/42 Tests Passed</span>
-                </div>
-                <span className="text-[11px] text-ashen group-hover:text-carbon-ink flex items-center gap-1">
-                  View CI Logs
-                  <ExternalLink className="w-3 h-3" />
+              <div className="p-3.5 rounded-lg bg-soft-stone border border-chalk flex flex-col gap-1">
+                <span className="text-[11px] font-mono text-ashen uppercase">Quizzes Passed</span>
+                <span className="font-heading text-lg font-bold text-carbon-ink">
+                  {dashboard?.quizzesPassed || 0} / {dashboard?.quizzesAttempted || 0}
                 </span>
-              </button>
+                <span className="text-[10px] text-graphite">
+                  Avg Score: {dashboard?.averageQuizScore != null && dashboard.averageQuizScore > 0 ? `${Math.round(dashboard.averageQuizScore)}%` : 'N/A'}
+                </span>
+              </div>
             </div>
+
+            {dashboard && (dashboard.assignmentsSubmitted > 0 || dashboard.quizzesAttempted > 0) ? (
+              <div className="p-3.5 rounded-lg bg-paper-white border border-chalk flex items-center justify-between gap-3 text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-clay"></span>
+                  <span className="text-graphite font-medium">Evaluation Criteria Met</span>
+                </div>
+                <span className="font-mono text-clay text-[11px] font-semibold">Verified Defenses</span>
+              </div>
+            ) : (
+              <div className="p-4 rounded-lg bg-soft-stone border border-chalk text-center text-xs text-ashen leading-relaxed">
+                No course defenses submitted yet. Complete quizzes and assignments in your enrolled courses to receive graded peer feedback.
+              </div>
+            )}
           </div>
 
         </div>

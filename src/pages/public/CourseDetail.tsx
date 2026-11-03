@@ -93,75 +93,28 @@ export function CourseDetail() {
     setTimeout(() => setCopiedLink(false), 2000);
   };
 
-  // Curated Fallback Course Data if accessing the Stitch screen directly or when backend is offline
-  const isStitchScreen = courseId === 'eee8a2dcd67a4bbe9781d4645e684cb1' || courseId === 'autonomous-reasoning';
+  if (isLoading) return <LoadingState message="Loading course syllabus..." />;
+  if (error || !backendCourse) {
+    return (
+      <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6">
+        <ErrorState 
+          title="Course not found" 
+          message="We couldn't locate this course in the catalog. It may not exist or has not been published yet." 
+          onRetry={() => window.location.reload()} 
+        />
+        <div className="mt-6 text-center">
+          <Link 
+            to="/courses" 
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#121212] text-[#f8f8f6] text-xs font-medium hover:bg-black/80 transition-colors"
+          >
+            ← Back to Course Catalog
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
-  const defaultStitchCourse: CourseDetailResponse = {
-    id: courseId || 'eee8a2dcd67a4bbe9781d4645e684cb1',
-    title: 'Autonomous Reasoning & Multi-Agent Swarms',
-    description: 'Master advanced agentic architectures, tool-calling protocols, Monte Carlo Tree Search (MCTS) reasoning heuristics, iterative reflexions, and fault-tolerant swarm coordination on distributed cloud runtimes.',
-    difficulty: 'ADVANCED',
-    price: 0,
-    thumbnailUrl: null,
-    rating: 4.94,
-    studentCount: 14280,
-    reviewCount: 486,
-    instructorId: 'inst-elena-rostova',
-    instructorName: 'Prof. Elena Rostova, PhD',
-    instructorBio: 'Distinguished Fellow at Stanford AI Institute and Director of Distributed Autonomous Systems Lab. Former Principal Research Scientist at Google DeepMind with 40+ peer-reviewed papers on agentic consensus and speculative inference.',
-    instructorExpertise: ['Distributed Multi-Agent Swarms', 'Monte Carlo Tree Search (MCTS)', 'Zero-Trust Sandboxing'],
-    category: 'AI Systems & Autonomous Agents',
-    sections: [
-      {
-        id: 'sec-1',
-        title: 'Cognitive Architecture & Deliberative Reasoning Heuristics',
-        description: 'From static next-token prediction to multi-step planning, Tree of Thoughts (ToT), and heuristic state exploration.',
-        displayOrder: 1,
-        lessons: [
-          { id: 'les-1', title: 'Foundations of Autonomous Agency: Perception, Memory & Action Loops', description: '', lessonType: 'VIDEO', durationSeconds: 2100, displayOrder: 1 },
-          { id: 'les-2', title: 'Monte Carlo Tree Search (MCTS) for Speculative Token Planning', description: '', lessonType: 'TEXT', durationSeconds: 1500, displayOrder: 2 },
-          { id: 'les-3', title: 'Lab 01: Benchmarking Deliberative Self-Reflexion in Python & PyTorch', description: '', lessonType: 'TEXT', durationSeconds: 3600, displayOrder: 3 }
-        ]
-      },
-      {
-        id: 'sec-2',
-        title: 'Tool-Calling Protocols & Isolated Kernel Sandboxes',
-        description: 'Safe containerized execution of untrusted model generations via Firecracker microVMs and eBPF tracepoints.',
-        displayOrder: 2,
-        lessons: [
-          { id: 'les-4', title: 'Deterministic Tool Interfaces: JSON Schema, Function Calling & OpenAPI', description: '', lessonType: 'VIDEO', durationSeconds: 2400, displayOrder: 1 },
-          { id: 'les-5', title: 'Running LLM Code Generation in Firecracker MicroVMs', description: '', lessonType: 'VIDEO', durationSeconds: 2700, displayOrder: 2 },
-          { id: 'les-6', title: 'Lab 02: Building a Zero-Trust Agent Sandbox with Linux Seccomp Filters', description: '', lessonType: 'TEXT', durationSeconds: 4200, displayOrder: 3 }
-        ]
-      },
-      {
-        id: 'sec-3',
-        title: 'Multi-Agent Swarm Dynamics & Consensus Protocols',
-        description: 'Decentralized decision topologies, Raft consensus for stateful agent clusters, and Byzantine fault mitigation.',
-        displayOrder: 3,
-        lessons: [
-          { id: 'les-7', title: 'Swarm Communication Protocols: Gossip, Pub/Sub & Blackboard Models', description: '', lessonType: 'VIDEO', durationSeconds: 3000, displayOrder: 1 },
-          { id: 'les-8', title: 'Decentralized Conflict Resolution & Weighted Majority Voting', description: '', lessonType: 'VIDEO', durationSeconds: 2400, displayOrder: 2 },
-          { id: 'les-9', title: 'Lab 03: Deploying a 10-Agent Autonomous Code Reviewer Cluster', description: '', lessonType: 'TEXT', durationSeconds: 4800, displayOrder: 3 }
-        ]
-      },
-      {
-        id: 'sec-4',
-        title: 'Production CI Benchmarking, SWE-Bench & Autonomous Capstone',
-        description: 'Evaluation harnesses, regression verification, and automated grading against real-world GitHub issues.',
-        displayOrder: 4,
-        lessons: [
-          { id: 'les-10', title: 'Measuring Agent Drift: SWE-bench, GAIA & Formal Verification Specs', description: '', lessonType: 'VIDEO', durationSeconds: 2600, displayOrder: 1 },
-          { id: 'les-11', title: 'Audited Capstone: End-to-End Autonomous Systems Architect Defense', description: '', lessonType: 'TEXT', durationSeconds: 7200, displayOrder: 2 }
-        ]
-      }
-    ]
-  };
-
-  const course = backendCourse || (isStitchScreen || error ? defaultStitchCourse : null);
-
-  if (isLoading && !course) return <LoadingState message="Loading accredited course syllabus..." />;
-  if (!course) return <ErrorState title="Course not found" message="We couldn't locate this course in the catalog." onRetry={() => window.location.reload()} />;
+  const course = backendCourse;
 
   const isFree = course.price === 0;
 
@@ -434,19 +387,19 @@ export function CourseDetail() {
             <div className="flex items-center justify-between pb-3 border-b border-[#e7e6e1]">
               <div className="flex items-center gap-2">
                 <div className="w-7 h-7 rounded-full bg-[#efeeeb] flex items-center justify-center font-serif text-[11px] font-bold text-[#121212] border border-[#e7e6e1]">
-                  STAN
+                  {(course.category || 'PROG').slice(0, 3).toUpperCase()}
                 </div>
                 <div>
                   <div className="text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold">
-                    Stanford AI Lab
+                    {course.category || 'Academic Program'}
                   </div>
                   <div className="text-xs font-medium text-[#121212]">
-                    Verified MasterTrack™
+                    {course.difficulty ? `${course.difficulty.charAt(0) + course.difficulty.slice(1).toLowerCase()} Track` : 'Course Pathway'}
                   </div>
                 </div>
               </div>
               <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#efeeeb] text-[#373734] border border-[#e7e6e1] font-semibold">
-                15 ECTS
+                Verified
               </span>
             </div>
 

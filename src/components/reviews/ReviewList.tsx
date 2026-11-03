@@ -4,82 +4,41 @@ import { RatingDisplay, RatingInput } from '../ui/Rating';
 import { LoadingState } from '../ui/States';
 import { useAuth } from '../../auth/AuthProvider';
 import type { CourseReviewResponse } from '../../features/reviews/types';
-import { ShieldCheck, CheckCircle2, MessageSquare, ThumbsUp } from 'lucide-react';
+import { ShieldCheck, CheckCircle2, MessageSquare } from 'lucide-react';
 
 interface ReviewListProps {
   courseId: string;
   isEnrolled: boolean;
 }
 
-interface CuratedPeerFeedback {
-  id: string;
-  name: string;
-  role: string;
-  company: string;
-  avatar: string;
-  rating: number;
-  date: string;
-  cohort: string;
-  comment: string;
-  helpfulCount: number;
-  tags: string[];
-}
-
-const CURATED_PEER_REVIEWS: CuratedPeerFeedback[] = [
-  {
-    id: 'peer-1',
-    name: 'Dr. Amina K.',
-    role: 'Senior Research Engineer',
-    company: 'Anthropic Alignment Team',
-    avatar: '/images/amina.jpg',
-    rating: 5,
-    date: '2 weeks ago',
-    cohort: 'Cohort 2025.1 · Verified Lab Defense',
-    comment: 'The peer audits and automated benchmark grading harnesses felt like real production CI. The Monte Carlo Tree Search module gave our team exact heuristics to prune token trajectories in speculative reasoning. I transitioned into an LLM alignment research team within four months of earning the Stanford certificate.',
-    helpfulCount: 42,
-    tags: ['MCTS Heuristics', 'Firecracker Sandbox', 'SWE-bench']
-  },
-  {
-    id: 'peer-2',
-    name: 'Marcus Vance',
-    role: 'Staff Systems Architect',
-    company: 'Cloudflare Distributed Systems',
-    avatar: '/images/marcus.jpg',
-    rating: 5,
-    date: '1 month ago',
-    cohort: 'Cohort 2024.4 · Verified Lab Defense',
-    comment: 'The rigor of the Raft consensus module and Firecracker sandboxing is unmatched anywhere online. Building zero-trust eBPF filters for untrusted model execution directly solved an infrastructure vulnerability we had in our edge runtime.',
-    helpfulCount: 38,
-    tags: ['eBPF Microkernel', 'Raft Consensus', 'Multi-Agent']
-  },
-  {
-    id: 'peer-3',
-    name: 'Julian Thorne',
-    role: 'Principal ML Engineer',
-    company: 'Google DeepMind Systems',
-    avatar: '/images/elena.jpg',
-    rating: 5,
-    date: '1 month ago',
-    cohort: 'Cohort 2024.3 · Verified Lab Defense',
-    comment: 'Having my code evaluated against formal test harnesses before human peer defense gave me tremendous confidence in building production reasoning loops. The depth of instruction on multi-agent Byzantine fault mitigation is exceptional.',
-    helpfulCount: 29,
-    tags: ['Byzantine Faults', 'Speculative Decoding', '15 ECTS']
-  }
-];
-
 export function ReviewList({ courseId, isEnrolled }: ReviewListProps) {
   const { user } = useAuth();
   const [page, setPage] = useState(0);
-  const [filterTag, setFilterTag] = useState<string>('ALL');
-  const { data: pageData, isLoading } = useCourseReviews(courseId, page, 5);
+  const [filterRating, setFilterRating] = useState<number | 'ALL'>('ALL');
+  const { data: pageData, isLoading } = useCourseReviews(courseId, page, 6);
 
   if (isLoading) return <LoadingState message="Loading peer feedback..." />;
 
   const backendReviews = pageData?.content || [];
   const myReview = backendReviews.find(r => r.userId === user?.id);
 
-  // Blend backend reviews with curated peer reviews if backend has few or zero reviews
-  const hasBackendReviews = backendReviews.length > 0;
+  const totalReviews = pageData?.totalElements ?? backendReviews.length;
+  const hasReviews = totalReviews > 0;
+
+  // Compute actual dynamic statistics from real reviews
+  const avgRating = hasReviews
+    ? (backendReviews.reduce((sum, r) => sum + r.rating, 0) / backendReviews.length).toFixed(1)
+    : '0.0';
+
+  const starBreakdowns = [5, 4, 3, 2, 1].map(stars => {
+    const count = backendReviews.filter(r => Math.round(r.rating) === stars).length;
+    const pct = backendReviews.length > 0 ? Math.round((count / backendReviews.length) * 100) : 0;
+    return { stars: `${stars} Stars`, pct: `${pct}%`, width: `${pct}%`, count };
+  });
+
+  const filteredReviews = filterRating === 'ALL'
+    ? backendReviews
+    : backendReviews.filter(r => Math.round(r.rating) === filterRating);
 
   return (
     <div className="flex flex-col gap-8 w-full">
@@ -87,32 +46,40 @@ export function ReviewList({ courseId, isEnrolled }: ReviewListProps) {
       <div className="bg-[#efeeeb]/60 rounded-2xl p-6 sm:p-7 border border-[#e7e6e1] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="flex items-center gap-5">
           <div className="flex flex-col items-center justify-center bg-[#ffffff] border border-[#e7e6e1] rounded-xl p-4 shadow-xs w-28 h-28 shrink-0">
-            <span className="font-heading text-4xl font-bold text-[#121212]">4.94</span>
+            <span className="font-heading text-4xl font-bold text-[#121212]">
+              {hasReviews ? avgRating : '—'}
+            </span>
             <div className="flex text-[#d97757] text-xs mt-1">
-              {'★★★★★'}
+              {hasReviews ? '★'.repeat(Math.min(5, Math.max(1, Math.round(Number(avgRating))))) : '☆☆☆☆☆'}
             </div>
-            <span className="text-[10px] font-mono text-[#7b7974] mt-1">Out of 5.0</span>
+            <span className="text-[10px] font-mono text-[#7b7974] mt-1">
+              {hasReviews ? 'Out of 5.0' : 'No ratings yet'}
+            </span>
           </div>
 
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center gap-2">
               <span className="text-sm font-semibold text-[#121212]">Audited Defense Satisfaction</span>
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#ffffff] text-[#3c8254] border border-[#e7e6e1] font-medium">
-                Top 1% Global
-              </span>
+              {hasReviews && (
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#ffffff] text-[#3c8254] border border-[#e7e6e1] font-medium">
+                  Verified Real Reviews
+                </span>
+              )}
             </div>
             <p className="font-body text-xs text-[#7b7974] leading-relaxed max-w-md">
-              98.4% of evaluated cohort participants reported advancing their research or engineering trajectory within 6 months.
+              {hasReviews 
+                ? 'Feedback and evaluated defenses submitted directly by enrolled students who participated in this curriculum.'
+                : 'Enrolled students will submit their code defense evaluations and reviews upon completing coursework.'}
             </p>
             <div className="flex items-center gap-4 text-xs font-mono text-[#373734] mt-1">
               <span className="flex items-center gap-1">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#d97757]" />
-                486 Verified Defenses
+                {totalReviews} Verified Review{totalReviews === 1 ? '' : 's'}
               </span>
               <span>•</span>
               <span className="flex items-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5 text-[#3c8254]" />
-                100% Code-Audited
+                100% Enrolled Students
               </span>
             </div>
           </div>
@@ -120,17 +87,11 @@ export function ReviewList({ courseId, isEnrolled }: ReviewListProps) {
 
         {/* Rating Breakdown Bars */}
         <div className="flex flex-col gap-1.5 w-full md:w-56 shrink-0 text-xs">
-          {[
-            { stars: '5 Stars', pct: '94%', width: '94%' },
-            { stars: '4 Stars', pct: '5%', width: '5%' },
-            { stars: '3 Stars', pct: '1%', width: '1%' },
-            { stars: '2 Stars', pct: '<1%', width: '0%' },
-            { stars: '1 Star', pct: '0%', width: '0%' }
-          ].map(row => (
+          {starBreakdowns.map(row => (
             <div key={row.stars} className="flex items-center gap-2 font-mono text-[11px] text-[#7b7974]">
               <span className="w-12 shrink-0">{row.stars}</span>
               <div className="flex-1 bg-[#e7e6e1] h-1.5 rounded-full overflow-hidden">
-                <div className="bg-[#121212] h-full rounded-full" style={{ width: row.width }} />
+                <div className="bg-[#121212] h-full rounded-full transition-all" style={{ width: row.width }} />
               </div>
               <span className="w-7 text-right shrink-0">{row.pct}</span>
             </div>
@@ -156,32 +117,45 @@ export function ReviewList({ courseId, isEnrolled }: ReviewListProps) {
         </div>
       )}
 
-      {/* Filter Tabs */}
-      <div className="flex items-center gap-2 pb-2 border-b border-[#e7e6e1]">
-        {[
-          { id: 'ALL', label: 'All Peer Evaluations (486)' },
-          { id: 'VERIFIED', label: 'Verified Code Defenses' },
-          { id: 'ALUMNI', label: 'Faculty & Industry Alum' }
-        ].map(tab => (
+      {/* Filter Tabs if multiple reviews */}
+      {hasReviews && (
+        <div className="flex items-center gap-2 pb-2 border-b border-[#e7e6e1] overflow-x-auto">
           <button
-            key={tab.id}
             type="button"
-            onClick={() => setFilterTag(tab.id)}
+            onClick={() => setFilterRating('ALL')}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
-              filterTag === tab.id
+              filterRating === 'ALL'
                 ? 'bg-[#121212] text-[#f8f8f6]'
                 : 'text-[#7b7974] hover:text-[#121212] hover:bg-[#efeeeb]'
             }`}
           >
-            {tab.label}
+            All Reviews ({totalReviews})
           </button>
-        ))}
-      </div>
+          {[5, 4, 3, 2, 1].map(stars => {
+            const count = backendReviews.filter(r => Math.round(r.rating) === stars).length;
+            if (count === 0 && filterRating !== stars) return null;
+            return (
+              <button
+                key={stars}
+                type="button"
+                onClick={() => setFilterRating(stars)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                  filterRating === stars
+                    ? 'bg-[#121212] text-[#f8f8f6]'
+                    : 'text-[#7b7974] hover:text-[#121212] hover:bg-[#efeeeb]'
+                }`}
+              >
+                {stars} Stars ({count})
+              </button>
+            );
+          })}
+        </div>
+      )}
 
-      {/* Backend Reviews (if any) */}
-      {hasBackendReviews && (
+      {/* Real Reviews from Backend */}
+      {hasReviews && filteredReviews.length > 0 ? (
         <div className="flex flex-col gap-4">
-          {backendReviews.map(review => (
+          {filteredReviews.map(review => (
             <div 
               key={review.id} 
               className="bg-[#ffffff] rounded-2xl border border-[#e7e6e1] p-5 sm:p-6 shadow-xs flex flex-col gap-3"
@@ -194,7 +168,7 @@ export function ReviewList({ courseId, isEnrolled }: ReviewListProps) {
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2">
                       <span className="font-heading text-base font-semibold text-[#121212]">
-                        {review.studentDisplayName || 'Anonymous Researcher'}
+                        {review.studentDisplayName || 'Enrolled Student'}
                       </span>
                       <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#efeeeb] text-[#373734] border border-[#e7e6e1]">
                         Verified Enrolled
@@ -217,71 +191,25 @@ export function ReviewList({ courseId, isEnrolled }: ReviewListProps) {
             </div>
           ))}
         </div>
-      )}
-
-      {/* Curated Peer Reviews from Leading Engineers & Alumni */}
-      <div className="flex flex-col gap-4">
-        {CURATED_PEER_REVIEWS.map(peer => (
-          <div 
-            key={peer.id} 
-            className="bg-[#ffffff] rounded-2xl border border-[#e7e6e1] p-5 sm:p-6 shadow-xs flex flex-col gap-3.5 hover:border-[#121212]/30 transition-colors"
-          >
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex items-center gap-3.5">
-                <img 
-                  src={peer.avatar} 
-                  alt={peer.name}
-                  className="w-11 h-11 rounded-full object-cover border border-[#e7e6e1] shrink-0"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=90&auto=format&fit=crop&q=80';
-                  }}
-                />
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-heading text-base font-semibold text-[#121212]">
-                      {peer.name}
-                    </span>
-                    <span className="text-xs text-[#7b7974] font-body">
-                      · {peer.role} at <span className="text-[#121212] font-medium">{peer.company}</span>
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-[10px] font-mono text-[#d97757] font-semibold bg-[#efeeeb] px-2 py-0.5 rounded">
-                      {peer.cohort}
-                    </span>
-                    <span className="text-[11px] font-mono text-[#7b7974]">
-                      {peer.date}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-1 text-[#d97757] text-sm shrink-0">
-                {'★'.repeat(peer.rating)}
-              </div>
-            </div>
-
-            <p className="font-body text-sm text-[#373734] leading-relaxed">
-              "{peer.comment}"
-            </p>
-
-            <div className="flex items-center justify-between pt-3 border-t border-[#e7e6e1]/70 text-xs">
-              <div className="flex items-center gap-1.5 flex-wrap">
-                {peer.tags.map(t => (
-                  <span key={t} className="px-2 py-0.5 rounded bg-[#efeeeb] text-[#7b7974] text-[11px] font-mono">
-                    #{t}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex items-center gap-1 text-[#7b7974] hover:text-[#121212] cursor-pointer transition-colors text-[11px] font-mono">
-                <ThumbsUp className="w-3.5 h-3.5" />
-                <span>Helpful ({peer.helpfulCount})</span>
-              </div>
-            </div>
+      ) : hasReviews ? (
+        <div className="bg-[#ffffff] rounded-2xl border border-[#e7e6e1] p-8 text-center flex flex-col items-center justify-center gap-2 shadow-xs">
+          <p className="font-body text-xs text-[#7b7974]">
+            No reviews match the selected filter.
+          </p>
+        </div>
+      ) : (
+        <div className="bg-[#ffffff] rounded-2xl border border-[#e7e6e1] p-8 sm:p-12 text-center flex flex-col items-center justify-center gap-3 shadow-xs">
+          <div className="w-12 h-12 rounded-full bg-[#efeeeb] flex items-center justify-center text-[#7b7974]">
+            <MessageSquare className="w-6 h-6" />
           </div>
-        ))}
-      </div>
+          <h4 className="font-heading text-base font-semibold text-[#121212]">
+            No Peer Reviews Yet
+          </h4>
+          <p className="font-body text-xs text-[#7b7974] max-w-md leading-relaxed">
+            There are no student defense evaluations submitted for this course yet. Enroll in this course to be the first to leave verified feedback!
+          </p>
+        </div>
+      )}
 
       {/* Pagination for backend reviews */}
       {pageData && pageData.totalPages > 1 && (
@@ -309,7 +237,7 @@ export function ReviewList({ courseId, isEnrolled }: ReviewListProps) {
   );
 }
 
-function ReviewForm({ courseId, existingReview }: { courseId: string, existingReview?: CourseReviewResponse }) {
+function ReviewForm({ courseId, existingReview }: { courseId: string; existingReview?: CourseReviewResponse }) {
   const [rating, setRating] = useState(existingReview?.rating || 5);
   const [comment, setComment] = useState(existingReview?.comment || '');
   const [isEditing, setIsEditing] = useState(!existingReview);
@@ -320,20 +248,16 @@ function ReviewForm({ courseId, existingReview }: { courseId: string, existingRe
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (rating === 0) {
-      alert('Please select a rating');
-      return;
-    }
-
-    const payload = { rating, comment };
-
     if (existingReview) {
-      updateRev.mutate({ reviewId: existingReview.id, data: payload }, {
+      updateRev.mutate({ reviewId: existingReview.id, data: { rating, comment } }, {
         onSuccess: () => setIsEditing(false)
       });
     } else {
-      createRev.mutate(payload, {
-        onSuccess: () => setIsEditing(false)
+      createRev.mutate({ rating, comment }, {
+        onSuccess: () => {
+          setIsEditing(false);
+          setComment('');
+        }
       });
     }
   };
@@ -395,7 +319,7 @@ function ReviewForm({ courseId, existingReview }: { courseId: string, existingRe
           onChange={e => setComment(e.target.value)}
           disabled={createRev.isPending || updateRev.isPending}
           className="w-full rounded-xl border border-[#e7e6e1] p-3 text-sm font-body bg-[#f8f8f6]/50 text-[#121212] placeholder:text-[#9c9a92] focus:outline-none focus:ring-1 focus:ring-[#121212] focus:border-[#121212] transition-all"
-          placeholder="Share your defense insights on the curriculum, Firecracker microVM labs, or multi-agent swarms..."
+          placeholder="Share your feedback on the curriculum, lessons, assignments, and learning outcomes..."
         />
       </div>
       <div className="flex items-center gap-3">

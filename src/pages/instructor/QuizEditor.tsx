@@ -21,7 +21,15 @@ export function QuizEditor() {
   const createQuiz = useCreateQuiz(courseId!, lessonId!);
   const updateQuiz = useUpdateQuiz(courseId!, lessonId!);
 
-  const isNew = !quiz && error?.message?.includes('404');
+  const is404 = Boolean(
+    (error as any)?.status === 404 ||
+    (error as any)?.code === 'RESOURCE_NOT_FOUND' ||
+    (error as any)?.code === 'NOT_FOUND' ||
+    error?.message?.includes('404') ||
+    error?.message?.toLowerCase().includes('not found')
+  );
+
+  const isNew = (!quiz && !isLoading) && (!error || is404);
   const [activeTab, setActiveTab] = useState<'settings' | 'questions'>('settings');
 
   const [formData, setFormData] = useState({
