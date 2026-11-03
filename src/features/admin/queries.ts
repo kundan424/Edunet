@@ -14,10 +14,11 @@ export const adminKeys = {
   },
 };
 
-export const useAdminDashboard = () => {
+export const useAdminDashboard = (options?: { enabled?: boolean }) => {
   return useQuery({
     queryKey: adminKeys.dashboard(),
     queryFn: api.getAdminDashboard,
+    ...options,
   });
 };
 

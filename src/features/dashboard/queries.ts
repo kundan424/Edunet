@@ -6,9 +6,10 @@ export const dashboardKeys = {
   student: () => [...dashboardKeys.all, 'student'] as const,
 };
 
-export const useStudentDashboard = () => {
+export const useStudentDashboard = (options?: { enabled?: boolean }) => {
   return useQuery({
     queryKey: dashboardKeys.student(),
     queryFn: api.getStudentDashboard,
+    ...options,
   });
 };

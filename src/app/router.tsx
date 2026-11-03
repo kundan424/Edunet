@@ -64,6 +64,7 @@ export const router = createBrowserRouter([
     errorElement: <RouteErrorBoundary />,
     children: [
       { path: '/notifications', element: <NotificationsPage /> },
+      { path: '/profile', element: <Profile /> },
       {
         element: <RoleRoute allowedRoles={['STUDENT']} />,
         children: [

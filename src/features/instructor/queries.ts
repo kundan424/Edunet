@@ -17,10 +17,11 @@ export const instructorKeys = {
 };
 
 // Queries
-export const useInstructorDashboard = () => {
+export const useInstructorDashboard = (options?: { enabled?: boolean }) => {
   return useQuery({
     queryKey: instructorKeys.dashboard(),
     queryFn: api.getInstructorDashboard,
+    ...options,
   });
 };
 
@@ -157,10 +158,11 @@ export const useDeleteMedia = (courseId: string) => {
   });
 };
 
-export const useInstructorProfile = () => {
+export const useInstructorProfile = (options?: { enabled?: boolean }) => {
   return useQuery({
     queryKey: [...instructorKeys.all, 'profile'],
     queryFn: api.getInstructorProfile,
+    ...options,
   });
 };
 
