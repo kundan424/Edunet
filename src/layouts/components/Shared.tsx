@@ -99,18 +99,12 @@ export function Header() {
           </Link>
 
           {/* Explore Catalog Dropdown */}
-      
+          
         </div>
 
         {/* Top Links & Auth CTAs */}
         <div className="flex items-center gap-3 sm:gap-5 shrink-0">
           <nav className="hidden lg:flex items-center gap-4 text-[13.5px]">
-            <Link 
-              to="/courses?search=Degree" 
-              className="text-[#373734] hover:text-[#121212] font-medium transition-colors"
-            >
-              Degrees
-            </Link>
             <Link 
               to="/courses?search=Certificate" 
               className="text-[#373734] hover:text-[#121212] font-medium transition-colors"

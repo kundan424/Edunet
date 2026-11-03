@@ -297,9 +297,9 @@ export function CreateCourse() {
                   onChange={e => setFormData({ ...formData, difficulty: e.target.value as CourseDifficulty })}
                   className="w-full appearance-none px-4 py-2.5 pr-10 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none transition-colors cursor-pointer"
                 >
-                  <option value="BEGINNER">Beginner — Introductory Foundations</option>
-                  <option value="INTERMEDIATE">Intermediate — Applied Systems &amp; Labs</option>
-                  <option value="ADVANCED">Advanced — Distributed Invariants &amp; Kernels</option>
+                  <option value="BEGINNER">Beginner</option>
+                  <option value="INTERMEDIATE">Intermediate</option>
+                  <option value="ADVANCED">Advanced</option>
                 </select>
                 <ChevronDown className="w-4 h-4 text-[#9c9a92] absolute right-3 top-3 pointer-events-none" />
               </div>
@@ -410,9 +410,8 @@ export function CreateCourse() {
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] font-mono text-[#7b7974] pt-1">
               <span>
-                Upon creation, you will immediately route to the curriculum studio (<code className="bg-[#efeeeb] px-1 py-0.5 rounded text-[#121212]">/instructor/courses/:newCourseId</code>).
+                Upon creation, you will immediately route to the curriculum studio.
               </span>
-              <span className="whitespace-nowrap text-[#9c9a92]">POST /api/v1/instructors/courses</span>
             </div>
           </div>
         </form>
