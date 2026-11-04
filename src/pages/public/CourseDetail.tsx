@@ -167,7 +167,7 @@ export function CourseDetail() {
       rating: 4.95,
       enrolled: '9,120',
       duration: '4 months · 8 hrs/wk',
-      credits: '12 ECTS Transferable',
+      credits: '100% Online · Certificate',
       link: '/courses?category=Distributed+Systems'
     },
     {
@@ -189,15 +189,15 @@ export function CourseDetail() {
   return (
     <div className="flex flex-col gap-10 pb-16 max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
       
-      {/* 1. Academic Hero Section */}
+      {/* 1. Course Hero Section */}
       <section className="bg-[#ffffff] rounded-2xl p-6 sm:p-8 border border-[#e7e6e1] shadow-[0_4px_20px_rgba(0,0,0,0.02)] flex flex-col gap-4">
         
         {/* Breadcrumb Navigation */}
         <nav className="flex items-center gap-2 text-xs font-mono text-[#7b7974]" aria-label="Breadcrumb">
           <Link to="/" className="hover:text-[#121212] transition-colors">Lumina Catalog</Link>
-          <ChevronRight className="w-3 h-3 text-[#9c9a92]" />
+          <ChevronRight className="w-3.5 h-3.5 text-[#9c9a92]" />
           <Link to="/courses" className="hover:text-[#121212] transition-colors">Courses</Link>
-          <ChevronRight className="w-3 h-3 text-[#9c9a92]" />
+          <ChevronRight className="w-3.5 h-3.5 text-[#9c9a92]" />
           <span className="text-[#121212] font-medium truncate max-w-xs">{course.title}</span>
         </nav>
 
@@ -205,10 +205,10 @@ export function CourseDetail() {
         <div className="flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#efeeeb] text-[#d97757] font-mono text-[11px] uppercase tracking-wider font-semibold border border-[#e7e6e1]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#d97757] animate-pulse"></span>
-            <span>Specialization · Stanford AI Institute</span>
+            <span>Online Course</span>
           </span>
           <span className="px-2.5 py-0.5 rounded-full bg-[#efeeeb] text-[#373734] font-mono text-[11px] uppercase tracking-wider border border-[#e7e6e1]">
-            15 ECTS Credits
+            Certificate of Completion
           </span>
           <span className="px-2.5 py-0.5 rounded-full bg-[#efeeeb] text-[#373734] font-mono text-[11px] uppercase tracking-wider border border-[#e7e6e1]">
             {course.difficulty}
@@ -362,16 +362,17 @@ export function CourseDetail() {
           </section>
 
           {/* Peer Feedback & Verified Invariants Section */}
+          {/* 7. Student Reviews Section */}
           <section className="bg-[#ffffff] rounded-2xl p-5 sm:p-6 border border-[#e7e6e1] shadow-[0_4px_16px_rgba(0,0,0,0.02)] flex flex-col gap-5">
             <div className="pb-3 border-b border-[#e7e6e1]">
               <div className="text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold mb-1">
-                Peer Audits &amp; Verified Outcomes
+                Student Feedback
               </div>
               <h2 className="font-heading text-xl sm:text-2xl text-[#121212] font-semibold">
-                Peer Feedback &amp; Cohort Defenses
+                Student Reviews &amp; Ratings
               </h2>
               <p className="font-body text-xs text-[#7b7974] mt-0.5 leading-relaxed">
-                Evaluations and code defense reviews from researchers, systems engineers, and alumni across leading AI research labs.
+                Reviews and ratings from learners enrolled in this course.
               </p>
             </div>
             <ReviewList courseId={course.id} isEnrolled={!!isEnrolled} />
@@ -512,15 +513,15 @@ export function CourseDetail() {
               <ul className="text-xs text-[#373734] space-y-1.5">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#d97757] shrink-0" />
-                  <span>Free access to all lecture monographs &amp; labs</span>
+                  <span>Full access to all course lessons and materials</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#d97757] shrink-0" />
-                  <span>Firecracker microVM grading sandbox</span>
+                  <span>Hands-on quizzes and practical assignments</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-[#d97757] shrink-0" />
-                  <span>15 ECTS university credits &amp; verified credential</span>
+                  <span>Shareable Certificate of Completion</span>
                 </li>
               </ul>
             </div>

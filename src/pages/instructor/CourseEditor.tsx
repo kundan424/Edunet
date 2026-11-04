@@ -76,9 +76,9 @@ export function CourseEditor() {
           <div className="w-12 h-12 rounded-full bg-[#ffdad6] flex items-center justify-center text-[#ba1a1a]">
             <AlertCircle className="w-6 h-6" />
           </div>
-          <h2 className="font-heading text-xl text-[#121212]">Failed to load curriculum studio</h2>
+          <h2 className="font-heading text-xl text-[#121212]">Failed to load course studio</h2>
           <p className="font-body text-xs text-[#7b7974] leading-relaxed">
-            The course monograph may have been moved, archived, or you lack authoring clearance.
+            The course could not be found, or you lack authoring permission.
           </p>
           <div className="flex gap-2 pt-2">
             <Link
@@ -197,18 +197,18 @@ export function CourseEditor() {
           {/* Breadcrumb Row */}
           <div className="flex items-center justify-between text-xs font-mono text-[#7b7974]">
             <div className="flex items-center gap-2 flex-wrap">
-              <Link to="/instructor" className="hover:text-[#121212] transition-colors">Instructor Guild</Link>
+              <Link to="/instructor" className="hover:text-[#121212] transition-colors">Instructor Studio</Link>
               <span>/</span>
               <Link to="/instructor/courses" className="hover:text-[#121212] transition-colors">Courses</Link>
               <span>/</span>
               <span className="text-[#373734] font-medium">{course.id.slice(0, 8)}</span>
               <span>/</span>
-              <span className="text-[#121212] font-semibold">Edit Course Studio</span>
+              <span className="text-[#121212] font-semibold">Course Studio</span>
             </div>
             <div className="hidden sm:flex items-center gap-2 font-mono text-[11px] text-[#9c9a92]">
-              <span>Monograph Archive Ref:</span>
+              <span>Course Ref:</span>
               <span className="bg-[#e7e6e1] text-[#121212] px-2 py-0.5 rounded text-[10px] tracking-wide font-semibold">
-                LUM-SPEC-{course.id.slice(0, 6).toUpperCase()}
+                LUM-COURSE-{course.id.slice(0, 6).toUpperCase()}
               </span>
             </div>
           </div>
@@ -228,10 +228,10 @@ export function CourseEditor() {
                 <span>•</span>
                 <span className="flex items-center gap-1 text-[#373734]">
                   <Cloud className="w-3.5 h-3.5 text-[#9c9a92]" />
-                  <span>Synced with consortium repo</span>
+                  <span>All changes saved</span>
                 </span>
                 <span>•</span>
-                <span className="text-[#d97757] font-medium">{totalLessons} Modules Staged</span>
+                <span className="text-[#d97757] font-medium">{totalLessons} Lessons Total</span>
               </div>
             </div>
 
@@ -332,10 +332,10 @@ export function CourseEditor() {
                 <div className="flex items-center gap-2.5">
                   <CheckCircle className="w-4 h-4 text-[#4b7a47] shrink-0" />
                   <span className="font-body text-xs sm:text-sm font-medium">
-                    Course changes saved successfully to consortium draft registry.
+                    Course changes saved successfully.
                   </span>
                 </div>
-                <span className="font-mono text-[10px] text-[#4b7a47] uppercase font-bold tracking-wider">Synced</span>
+                <span className="font-mono text-[10px] text-[#4b7a47] uppercase font-bold tracking-wider">Saved</span>
               </div>
             )}
 
@@ -356,10 +356,10 @@ export function CourseEditor() {
               {/* Header */}
               <div className="flex flex-col gap-1 pb-4 border-b border-[#e7e6e1]">
                 <h2 className="font-heading text-xl sm:text-2xl text-[#121212] font-normal">
-                  Monograph &amp; Metadata Specification
+                  Course Details &amp; Settings
                 </h2>
                 <p className="font-body text-xs text-[#7b7974] leading-relaxed">
-                  Refine the public catalog listing, tuition parameters, and academic credential classification.
+                  Update course title, description, category, difficulty level, and pricing.
                 </p>
               </div>
 
@@ -388,7 +388,7 @@ export function CourseEditor() {
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-semibold text-[#121212]">
-                    Pedagogical Overview &amp; Monograph Syllabus
+                    Course Description
                   </label>
                   <span className="font-mono text-[10px] text-[#7b7974]">
                     Markdown &amp; LaTeX ($...$) supported
@@ -399,7 +399,7 @@ export function CourseEditor() {
                   disabled={!isEditable}
                   value={formData.description}
                   onChange={e => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Outline core invariant proofs, architectural deliverables, and lab milestones..."
+                  placeholder="Outline course objectives, prerequisites, topics covered, and skills students will gain..."
                   className="w-full px-4 py-3 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm font-body border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none transition-colors leading-relaxed disabled:opacity-60 resize-y"
                 />
                 <div className="flex items-center justify-between font-mono text-[11px] text-[#7b7974] pt-0.5">
@@ -408,25 +408,25 @@ export function CourseEditor() {
                 </div>
               </div>
 
-              {/* Field 3: Guild Classification & Subject Taxonomies */}
+              {/* Field 3: Category & Subject Tags */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold text-[#121212]">
-                    Guild Classification / Category
+                    Category
                   </label>
                   <input
                     type="text"
                     disabled={!isEditable}
                     value={formData.category}
                     onChange={e => setFormData({ ...formData, category: e.target.value })}
-                    placeholder="e.g., Cognitive AI & Autonomous Systems"
+                    placeholder="e.g., Computer Science, Artificial Intelligence"
                     className="w-full px-4 py-2.5 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm font-body border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none transition-colors disabled:opacity-60"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold text-[#121212]">
-                    Subject Taxonomies &amp; Tags
+                    Course Tags &amp; Keywords
                   </label>
                   <div className="flex items-center gap-1.5 flex-wrap p-2 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] min-h-[44px]">
                     {tags.map(t => (
@@ -457,11 +457,11 @@ export function CourseEditor() {
                 </div>
               </div>
 
-              {/* Field 4: Difficulty Stratum & Tuition Rate */}
+              {/* Field 4: Difficulty Level & Price */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold text-[#121212]">
-                    Difficulty Stratum *
+                    Difficulty Level *
                   </label>
                   <div className="relative">
                     <select
@@ -471,9 +471,9 @@ export function CourseEditor() {
                       onChange={e => setFormData({ ...formData, difficulty: e.target.value as CourseDifficulty })}
                       className="w-full appearance-none px-4 py-2.5 pr-10 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm font-body border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none transition-colors disabled:opacity-60 cursor-pointer"
                     >
-                      <option value="BEGINNER">INTRODUCTORY / BEGINNER</option>
-                      <option value="INTERMEDIATE">INTERMEDIATE SYSTEMS &amp; LABS</option>
-                      <option value="ADVANCED">ADVANCED FELLOWSHIP &amp; RESEARCH</option>
+                      <option value="BEGINNER">BEGINNER</option>
+                      <option value="INTERMEDIATE">INTERMEDIATE</option>
+                      <option value="ADVANCED">ADVANCED</option>
                     </select>
                     <ChevronDown className="w-4 h-4 text-[#9c9a92] absolute right-3 top-3 pointer-events-none" />
                   </div>
@@ -481,7 +481,7 @@ export function CourseEditor() {
 
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold text-[#121212]">
-                    Tuition Rate (USD)
+                    Course Price (USD)
                   </label>
                   <div className="relative flex items-center">
                     <span className="absolute left-3.5 text-xs sm:text-sm text-[#373734] font-semibold pointer-events-none">$</span>
@@ -497,15 +497,15 @@ export function CourseEditor() {
                     />
                   </div>
                   <span className="font-mono text-[10px] text-[#7b7974] pt-0.5">
-                    Leave blank or 0.00 for Open Consortium access without tuition charge.
+                    Leave blank or 0.00 for free course enrollment.
                   </span>
                 </div>
               </div>
 
-              {/* Field 5: Monograph Branding Cover (16:9) */}
+              {/* Field 5: Course Cover Image (16:9) */}
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold text-[#121212]">
-                  Monograph Branding Cover (16:9)
+                  Course Cover Image (16:9)
                 </label>
                 <div className="flex flex-col sm:flex-row gap-4 p-4 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] items-start sm:items-center">
                   <div className="relative w-44 h-24 rounded-lg overflow-hidden shrink-0 shadow-2xs bg-[#121212] border border-[#e7e6e1]">
@@ -518,7 +518,7 @@ export function CourseEditor() {
                     ) : (
                       <div className="w-full h-full flex flex-col items-center justify-center text-[#7b7974] p-2 text-center">
                         <span className="font-heading text-lg italic text-[#e7e6e1]">Lumina</span>
-                        <span className="font-mono text-[9px] text-[#9c9a92]">Academic Monograph</span>
+                        <span className="font-mono text-[9px] text-[#9c9a92]">Course Thumbnail</span>
                       </div>
                     )}
                     <span className="absolute bottom-1 right-1 bg-[#121212]/90 text-[#f8f8f6] font-mono text-[9px] px-1 rounded">
@@ -528,10 +528,10 @@ export function CourseEditor() {
 
                   <div className="flex flex-col gap-2 flex-1">
                     <p className="font-body text-xs font-semibold text-[#121212]">
-                      Standard Academic Monograph Geometry
+                      Recommended 16:9 Aspect Ratio
                     </p>
                     <p className="font-mono text-[11px] text-[#7b7974]">
-                      Provide an image URL (PNG, JPG, or SVG). Must comply with Lumina Consortium publication standards.
+                      Provide an image URL (PNG, JPG, or WebP) for the course catalog thumbnail.
                     </p>
                     <div className="flex items-center gap-2 pt-1">
                       <input
@@ -550,7 +550,7 @@ export function CourseEditor() {
               {/* Action Footer */}
               <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-[#e7e6e1]">
                 <span className="font-mono text-[11px] text-[#9c9a92] self-start sm:self-auto">
-                  PUT /api/v1/instructors/courses/{course.id}
+                  Course ID: {course.id}
                 </span>
 
                 {isEditable && (
@@ -559,7 +559,7 @@ export function CourseEditor() {
                     disabled={updateCourse.isPending}
                     className="px-6 py-2.5 rounded-lg bg-[#121212] hover:bg-black text-[#f8f8f6] font-body text-xs font-medium transition-all shadow-xs active:scale-[0.98] cursor-pointer disabled:opacity-50"
                   >
-                    {updateCourse.isPending ? 'Saving to Consortium Draft...' : 'Save Changes to Draft'}
+                    {updateCourse.isPending ? 'Saving...' : 'Save Changes'}
                   </button>
                 )}
               </div>
@@ -569,7 +569,7 @@ export function CourseEditor() {
       </div>
 
       {/* ============================================== */}
-      {/* MODAL: ACADEMIC GUILD SENATE SUBMISSION        */}
+      {/* MODAL: SUBMIT COURSE FOR APPROVAL              */}
       {/* ============================================== */}
       {showApprovalModal && (
         <div 
@@ -587,10 +587,10 @@ export function CourseEditor() {
                 </div>
                 <div className="flex flex-col">
                   <h3 className="font-heading text-lg sm:text-xl text-[#121212] font-normal">
-                    Academic Guild Senate Submission
+                    Submit Course for Review
                   </h3>
                   <span className="font-mono text-[10px] text-[#7b7974]">
-                    Consortium Review Protocol #R-2026 • LUM-{course.id.slice(0, 6).toUpperCase()}
+                    Course ID: LUM-{course.id.slice(0, 6).toUpperCase()}
                   </span>
                 </div>
               </div>
@@ -605,19 +605,19 @@ export function CourseEditor() {
             </div>
 
             <p className="font-body text-xs text-[#373734] leading-relaxed">
-              Submitting this curriculum locks the syllabus structure for faculty peer evaluation. The Senate will inspect learning modalities, formal verification checks, and monograph transcripts.
+              Submitting this course sends it to the moderation team. Once reviewed and approved, it will be published to the public catalog.
             </p>
 
             {/* Pre-flight Validation Checklist */}
             <div className="bg-[#efeeeb]/70 rounded-xl p-4 flex flex-col gap-2.5 border border-[#e7e6e1]">
               <span className="font-mono text-[11px] uppercase tracking-wider text-[#373734] font-semibold">
-                Pre-flight Consortium Checks
+                Course Readiness Checklist
               </span>
 
               {/* Check 1 */}
               <div className="flex items-center gap-2 text-xs font-body text-[#121212]">
                 <CheckCircle className="w-4 h-4 text-[#4b7a47] shrink-0" />
-                <span>Course Title &amp; Pedagogical Monograph syllabus complete</span>
+                <span>Course Title &amp; Description complete</span>
               </div>
 
               {/* Check 2 */}
@@ -628,7 +628,7 @@ export function CourseEditor() {
                   <AlertCircle className="w-4 h-4 text-[#ba1a1a] shrink-0" />
                 )}
                 <span>
-                  {sections.length} modular {sections.length === 1 ? 'section' : 'sections'} staged across syllabus
+                  {sections.length} {sections.length === 1 ? 'section' : 'sections'} in curriculum
                 </span>
               </div>
 
@@ -641,8 +641,8 @@ export function CourseEditor() {
                 )}
                 <span>
                   {quizOrAssignmentCount > 0 
-                    ? `${quizOrAssignmentCount} formal verification checks (Quiz / Assignment) defined` 
-                    : 'Notice: No quizzes or defense milestones detected yet'}
+                    ? `${quizOrAssignmentCount} assessments (Quizzes / Assignments) included` 
+                    : 'Notice: No quizzes or assignments added yet'}
                 </span>
               </div>
             </div>
@@ -662,7 +662,7 @@ export function CourseEditor() {
                 disabled={submitCourse.isPending}
                 className="px-5 py-2 rounded-lg bg-[#121212] hover:bg-black text-[#f8f8f6] font-body text-xs font-medium transition-all shadow-xs cursor-pointer disabled:opacity-50"
               >
-                {submitCourse.isPending ? 'Submitting to Senate...' : 'Confirm & Submit to Academic Guild'}
+                {submitCourse.isPending ? 'Submitting...' : 'Confirm & Submit for Review'}
               </button>
             </div>
           </div>

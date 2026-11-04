@@ -103,18 +103,18 @@ export function InstructorCourses() {
   };
 
   const sortLabels = {
-    updated: 'Last Modified Monograph',
-    created: 'Newest Curricula First',
-    students: 'Highest Enrolled Learners',
-    rating: 'Top Rated Defenses'
+    updated: 'Recently Updated',
+    created: 'Newest First',
+    students: 'Most Enrolled',
+    rating: 'Highest Rated'
   };
 
-  if (isLoading) return <LoadingState message="Loading your authored curricula..." />;
+  if (isLoading) return <LoadingState message="Loading your courses..." />;
   if (error) return <ErrorState message="Failed to load instructor courses." onRetry={() => window.location.reload()} />;
 
   return (
     <div className="flex flex-col w-full max-w-[1200px] mx-auto pb-12">
-      {/* ── 1. Academic Guild Context Sub-Navigation ── */}
+      {/* ── 1. Sub-Navigation ── */}
       <div className="w-full bg-[#ffffff]/70 backdrop-blur-sm rounded-xl px-4 py-1.5 mb-8 border border-[#e7e6e1] shadow-xs">
         <div className="flex items-center gap-6 overflow-x-auto">
           <Link 
@@ -137,11 +137,11 @@ export function InstructorCourses() {
             className="py-2.5 text-xs sm:text-sm font-medium text-[#7b7974] hover:text-[#121212] transition-colors flex items-center gap-2 whitespace-nowrap"
           >
             <User className="w-4 h-4" />
-            <span>Profile &amp; Guild Bio</span>
+            <span>Profile &amp; Bio</span>
           </Link>
           <div className="ml-auto hidden md:flex items-center gap-2 text-xs font-mono text-[#7b7974]">
             <span className="inline-block w-2 h-2 rounded-full bg-[#d97757]" />
-            <span>Academic Term {new Date().getFullYear()} • Faculty of Computation</span>
+            <span>Instructor Studio • Lumina Learning</span>
           </div>
         </div>
       </div>
@@ -150,15 +150,15 @@ export function InstructorCourses() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-[#7b7974]">
-            <span>Instructor Guild</span>
+            <span>Instructor Studio</span>
             <span>/</span>
-            <span className="text-[#d97757] font-medium">Curriculum Registry</span>
+            <span className="text-[#d97757] font-medium">Courses</span>
           </div>
           <h1 className="font-heading text-3xl sm:text-4xl text-[#121212] tracking-tight font-normal">
             My Courses
           </h1>
           <p className="font-body text-xs sm:text-sm text-[#7b7974] max-w-xl leading-relaxed">
-            Manage your authored curricula, monitor learner cohorts across faculties, and oversee peer monograph certifications.
+            Manage your courses, view student enrollments, and track course ratings.
           </p>
         </div>
 
@@ -413,7 +413,7 @@ function CourseRegistryCard({ course, index, onEdit, onPreview }: CourseRegistry
           </h2>
 
           <p className="font-body text-xs text-[#7b7974] line-clamp-1">
-            {course.description || 'Structured academic curriculum with invariant lab exercises and peer defenses.'}
+            {course.description || 'Comprehensive course with video lectures, quizzes, and practical exercises.'}
           </p>
 
           {/* Metric Divider & Row */}
@@ -462,7 +462,7 @@ function CourseRegistryCard({ course, index, onEdit, onPreview }: CourseRegistry
           ) : (
             <>
               <Edit3 className="w-3.5 h-3.5 text-[#d97757]" />
-              <span>Edit Syllabus</span>
+              <span>Edit Course</span>
             </>
           )}
         </button>
@@ -492,7 +492,7 @@ function CourseVectorThumbnail({ course, index }: { course: CourseResponse; inde
     {
       bg: 'from-[#1a211e] to-[#121413]',
       icon: Terminal,
-      tag: 'Logic & Monograph',
+      tag: 'Software Engineering',
       subtitle: 'Formal Methods & Invariant Specs'
     },
     {

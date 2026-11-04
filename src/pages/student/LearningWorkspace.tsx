@@ -59,7 +59,7 @@ export function LearningWorkspace() {
   // Persistent student scratchpad notes per course
   const [notes, setNotes] = useState(() => {
     return localStorage.getItem(`lumina_notes_${courseId}`) || 
-      `# Study Notes: Course Monograph\n- Key theoretical concepts recorded\n- Verified implementation checkpoints\n- Assessment observations & reminders`;
+      `# Course Study Notes\n- Key concepts and takeaways\n- Implementation notes and code snippets\n- Quiz and assignment reminders`;
   });
 
   // Local completed lessons for immediate dynamic progress synchronization

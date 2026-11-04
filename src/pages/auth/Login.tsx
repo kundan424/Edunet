@@ -35,7 +35,7 @@ export function Login() {
     <div className="flex flex-col items-center justify-center py-8 md:py-14 w-full">
       <div className="w-full max-w-[420px] bg-[#ffffff] rounded-2xl p-7 sm:p-9 shadow-[0_4px_24px_rgba(0,0,0,0.03)] border border-[#e7e6e1] flex flex-col">
         
-        {/* Brand Monogram & Consortium Badge */}
+        {/* Brand Monogram & Status Badge */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-[#121212] text-[#f8f8f6] font-serif text-base font-bold flex items-center justify-center shadow-xs">
@@ -46,7 +46,7 @@ export function Login() {
             </span>
           </div>
           <span className="text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold bg-[#efeeeb] px-2 py-0.5 rounded border border-[#e7e6e1]">
-            Consortium SSO
+            Secure Sign In
           </span>
         </div>
 
@@ -56,7 +56,7 @@ export function Login() {
             Sign In to Lumina
           </h1>
           <p className="font-body text-xs sm:text-sm text-[#7b7974] leading-relaxed">
-            Access your accredited syllabus, peer defense evaluations, and interactive microVM labs.
+            Access your courses, quizzes, assignments, and learning materials.
           </p>
         </div>
 
@@ -64,7 +64,7 @@ export function Login() {
         <button
           type="button"
           onClick={() => {
-            setEmail('student@example.com');
+            setEmail('john@edtech.com');
             setPassword('password123');
           }}
           className="w-full py-2.5 px-3.5 mb-5 rounded-xl border border-[#e7e6e1] bg-[#f8f8f6] hover:bg-[#efeeeb] text-[#373734] font-medium text-xs transition-colors flex items-center justify-center gap-2 cursor-pointer"
@@ -77,7 +77,7 @@ export function Login() {
         <div className="relative flex py-1 items-center mb-5">
           <div className="flex-grow border-t border-[#e7e6e1]"></div>
           <span className="flex-shrink mx-3 text-[11px] font-mono text-[#9c9a92] uppercase tracking-wider">
-            Academic Email
+            Email Address
           </span>
           <div className="flex-grow border-t border-[#e7e6e1]"></div>
         </div>
@@ -170,16 +170,16 @@ export function Login() {
 
         {/* Footer */}
         <div className="mt-6 pt-4 border-t border-[#e7e6e1] text-center text-xs text-[#7b7974]">
-          Don't have an academic account?{' '}
+          Don't have an account?{' '}
           <Link to="/register" className="font-semibold text-[#121212] underline underline-offset-4 hover:text-[#d97757] transition-colors">
             Create an account →
           </Link>
         </div>
 
-        {/* Trust Guarantee Seal */}
+        {/* Security Seal */}
         <div className="mt-4 flex items-center justify-center gap-1.5 text-[11px] font-mono text-[#9c9a92]">
           <ShieldCheck className="w-3.5 h-3.5 text-[#3c8254]" />
-          <span>256-bit Encrypted Academic Sandbox</span>
+          <span>256-bit Encrypted Platform Security</span>
         </div>
 
       </div>

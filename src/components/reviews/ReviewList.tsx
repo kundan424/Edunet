@@ -42,7 +42,7 @@ export function ReviewList({ courseId, isEnrolled }: ReviewListProps) {
 
   return (
     <div className="flex flex-col gap-8 w-full">
-      {/* Overall Ratings & Defense Statistics Header */}
+      {/* Overall Ratings & Review Statistics Header */}
       <div className="bg-[#efeeeb]/60 rounded-2xl p-6 sm:p-7 border border-[#e7e6e1] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="flex items-center gap-5">
           <div className="flex flex-col items-center justify-center bg-[#ffffff] border border-[#e7e6e1] rounded-xl p-4 shadow-xs w-28 h-28 shrink-0">
@@ -59,7 +59,7 @@ export function ReviewList({ courseId, isEnrolled }: ReviewListProps) {
 
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center gap-2">
-              <span className="text-sm font-semibold text-[#121212]">Audited Defense Satisfaction</span>
+              <span className="text-sm font-semibold text-[#121212]">Student Satisfaction &amp; Ratings</span>
               {hasReviews && (
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#ffffff] text-[#3c8254] border border-[#e7e6e1] font-medium">
                   Verified Real Reviews
@@ -68,8 +68,8 @@ export function ReviewList({ courseId, isEnrolled }: ReviewListProps) {
             </div>
             <p className="font-body text-xs text-[#7b7974] leading-relaxed max-w-md">
               {hasReviews 
-                ? 'Feedback and evaluated defenses submitted directly by enrolled students who participated in this curriculum.'
-                : 'Enrolled students will submit their code defense evaluations and reviews upon completing coursework.'}
+                ? 'Feedback and reviews submitted directly by enrolled students who completed this course.'
+                : 'Enrolled students can submit their course reviews and feedback upon completing coursework.'}
             </p>
             <div className="flex items-center gap-4 text-xs font-mono text-[#373734] mt-1">
               <span className="flex items-center gap-1">
@@ -106,7 +106,7 @@ export function ReviewList({ courseId, isEnrolled }: ReviewListProps) {
             <div className="flex items-center gap-2">
               <MessageSquare className="w-4 h-4 text-[#d97757]" />
               <h3 className="font-heading text-lg font-semibold text-[#121212]">
-                {myReview ? 'Your Audited Defense Review' : 'Submit Peer Defense Evaluation'}
+                {myReview ? 'Your Course Review' : 'Write a Course Review'}
               </h3>
             </div>
             <span className="text-xs font-mono text-[#7b7974]">
@@ -203,10 +203,10 @@ export function ReviewList({ courseId, isEnrolled }: ReviewListProps) {
             <MessageSquare className="w-6 h-6" />
           </div>
           <h4 className="font-heading text-base font-semibold text-[#121212]">
-            No Peer Reviews Yet
+            No Student Reviews Yet
           </h4>
           <p className="font-body text-xs text-[#7b7974] max-w-md leading-relaxed">
-            There are no student defense evaluations submitted for this course yet. Enroll in this course to be the first to leave verified feedback!
+            There are no student reviews submitted for this course yet. Enroll in this course to be the first to leave verified feedback!
           </p>
         </div>
       )}
@@ -263,7 +263,7 @@ function ReviewForm({ courseId, existingReview }: { courseId: string; existingRe
   };
 
   const handleDelete = () => {
-    if (existingReview && window.confirm('Delete your defense evaluation?')) {
+    if (existingReview && window.confirm('Delete your review?')) {
       deleteRev.mutate(existingReview.id, {
         onSuccess: () => {
           setRating(5);
@@ -286,7 +286,7 @@ function ReviewForm({ courseId, existingReview }: { courseId: string; existingRe
             onClick={() => setIsEditing(true)} 
             className="text-xs font-medium text-[#121212] underline hover:text-[#d97757] transition-colors cursor-pointer"
           >
-            Edit Evaluation
+            Edit Review
           </button>
           <button 
             onClick={handleDelete} 
@@ -304,13 +304,13 @@ function ReviewForm({ courseId, existingReview }: { courseId: string; existingRe
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div>
         <label className="block text-xs font-mono uppercase tracking-wider text-[#7b7974] font-medium mb-1.5">
-          Evaluation Rating
+          Rating
         </label>
         <RatingInput value={rating} onChange={setRating} disabled={createRev.isPending || updateRev.isPending} />
       </div>
       <div>
         <label className="block text-xs font-mono uppercase tracking-wider text-[#7b7974] font-medium mb-1.5">
-          Peer Feedback &amp; Defense Notes (Optional)
+          Review &amp; Feedback (Optional)
         </label>
         <textarea
           rows={3}

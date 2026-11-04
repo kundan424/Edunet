@@ -169,8 +169,10 @@ export function Dashboard() {
     return (
       <div className="w-full max-w-[1200px] mx-auto py-24 flex flex-col items-center justify-center gap-3">
         <div className="w-8 h-8 border-2 border-[#121212]/20 border-t-[#121212] rounded-full animate-spin" />
-        <span className="font-heading text-lg text-[#121212]">Loading Institutional Console...</span>
-        <span className="font-mono text-xs text-[#7b7974]">LUM-DASHBOARD-{user.role}</span>
+        <span className="font-heading text-lg text-[#121212]">Loading Dashboard...</span>
+        <span className="font-mono text-xs text-[#7b7974]">
+          {user.role === 'STUDENT' ? 'Student Dashboard' : user.role === 'INSTRUCTOR' ? 'Instructor Dashboard' : 'Admin Dashboard'}
+        </span>
       </div>
     );
   }
@@ -182,9 +184,9 @@ export function Dashboard() {
           <div className="w-12 h-12 rounded-full bg-[#ffdad6] flex items-center justify-center text-[#ba1a1a]">
             <AlertCircle className="w-6 h-6" />
           </div>
-          <h2 className="font-heading text-xl text-[#121212]">Failed to load dashboard console</h2>
+          <h2 className="font-heading text-xl text-[#121212]">Failed to load dashboard</h2>
           <p className="font-body text-xs text-[#7b7974] leading-relaxed">
-            {(error as any)?.message || 'Unable to retrieve real-time institutional metrics.'}
+            {(error as any)?.message || 'Unable to retrieve dashboard metrics.'}
           </p>
           <button
             onClick={() => window.location.reload()}
@@ -201,54 +203,54 @@ export function Dashboard() {
   const roleConfig = {
     STUDENT: {
       headline: `Welcome back, ${user.name}`,
-      subtext: 'Track your ongoing monograph reading, lab defenses, and curriculum milestones.',
-      badgeTitle: 'Academic Scholar • Fellow',
+      subtext: 'Track your ongoing courses, assignments, quizzes, and learning progress.',
+      badgeTitle: 'Student Account',
       badgeBg: 'bg-[#eeeeec]',
       badgeText: 'text-[#373734]',
       dotColor: 'bg-[#373734]',
-      folioTag: 'STUDENT FOLIO',
-      primaryActionLabel: 'Explore New Curricula',
+      folioTag: 'STUDENT DASHBOARD',
+      primaryActionLabel: 'Explore Courses',
       primaryActionPath: '/courses'
     },
     INSTRUCTOR: {
-      headline: 'Faculty Studio & Curriculum Command',
-      subtext: 'Manage authored curricula, review cohort enrollments, and evaluate incoming lab defenses.',
-      badgeTitle: 'Faculty Senior Fellow',
+      headline: 'Instructor Studio & Course Management',
+      subtext: 'Manage authored courses, review student enrollments, and evaluate submitted assignments.',
+      badgeTitle: 'Instructor',
       badgeBg: 'bg-[#faecd8]',
       badgeText: 'text-[#8c501e]',
       dotColor: 'bg-[#d97757]',
-      folioTag: 'FACULTY GUILD',
-      primaryActionLabel: '+ Initiate Course',
+      folioTag: 'INSTRUCTOR PORTAL',
+      primaryActionLabel: '+ Create Course',
       primaryActionPath: '/instructor/courses/create'
     },
     ADMIN: {
-      headline: 'Senate Governance & Institutional Registry',
-      subtext: 'Executive platform oversight: faculty accreditation, staged syllabus review, and user moderation.',
-      badgeTitle: 'Consortium Registrar • Senate Level 4',
+      headline: 'Admin Portal & System Overview',
+      subtext: 'Platform management: review instructor courses, manage users, and platform settings.',
+      badgeTitle: 'Platform Administrator',
       badgeBg: 'bg-[#121212]',
       badgeText: 'text-[#f8f8f6]',
       dotColor: 'bg-[#d97757]',
-      folioTag: 'SENATE COMMAND',
-      primaryActionLabel: 'Audit Staged Courses',
+      folioTag: 'ADMIN CONSOLE',
+      primaryActionLabel: 'Review Courses',
       primaryActionPath: '/admin/courses'
     }
   }[user.role];
 
   return (
     <div className="flex flex-col w-full max-w-[1200px] mx-auto pb-20">
-      {/* ── Context & Guild Sub-nav ── */}
+      {/* ── Context & Sub-nav ── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-6 border-b border-[#e7e6e1] text-xs font-mono text-[#7b7974]">
         <div className="flex items-center gap-2 flex-wrap">
-          <Link to="/" className="hover:text-[#121212] transition-colors">Consortium Console</Link>
+          <Link to="/" className="hover:text-[#121212] transition-colors">Lumina Learning</Link>
           <span>/</span>
           <span>{roleConfig.folioTag}</span>
           <span>/</span>
           <span className="text-[#121212] font-semibold">{user.name}</span>
         </div>
         <div className="flex items-center gap-2 font-mono text-[11px] text-[#9c9a92]">
-          <span>Institutional Term:</span>
+          <span>Session:</span>
           <span className="bg-[#efeeeb] text-[#121212] px-2 py-0.5 rounded font-bold">
-            Academic Term 2026 • Lumina Consortium
+            Academic Term 2026
           </span>
         </div>
       </div>
@@ -295,7 +297,7 @@ export function Dashboard() {
             <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                  Enrolled Curricula
+                  Enrolled Courses
                 </span>
                 <BookOpen className="w-4 h-4 text-[#9c9a92]" />
               </div>
@@ -310,7 +312,7 @@ export function Dashboard() {
             <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                  Active Modules
+                  Lessons Completed
                 </span>
                 <Play className="w-4 h-4 text-[#9c9a92]" />
               </div>
@@ -318,14 +320,14 @@ export function Dashboard() {
                 {liveCompletedLessons}
               </span>
               <span className="font-mono text-[10px] text-[#7b7974] flex items-center gap-1 pt-1">
-                <span>of {liveTotalLessons} lessons total</span>
+                <span>of {liveTotalLessons} total lessons</span>
               </span>
             </div>
 
             <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                  Defenses Passed
+                  Quizzes Passed
                 </span>
                 <Award className="w-4 h-4 text-[#d97757]" />
               </div>
@@ -340,7 +342,7 @@ export function Dashboard() {
             <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                  Syllabus Progress
+                  Overall Progress
                 </span>
                 <CheckCircle2 className="w-4 h-4 text-[#4b7a47]" />
               </div>
@@ -348,7 +350,7 @@ export function Dashboard() {
                 {liveOverallProgress}%
               </span>
               <span className="font-mono text-[10px] text-[#7b7974] flex items-center gap-1 pt-1">
-                <span>{liveCompletedCourses} monographs certified</span>
+                <span>{liveCompletedCourses} courses completed</span>
               </span>
             </div>
           </>
@@ -360,7 +362,7 @@ export function Dashboard() {
             <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                  Total Scholars
+                  Total Students
                 </span>
                 <Users className="w-4 h-4 text-[#9c9a92]" />
               </div>
@@ -368,14 +370,14 @@ export function Dashboard() {
                 {instructorData?.totalEnrolledStudents || 0}
               </span>
               <span className="font-mono text-[10px] text-[#7b7974] pt-1">
-                Active learners across all cohorts
+                Active students across all courses
               </span>
             </div>
 
             <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                  Net Royalties
+                  Total Revenue
                 </span>
                 <DollarSign className="w-4 h-4 text-[#4b7a47]" />
               </div>
@@ -383,14 +385,14 @@ export function Dashboard() {
                 ${instructorData?.totalRevenue ? instructorData.totalRevenue.toFixed(2) : '0.00'}
               </span>
               <span className="font-mono text-[10px] text-[#7b7974] pt-1">
-                95% Author royalty settlement
+                Total course sales earnings
               </span>
             </div>
 
             <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                  Authored Curricula
+                  My Courses
                 </span>
                 <Layers className="w-4 h-4 text-[#d97757]" />
               </div>
@@ -398,14 +400,14 @@ export function Dashboard() {
                 {instructorData?.totalCoursesOwned || 0}
               </span>
               <span className="font-mono text-[10px] text-[#7b7974] pt-1">
-                {instructorData?.publishedCourses || 0} live • {instructorData?.draftCourses || 0} drafts
+                {instructorData?.publishedCourses || 0} published • {instructorData?.draftCourses || 0} drafts
               </span>
             </div>
 
             <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                  Cohort Evaluation
+                  Average Rating
                 </span>
                 <Star className="w-4 h-4 text-[#d97757]" />
               </div>
@@ -413,7 +415,7 @@ export function Dashboard() {
                 ★ {instructorData?.averageRating ? instructorData.averageRating.toFixed(1) : '5.0'}
               </span>
               <span className="font-mono text-[10px] text-[#7b7974] pt-1">
-                From {instructorData?.totalCourseReviews || 0} peer evaluations
+                From {instructorData?.totalCourseReviews || 0} student reviews
               </span>
             </div>
           </>
@@ -425,7 +427,7 @@ export function Dashboard() {
             <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                  Platform Scholars
+                  Total Users
                 </span>
                 <Users className="w-4 h-4 text-[#9c9a92]" />
               </div>
@@ -433,14 +435,14 @@ export function Dashboard() {
                 {adminData?.users.total || 0}
               </span>
               <span className="font-mono text-[10px] text-[#7b7974] pt-1">
-                {adminData?.users.instructors || 0} faculty • {adminData?.users.students || 0} scholars
+                {adminData?.users.instructors || 0} instructors • {adminData?.users.students || 0} students
               </span>
             </div>
 
             <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                  Consortium Revenue
+                  Total Sales
                 </span>
                 <DollarSign className="w-4 h-4 text-[#4b7a47]" />
               </div>
@@ -448,14 +450,14 @@ export function Dashboard() {
                 ${adminData?.payments.totalAmount ? adminData.payments.totalAmount.toFixed(2) : '0.00'}
               </span>
               <span className="font-mono text-[10px] text-[#7b7974] pt-1">
-                {adminData?.payments.totalSuccessful || 0} settlements audited
+                {adminData?.payments.totalSuccessful || 0} transactions completed
               </span>
             </div>
 
             <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                  Registered Curricula
+                  Total Courses
                 </span>
                 <BookOpen className="w-4 h-4 text-[#d97757]" />
               </div>
@@ -463,14 +465,14 @@ export function Dashboard() {
                 {adminData?.courses.total || 0}
               </span>
               <span className="font-mono text-[10px] text-[#7b7974] pt-1">
-                {adminData?.courses.published || 0} published across catalog
+                {adminData?.courses.published || 0} published in catalog
               </span>
             </div>
 
             <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                  Catalog Rating
+                  Platform Rating
                 </span>
                 <Star className="w-4 h-4 text-[#d97757]" />
               </div>
@@ -478,7 +480,7 @@ export function Dashboard() {
                 ★ {adminData?.reviews.averageRating ? adminData.reviews.averageRating.toFixed(1) : '5.0'}
               </span>
               <span className="font-mono text-[10px] text-[#7b7974] pt-1">
-                {adminData?.reviews.total || 0} peer evaluations audited
+                {adminData?.reviews.total || 0} student reviews received
               </span>
             </div>
           </>
@@ -489,16 +491,16 @@ export function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Column (8 cols): Primary Action Focus */}
         <div className="lg:col-span-8 flex flex-col gap-6">
-          {/* STUDENT: Continue Learning Monograph Queue */}
+          {/* STUDENT: Continue Learning */}
           {isStudent && (
             <div className="bg-[#ffffff] rounded-2xl p-6 border border-[#e7e6e1] shadow-xs flex flex-col gap-5">
               <div className="flex items-center justify-between pb-3 border-b border-[#e7e6e1]">
                 <div className="flex flex-col">
                   <h2 className="font-heading text-lg sm:text-xl text-[#121212] font-normal">
-                    Continue Learning Monograph Queue
+                    Continue Learning
                   </h2>
                   <span className="font-body text-xs text-[#7b7974]">
-                    Pick up where you left off across your active syllabus enrollments.
+                    Pick up where you left off in your enrolled courses.
                   </span>
                 </div>
                 <Link
@@ -575,9 +577,9 @@ export function Dashboard() {
               ) : (
                 <div className="p-8 rounded-xl border border-dashed border-[#e7e6e1] bg-[#f8f8f6] text-center flex flex-col items-center justify-center gap-2.5">
                   <BookOpen className="w-8 h-8 text-[#9c9a92]" />
-                  <span className="font-heading text-base text-[#121212]">No Active Learning Queue</span>
+                  <span className="font-heading text-base text-[#121212]">No Active Courses</span>
                   <p className="font-body text-xs text-[#7b7974] max-w-sm leading-relaxed">
-                    Browse the curriculum catalog to enroll in peer-reviewed monographs and formal verification defenses.
+                    Browse the course catalog to enroll in video lessons, quizzes, and practical assignments.
                   </p>
                   <Link
                     to="/courses"
@@ -590,16 +592,16 @@ export function Dashboard() {
             </div>
           )}
 
-          {/* INSTRUCTOR: Recent Authored Curricula */}
+          {/* INSTRUCTOR: Recent Courses */}
           {isInstructor && (
             <div className="bg-[#ffffff] rounded-2xl p-6 border border-[#e7e6e1] shadow-xs flex flex-col gap-5">
               <div className="flex items-center justify-between pb-3 border-b border-[#e7e6e1]">
                 <div className="flex flex-col">
                   <h2 className="font-heading text-lg sm:text-xl text-[#121212] font-normal">
-                    Authored Curricula &amp; Monographs
+                    My Courses
                   </h2>
                   <span className="font-body text-xs text-[#7b7974]">
-                    Your recent syllabi staged in the consortium registry.
+                    Your recent courses created on Lumina.
                   </span>
                 </div>
                 <Link
@@ -630,7 +632,7 @@ export function Dashboard() {
                             </span>
                           </div>
                           <span className="font-mono text-[11px] text-[#7b7974]">
-                            {course.studentCount} enrolled learners • {course.category || 'General Discipline'}
+                            {course.studentCount} enrolled students • {course.category || 'General'}
                           </span>
                         </div>
 
@@ -639,7 +641,7 @@ export function Dashboard() {
                             to={`/instructor/courses/${resolvedCourseId}`}
                             className="px-3.5 py-1.5 rounded-lg bg-[#ffffff] hover:bg-[#e7e6e1] text-[#121212] font-body text-xs font-medium border border-[#e7e6e1] shadow-2xs hover:border-[#121212] transition-colors cursor-pointer"
                           >
-                            Edit Syllabus
+                            Edit Course
                           </Link>
                           <Link
                             to={`/courses/${resolvedCourseId}`}
@@ -657,9 +659,9 @@ export function Dashboard() {
               ) : (
                 <div className="p-8 rounded-xl border border-dashed border-[#e7e6e1] bg-[#f8f8f6] text-center flex flex-col items-center justify-center gap-2.5">
                   <Layers className="w-8 h-8 text-[#9c9a92]" />
-                  <span className="font-heading text-base text-[#121212]">No Curricula Initiated Yet</span>
+                  <span className="font-heading text-base text-[#121212]">No Courses Created Yet</span>
                   <p className="font-body text-xs text-[#7b7974] max-w-sm leading-relaxed">
-                    Begin structuring your first monograph syllabus with peer evaluation rubrics.
+                    Begin creating your first course with lessons, quizzes, and resources.
                   </p>
                   <Link
                     to="/instructor/courses/create"
@@ -678,10 +680,10 @@ export function Dashboard() {
               <div className="flex items-center justify-between pb-3 border-b border-[#e7e6e1]">
                 <div className="flex flex-col">
                   <h2 className="font-heading text-lg sm:text-xl text-[#121212] font-normal">
-                    Senate Action Required Board
+                    Pending Approvals &amp; Moderation
                   </h2>
                   <span className="font-body text-xs text-[#7b7974]">
-                    Pending candidate faculty accreditations and staged syllabus moderation.
+                    Pending instructor applications and course reviews.
                   </span>
                 </div>
                 <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-[#faecd8] text-[#8c501e] font-bold">
@@ -697,7 +699,7 @@ export function Dashboard() {
                       <ShieldCheck className="w-5 h-5" />
                     </div>
                     <div className="flex flex-col">
-                      <span className="text-xs font-mono uppercase text-[#7b7974] font-semibold">Faculty Accreditation</span>
+                      <span className="text-xs font-mono uppercase text-[#7b7974] font-semibold">Instructor Applications</span>
                       <span className="font-heading text-2xl text-[#121212] mt-0.5">
                         {adminData?.instructors.pending || 0} Pending
                       </span>
@@ -707,7 +709,7 @@ export function Dashboard() {
                     to="/admin/instructors"
                     className="w-full py-2 rounded-lg bg-[#121212] text-[#f8f8f6] hover:bg-black text-xs font-medium text-center shadow-xs"
                   >
-                    Review Faculty Profiles →
+                    Review Applications →
                   </Link>
                 </div>
 
@@ -720,7 +722,7 @@ export function Dashboard() {
                     <div className="flex flex-col">
                       <span className="text-xs font-mono uppercase text-[#7b7974] font-semibold">Course Moderation</span>
                       <span className="font-heading text-2xl text-[#121212] mt-0.5">
-                        {adminData?.courses.pendingApproval || 0} Awaiting PR
+                        {adminData?.courses.pendingApproval || 0} Pending Review
                       </span>
                     </div>
                   </div>
@@ -728,7 +730,7 @@ export function Dashboard() {
                     to="/admin/courses"
                     className="w-full py-2 rounded-lg bg-[#121212] text-[#f8f8f6] hover:bg-black text-xs font-medium text-center shadow-xs"
                   >
-                    Audit Staged Curricula →
+                    Review Courses →
                   </Link>
                 </div>
               </div>
@@ -736,13 +738,13 @@ export function Dashboard() {
           )}
         </div>
 
-        {/* Right Column (4 cols): Secondary Feed & Dispatch Overview */}
+        {/* Right Column (4 cols): Secondary Feed & Overview */}
         <div className="lg:col-span-4 flex flex-col gap-6">
-          {/* STUDENT: Comprehension Defenses Status */}
+          {/* STUDENT: Quiz & Assignment Progress */}
           {isStudent && (
             <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-4">
               <div className="flex items-center justify-between pb-2 border-b border-[#e7e6e1]">
-                <span className="font-heading text-base text-[#121212]">Evaluation Defenses</span>
+                <span className="font-heading text-base text-[#121212]">Quiz &amp; Assignment Progress</span>
                 <Award className="w-4 h-4 text-[#d97757]" />
               </div>
               
@@ -752,7 +754,7 @@ export function Dashboard() {
                   <span className="font-mono font-bold text-[#121212]">{studentData?.quizzesAttempted || 0}</span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
-                  <span className="text-[#373734]">Defenses Passed</span>
+                  <span className="text-[#373734]">Quizzes Passed</span>
                   <span className="font-mono font-bold text-[#4b7a47]">{studentData?.quizzesPassed || 0}</span>
                 </div>
                 <div className="flex items-center justify-between text-xs">
@@ -770,17 +772,17 @@ export function Dashboard() {
                   to="/learn"
                   className="w-full py-2 rounded-lg bg-[#efeeeb] hover:bg-[#e7e6e1] text-[#121212] text-xs font-medium text-center block"
                 >
-                  View Full Scholar Folio
+                  Go to My Learning
                 </Link>
               </div>
             </div>
           )}
 
-          {/* INSTRUCTOR: Recent Enrollments & Review Feed with Correct Synced Dates */}
+          {/* INSTRUCTOR: Recent Enrollments & Review Feed */}
           {isInstructor && (
             <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-4">
               <div className="flex items-center justify-between pb-2 border-b border-[#e7e6e1]">
-                <span className="font-heading text-base text-[#121212]">Cohort Activity Feed</span>
+                <span className="font-heading text-base text-[#121212]">Recent Student Activity</span>
                 <Clock className="w-4 h-4 text-[#9c9a92]" />
               </div>
 
@@ -788,7 +790,7 @@ export function Dashboard() {
                 {instructorData?.recentEnrollments && instructorData.recentEnrollments.length > 0 ? (
                   instructorData.recentEnrollments.slice(0, 4).map((act, actIdx) => {
                     const rawDate = act.createdAt || act.timestamp;
-                    const activityDescription = act.description || (act.studentName ? `${act.studentName} enrolled in ${act.courseTitle}` : 'Scholar enrolled in curriculum');
+                    const activityDescription = act.description || (act.studentName ? `${act.studentName} enrolled in ${act.courseTitle}` : 'Student enrolled in course');
                     return (
                       <div key={act.id || act.referenceId || `enr-${actIdx}`} className="flex flex-col gap-0.5 text-xs pb-2 border-b border-[#e7e6e1]/60 last:border-0 last:pb-0">
                         <span className="font-semibold text-[#121212] leading-snug">
@@ -808,13 +810,13 @@ export function Dashboard() {
                 {instructorData?.recentReviews && instructorData.recentReviews.length > 0 && (
                   <div className="pt-3 border-t border-[#e7e6e1] flex flex-col gap-3">
                     <span className="font-mono text-[10px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                      Recent Peer Reviews
+                      Recent Student Reviews
                     </span>
                     {instructorData.recentReviews.slice(0, 3).map((rev, revIdx) => (
                       <div key={rev.id || rev.courseId || `rev-${revIdx}`} className="flex flex-col gap-1 text-xs pb-2 border-b border-[#e7e6e1]/40 last:border-0 last:pb-0">
                         <div className="flex items-center justify-between">
                           <span className="font-semibold text-[#121212]">
-                            {rev.reviewerName || rev.studentName || 'Peer Scholar'}
+                            {rev.reviewerName || rev.studentName || 'Student'}
                           </span>
                           <span className="text-[#d97757] font-mono text-[10px]">★ {rev.rating}</span>
                         </div>
@@ -837,7 +839,7 @@ export function Dashboard() {
           {isAdmin && (
             <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-4">
               <div className="flex items-center justify-between pb-2 border-b border-[#e7e6e1]">
-                <span className="font-heading text-base text-[#121212]">Consortium Audit Feed</span>
+                <span className="font-heading text-base text-[#121212]">Platform Activity Log</span>
                 <Shield className="w-4 h-4 text-[#d97757]" />
               </div>
 
@@ -855,19 +857,19 @@ export function Dashboard() {
                     </div>
                   ))
                 ) : (
-                  <span className="text-xs text-[#7b7974] italic">All systems audited. Zero security anomalies.</span>
+                  <span className="text-xs text-[#7b7974] italic">All systems active and normal.</span>
                 )}
               </div>
             </div>
           )}
 
-          {/* Institutional Charter Footnote */}
+          {/* Platform Info Footnote */}
           <div className="p-4 rounded-2xl bg-[#f8f8f6] border border-[#e7e6e1] flex flex-col gap-2">
             <span className="font-mono text-[10px] uppercase tracking-wider text-[#7b7974] font-semibold">
-              Restricted Console
+              Security &amp; Access
             </span>
             <p className="font-body text-xs text-[#7b7974] leading-relaxed">
-              Authenticated under Lumina Consortium Charter §14. Folio sessions are cryptographically logged for institutional accreditation.
+              Logged in securely. Course progress and certificate completion records are synchronized automatically with your account.
             </p>
           </div>
         </div>

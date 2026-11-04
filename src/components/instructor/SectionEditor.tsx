@@ -165,7 +165,7 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
               <span>•</span>
               <span>~{totalMinutes} min</span>
               <span>•</span>
-              <span className="text-[#9c9a92]">Module Stratum {index + 1}</span>
+              <span className="text-[#9c9a92]">Section {index + 1}</span>
             </div>
           </div>
         </div>
@@ -296,7 +296,7 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
                       }`}
                     >
                       <FileText className="w-3.5 h-3.5" />
-                      <span>TEXT MONOGRAPH</span>
+                      <span>TEXT / ARTICLE</span>
                     </button>
 
                     <button

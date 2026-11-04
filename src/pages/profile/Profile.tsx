@@ -36,12 +36,13 @@ export function Profile() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  if (!user) {
-    navigate('/login');
-    return null;
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
 
-  const role = user.role;
+  const role = user?.role || 'STUDENT';
   const isStudent = role === 'STUDENT';
   const isInstructor = role === 'INSTRUCTOR';
   const isAdmin = role === 'ADMIN';
@@ -50,10 +51,10 @@ export function Profile() {
   const [activeTab, setActiveTab] = useState<'overview' | 'role_folio' | 'dispatches' | 'security'>('overview');
 
   // Role queries (enabled conditionally to prevent unauthorized 403s)
-  const { data: instructorProfile } = useInstructorProfile({ enabled: isInstructor });
-  const { data: instructorDashboard } = useInstructorDashboard({ enabled: isInstructor });
-  const { data: studentDashboard } = useStudentDashboard({ enabled: isStudent });
-  const { data: adminDashboard } = useAdminDashboard({ enabled: isAdmin });
+  const { data: instructorProfile } = useInstructorProfile({ enabled: !!user && isInstructor });
+  const { data: instructorDashboard } = useInstructorDashboard({ enabled: !!user && isInstructor });
+  const { data: studentDashboard } = useStudentDashboard({ enabled: !!user && isStudent });
+  const { data: adminDashboard } = useAdminDashboard({ enabled: !!user && isAdmin });
 
   // Email notifications preferences
   const { data: emailPrefs, isLoading: prefsLoading } = useEmailPreferences();
@@ -68,19 +69,19 @@ export function Profile() {
   const [bio, setBio] = useState('');
   const [expertise, setExpertise] = useState('');
 
-  // Student extra customized profile fields (persisted locally for enriched folio)
+  // Student extra customized profile fields (persisted locally)
   const [studentDiscipline, setStudentDiscipline] = useState(() => {
-    return localStorage.getItem(`lumina_student_discipline_${user.id}`) || 'Distributed Systems & Autonomous AI Swarms';
+    return localStorage.getItem(`lumina_student_discipline_${user?.id}`) || 'Computer Science & Software Engineering';
   });
   const [studentDegree, setStudentDegree] = useState(() => {
-    return localStorage.getItem(`lumina_student_degree_${user.id}`) || 'Post-Graduate Research Fellow';
+    return localStorage.getItem(`lumina_student_degree_${user?.id}`) || 'Enrolled Student';
   });
   const [studentPacing, setStudentPacing] = useState(() => {
-    return localStorage.getItem(`lumina_student_pacing_${user.id}`) || 'Self-Paced Intensive';
+    return localStorage.getItem(`lumina_student_pacing_${user?.id}`) || 'Self-Paced Flexible';
   });
   const [studentTags, setStudentTags] = useState<string[]>(() => {
-    const saved = localStorage.getItem(`lumina_student_tags_${user.id}`);
-    return saved ? JSON.parse(saved) : ['MCTS Tree Search', 'Formal Invariants', 'Kernel MicroVMs', 'Rust'];
+    const saved = localStorage.getItem(`lumina_student_tags_${user?.id}`);
+    return saved ? JSON.parse(saved) : ['Web Development', 'System Architecture', 'Algorithms', 'Cloud Computing'];
   });
   const [isEditingStudent, setIsEditingStudent] = useState(false);
   const [newTagInput, setNewTagInput] = useState('');
@@ -101,6 +102,10 @@ export function Profile() {
       setEmailEnabled(emailPrefs.emailNotificationsEnabled);
     }
   }, [emailPrefs]);
+
+  if (!user) {
+    return null;
+  }
 
   const handleInstructorSave = (e: React.FormEvent) => {
     e.preventDefault();
@@ -147,50 +152,50 @@ export function Profile() {
   // Role visual styling & titles
   const roleDisplay = {
     STUDENT: {
-      title: 'Academic Scholar & Junior Fellow',
-      shortTitle: 'Fellow Scholar',
+      title: 'Student Account',
+      shortTitle: 'Student',
       badgeBg: 'bg-[#eeeeec]',
       badgeText: 'text-[#373734]',
       dotColor: 'bg-[#373734]',
       borderAccent: 'border-[#121212]',
-      folioPrefix: 'LUM-SCHOLAR',
-      description: 'Enrolled in peer-reviewed collegiate monographs and automated evaluation defenses.'
+      folioPrefix: 'LUM-STUDENT',
+      description: 'Enrolled in courses, video lessons, quizzes, and practical assignments.'
     },
     INSTRUCTOR: {
-      title: 'Faculty Senior Fellow & Curriculum Author',
-      shortTitle: 'Faculty Fellow',
+      title: 'Course Instructor',
+      shortTitle: 'Instructor',
       badgeBg: 'bg-[#faecd8]',
       badgeText: 'text-[#8c501e]',
       dotColor: 'bg-[#d97757]',
       borderAccent: 'border-[#d97757]',
-      folioPrefix: 'LUM-FACULTY',
-      description: 'Authorized by the Academic Senate to structure peer-evaluated curricula and grade cohort defenses.'
+      folioPrefix: 'LUM-INSTRUCTOR',
+      description: 'Authorized to publish courses, design curriculum syllabi, and grade student assignments.'
     },
     ADMIN: {
-      title: 'Consortium Registrar & Senate Administrator',
-      shortTitle: 'Senate Registrar',
+      title: 'Platform Administrator',
+      shortTitle: 'Administrator',
       badgeBg: 'bg-[#121212]',
       badgeText: 'text-[#f8f8f6]',
       dotColor: 'bg-[#d97757]',
       borderAccent: 'border-[#121212]',
-      folioPrefix: 'LUM-SENATE',
-      description: 'Executive governance clearance: curriculum accreditation, user registry, and platform audit.'
+      folioPrefix: 'LUM-ADMIN',
+      description: 'Platform management: review submitted courses, manage users, and platform settings.'
     }
   }[role];
 
   return (
     <div className="flex flex-col w-full max-w-[1200px] mx-auto pb-20">
-      {/* ── Breadcrumb & Scholar Context ── */}
+      {/* ── Breadcrumb & Context ── */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-4 border-b border-[#e7e6e1] text-xs font-mono text-[#7b7974]">
         <div className="flex items-center gap-2 flex-wrap">
-          <Link to="/" className="hover:text-[#121212] transition-colors">Consortium Registry</Link>
+          <Link to="/" className="hover:text-[#121212] transition-colors">Lumina Learning</Link>
           <span>/</span>
-          <span>Fellow Credentials</span>
+          <span>Profile &amp; Settings</span>
           <span>/</span>
           <span className="text-[#121212] font-semibold">{user.name}</span>
         </div>
         <div className="flex items-center gap-2 font-mono text-[11px] text-[#9c9a92]">
-          <span>Institutional Folio:</span>
+          <span>Account ID:</span>
           <span className="bg-[#efeeeb] text-[#121212] px-2 py-0.5 rounded font-bold">
             {roleDisplay.folioPrefix}-{user.id.slice(0, 8).toUpperCase()}
           </span>
@@ -230,7 +235,7 @@ export function Profile() {
                 <span>•</span>
                 <span className="flex items-center gap-1 text-[#373734]">
                   <Building className="w-3.5 h-3.5 text-[#9c9a92]" />
-                  <span>Lumina Academic Consortium</span>
+                  <span>Lumina Learning Platform</span>
                 </span>
               </div>
 
@@ -248,7 +253,7 @@ export function Profile() {
                 className="px-4 py-2 rounded-xl bg-[#121212] text-[#f8f8f6] hover:bg-black font-body text-xs font-medium transition-all shadow-xs flex items-center gap-1.5"
               >
                 <BookOpen className="w-3.5 h-3.5 text-[#d97757]" />
-                <span>My Learning Workspace</span>
+                <span>My Learning</span>
               </Link>
             )}
 
@@ -258,7 +263,7 @@ export function Profile() {
                 className="px-4 py-2 rounded-xl bg-[#121212] text-[#f8f8f6] hover:bg-black font-body text-xs font-medium transition-all shadow-xs flex items-center gap-1.5"
               >
                 <Layers className="w-3.5 h-3.5 text-[#d97757]" />
-                <span>Curriculum Registry</span>
+                <span>Course Studio</span>
               </Link>
             )}
 
@@ -268,7 +273,7 @@ export function Profile() {
                 className="px-4 py-2 rounded-xl bg-[#121212] text-[#f8f8f6] hover:bg-black font-body text-xs font-medium transition-all shadow-xs flex items-center gap-1.5"
               >
                 <Shield className="w-3.5 h-3.5 text-[#d97757]" />
-                <span>Senate Console</span>
+                <span>Admin Dashboard</span>
               </Link>
             )}
           </div>
@@ -287,7 +292,7 @@ export function Profile() {
           }`}
         >
           <User className="w-3.5 h-3.5 text-[#121212]" />
-          <span>Institutional Overview</span>
+          <span>Profile Overview</span>
         </button>
 
         <button
@@ -301,9 +306,9 @@ export function Profile() {
         >
           <GraduationCap className="w-3.5 h-3.5 text-[#121212]" />
           <span>
-            {isStudent && 'Learning Folio & Progress'}
-            {isInstructor && 'Faculty Bio & Accreditation'}
-            {isAdmin && 'Senate Governance & System Oversight'}
+            {isStudent && 'Learning Preferences & Track'}
+            {isInstructor && 'Instructor Bio & Verification'}
+            {isAdmin && 'Administration & Moderation'}
           </span>
           <span className="w-1.5 h-1.5 rounded-full bg-[#d97757]" />
         </button>
@@ -318,7 +323,7 @@ export function Profile() {
           }`}
         >
           <Bell className="w-3.5 h-3.5 text-[#7b7974]" />
-          <span>Dispatches &amp; Notifications</span>
+          <span>Email &amp; Notifications</span>
         </button>
 
         <button
@@ -336,7 +341,7 @@ export function Profile() {
       </div>
 
       {/* ============================================================== */}
-      {/* TAB 1: INSTITUTIONAL OVERVIEW                                  */}
+      {/* TAB 1: PROFILE OVERVIEW                                        */}
       {/* ============================================================== */}
       {activeTab === 'overview' && (
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
@@ -346,33 +351,33 @@ export function Profile() {
               <div className="flex items-center justify-between pb-3 border-b border-[#e7e6e1]">
                 <div className="flex flex-col">
                   <h2 className="font-heading text-lg sm:text-xl text-[#121212] font-normal">
-                    Fellow Identity &amp; Consortium Record
+                    User Profile &amp; Account Details
                   </h2>
                   <span className="font-body text-xs text-[#7b7974]">
-                    Institutional profile verified under Charter §14.c
+                    Your verified Lumina user profile
                   </span>
                 </div>
-                <span className="font-mono text-[11px] text-[#9c9a92]">STATUS: SYNCHRONIZED</span>
+                <span className="font-mono text-[11px] text-[#9c9a92]">STATUS: ACTIVE</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1 p-3 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1]">
-                  <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">Scholar Name</span>
+                  <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">Full Name</span>
                   <span className="font-body text-sm font-semibold text-[#121212]">{user.name}</span>
                 </div>
 
                 <div className="flex flex-col gap-1 p-3 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1]">
-                  <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">Consortium Email</span>
+                  <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">Email Address</span>
                   <span className="font-body text-sm font-semibold text-[#121212]">{user.email}</span>
                 </div>
 
                 <div className="flex flex-col gap-1 p-3 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1]">
-                  <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">Appointed Role</span>
+                  <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">Role</span>
                   <span className="font-body text-sm font-semibold text-[#121212]">{roleDisplay.title}</span>
                 </div>
 
                 <div className="flex flex-col gap-1 p-3 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1]">
-                  <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">Folio Signature</span>
+                  <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">User ID</span>
                   <span className="font-mono text-xs text-[#373734] font-medium">{user.id}</span>
                 </div>
               </div>
@@ -383,7 +388,7 @@ export function Profile() {
                   <div className="flex items-center gap-3">
                     <BookOpen className="w-5 h-5 text-[#d97757] shrink-0" />
                     <div className="flex flex-col">
-                      <span className="text-xs font-semibold text-[#121212]">Academic Track</span>
+                      <span className="text-xs font-semibold text-[#121212]">Learning Discipline</span>
                       <span className="text-[11px] text-[#7b7974]">{studentDiscipline}</span>
                     </div>
                   </div>
@@ -392,7 +397,7 @@ export function Profile() {
                     onClick={() => setActiveTab('role_folio')}
                     className="text-xs font-mono text-[#d97757] hover:underline font-semibold"
                   >
-                    Edit Folio →
+                    Edit Preferences →
                   </button>
                 </div>
               )}
@@ -402,7 +407,7 @@ export function Profile() {
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-semibold text-[#121212] flex items-center gap-1.5">
                       <Award className="w-4 h-4 text-[#d97757]" />
-                      <span>Faculty Monograph &amp; Pedagogical Bio</span>
+                      <span>Instructor Biography &amp; Background</span>
                     </span>
                     <button
                       type="button"
@@ -413,7 +418,7 @@ export function Profile() {
                     </button>
                   </div>
                   <p className="text-xs font-body text-[#373734] line-clamp-2 leading-relaxed">
-                    {instructorProfile.bio || 'No faculty bio staged yet. Click to define your research background.'}
+                    {instructorProfile.bio || 'No instructor bio added yet. Click to define your professional background.'}
                   </p>
                 </div>
               )}
@@ -423,27 +428,27 @@ export function Profile() {
                   <div className="flex items-center gap-3">
                     <ShieldCheck className="w-5 h-5 text-[#d97757] shrink-0" />
                     <div className="flex flex-col">
-                      <span className="text-xs font-semibold text-[#121212]">Executive Governance Clearance</span>
-                      <span className="text-[11px] text-[#7b7974]">Full Senate inspection &amp; curriculum accreditation rights</span>
+                      <span className="text-xs font-semibold text-[#121212]">Platform Administration</span>
+                      <span className="text-[11px] text-[#7b7974]">Full administrator permissions &amp; course moderation</span>
                     </div>
                   </div>
                   <Link
                     to="/admin"
                     className="text-xs font-mono text-[#d97757] hover:underline font-semibold"
                   >
-                    Audit Hub →
+                    Admin Console →
                   </Link>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Right Column: Live Institutional Metrics Card */}
+          {/* Right Column: Live Overview Metrics Card */}
           <div className="md:col-span-4 flex flex-col gap-5">
             {/* Student Stats */}
             {isStudent && (
               <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs flex flex-col gap-4">
-                <span className="font-heading text-base text-[#121212]">Scholar Metrics</span>
+                <span className="font-heading text-base text-[#121212]">Learning Overview</span>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="p-3 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] flex flex-col">
                     <span className="font-heading text-xl text-[#121212]">
@@ -461,7 +466,7 @@ export function Profile() {
                     <span className="font-heading text-xl text-[#121212]">
                       {studentDashboard?.quizzesPassed || 0}
                     </span>
-                    <span className="font-mono text-[10px] text-[#7b7974] uppercase">Defenses</span>
+                    <span className="font-mono text-[10px] text-[#7b7974] uppercase">Quizzes</span>
                   </div>
                   <div className="p-3 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] flex flex-col">
                     <span className="font-heading text-xl text-[#d97757]">
@@ -539,13 +544,13 @@ export function Profile() {
               </div>
             )}
 
-            {/* Consortium Assurance Card */}
+            {/* Platform Assurance Card */}
             <div className="p-4 rounded-2xl bg-[#f8f8f6] border border-[#e7e6e1] flex flex-col gap-2">
               <span className="font-mono text-[10px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                Lumina Consortium Charter
+                Platform Security &amp; Records
               </span>
               <p className="font-body text-xs text-[#7b7974] leading-relaxed">
-                All records, submissions, and accreditations are verified across the academic network under cryptographic peer invariants.
+                All records, quiz scores, and course completions are recorded securely and updated in real-time on your Lumina account.
               </p>
             </div>
           </div>
@@ -553,7 +558,7 @@ export function Profile() {
       )}
 
       {/* ============================================================== */}
-      {/* TAB 2: ROLE CREDENTIALS & FOLIO (CUSTOMIZED PER ROLE)          */}
+      {/* TAB 2: ROLE SETTINGS & PROFILE                                 */}
       {/* ============================================================== */}
       {activeTab === 'role_folio' && (
         <div className="flex flex-col gap-6 max-w-3xl mx-auto w-full">
@@ -563,10 +568,10 @@ export function Profile() {
               <div className="flex items-center justify-between pb-4 border-b border-[#e7e6e1]">
                 <div className="flex flex-col">
                   <h2 className="font-heading text-xl sm:text-2xl text-[#121212] font-normal">
-                    Academic Scholar Folio &amp; Learning Track
+                    Student Profile &amp; Learning Preferences
                   </h2>
                   <p className="font-body text-xs text-[#7b7974]">
-                    Configure your discipline specializations, fellowship tier, and pacing guidelines.
+                    Configure your learning discipline, experience level, and study pacing.
                   </p>
                 </div>
                 {!isEditingStudent && (
@@ -576,7 +581,7 @@ export function Profile() {
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#efeeeb] hover:bg-[#e7e6e1] text-[#121212] text-xs font-medium cursor-pointer"
                   >
                     <Edit2 className="w-3.5 h-3.5" />
-                    <span>Edit Track</span>
+                    <span>Edit Profile</span>
                   </button>
                 )}
               </div>
@@ -584,29 +589,29 @@ export function Profile() {
               {isEditingStudent ? (
                 <form onSubmit={handleStudentSave} className="flex flex-col gap-5">
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-xs font-semibold text-[#121212]">Primary Academic Discipline</label>
+                    <label className="text-xs font-semibold text-[#121212]">Primary Area of Study</label>
                     <input
                       type="text"
                       required
                       value={studentDiscipline}
                       onChange={e => setStudentDiscipline(e.target.value)}
-                      placeholder="e.g., Distributed Systems & Autonomous AI Swarms"
+                      placeholder="e.g., Computer Science & Software Engineering"
                       className="px-3.5 py-2.5 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm font-body border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none"
                     />
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-xs font-semibold text-[#121212]">Academic Fellowship Tier</label>
+                      <label className="text-xs font-semibold text-[#121212]">Experience Level</label>
                       <select
                         value={studentDegree}
                         onChange={e => setStudentDegree(e.target.value)}
                         className="px-3.5 py-2.5 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm font-body border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none"
                       >
-                        <option value="Undergraduate Research Scholar">Undergraduate Research Scholar</option>
-                        <option value="Post-Graduate Research Fellow">Post-Graduate Research Fellow</option>
-                        <option value="Doctoral Candidate">Doctoral Candidate</option>
-                        <option value="Independent Research Scientist">Independent Research Scientist</option>
+                        <option value="Beginner Student">Beginner Student</option>
+                        <option value="Intermediate Learner">Intermediate Learner</option>
+                        <option value="Advanced / Graduate">Advanced / Graduate</option>
+                        <option value="Professional Engineer">Professional Engineer</option>
                       </select>
                     </div>
 
@@ -617,9 +622,9 @@ export function Profile() {
                         onChange={e => setStudentPacing(e.target.value)}
                         className="px-3.5 py-2.5 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm font-body border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none"
                       >
-                        <option value="Self-Paced Intensive">Self-Paced Intensive</option>
-                        <option value="Cohort-Synchronous">Cohort-Synchronous</option>
-                        <option value="Part-Time Evening Seminar">Part-Time Evening Seminar</option>
+                        <option value="Self-Paced Flexible">Self-Paced Flexible</option>
+                        <option value="Structured Weekly">Structured Weekly</option>
+                        <option value="Accelerated">Accelerated</option>
                       </select>
                     </div>
                   </div>
@@ -696,15 +701,15 @@ export function Profile() {
                     <div className="flex items-center gap-3">
                       <CheckCircle2 className="w-5 h-5 text-[#4b7a47] shrink-0" />
                       <div className="flex flex-col">
-                        <span className="text-xs font-semibold text-[#121212]">Consortium Enrolled Status</span>
-                        <span className="text-[11px] text-[#7b7974]">Eligible for automated certificates and peer defense milestones</span>
+                        <span className="text-xs font-semibold text-[#121212]">Enrollment Status</span>
+                        <span className="text-[11px] text-[#7b7974]">Eligible for course certificates, quizzes, and project evaluations</span>
                       </div>
                     </div>
                     <Link
                       to="/learn"
                       className="px-3.5 py-1.5 rounded-lg bg-[#121212] text-[#f8f8f6] hover:bg-black font-body text-xs font-medium"
                     >
-                      Open Learning Workspace →
+                      Go to My Learning →
                     </Link>
                   </div>
                 </div>
@@ -718,10 +723,10 @@ export function Profile() {
               <div className="flex items-center justify-between pb-4 border-b border-[#e7e6e1]">
                 <div className="flex flex-col">
                   <h2 className="font-heading text-xl sm:text-2xl text-[#121212] font-normal">
-                    Faculty Accreditation &amp; Academic Monograph
+                    Instructor Profile &amp; Verification
                   </h2>
                   <p className="font-body text-xs text-[#7b7974]">
-                    Manage your curriculum authoring credentials, verification status, and research specialties.
+                    Manage your instructor credentials, verification status, and teaching expertise.
                   </p>
                 </div>
                 {!isEditingInstructor && (
@@ -743,7 +748,7 @@ export function Profile() {
                     <ShieldCheck className="w-5 h-5" />
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-xs font-semibold text-[#121212]">Faculty Senate Accreditation</span>
+                    <span className="text-xs font-semibold text-[#121212]">Instructor Verification</span>
                     <span className="font-mono text-[11px] text-[#7b7974]">
                       Current Status: <strong className="text-[#121212] font-bold">{instructorProfile?.verificationStatus || 'UNVERIFIED'}</strong>
                     </span>
@@ -757,21 +762,21 @@ export function Profile() {
                     disabled={requestVerification.isPending}
                     className="px-4 py-2 rounded-lg bg-[#d97757] hover:bg-[#c26243] text-[#ffffff] font-body text-xs font-medium transition-all shadow-xs disabled:opacity-50"
                   >
-                    {requestVerification.isPending ? 'Requesting...' : 'Request Senate Verification'}
+                    {requestVerification.isPending ? 'Requesting...' : 'Request Verification'}
                   </button>
                 )}
 
                 {instructorProfile?.verificationStatus === 'VERIFIED' && (
                   <span className="inline-flex items-center gap-1 text-xs font-mono font-semibold text-[#4b7a47]">
                     <CheckCircle2 className="w-4 h-4" />
-                    <span>Consortium Accredited</span>
+                    <span>Verified Instructor</span>
                   </span>
                 )}
 
                 {instructorProfile?.verificationStatus === 'PENDING' && (
                   <span className="inline-flex items-center gap-1 text-xs font-mono font-semibold text-[#8c501e]">
                     <Clock className="w-4 h-4" />
-                    <span>Senate Review in Progress</span>
+                    <span>Verification in Review</span>
                   </span>
                 )}
               </div>
@@ -780,26 +785,26 @@ export function Profile() {
                 <form onSubmit={handleInstructorSave} className="flex flex-col gap-5">
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-semibold text-[#121212]">
-                      Academic Biography &amp; Pedagogical Philosophy
+                      Instructor Biography &amp; Background
                     </label>
                     <textarea
                       rows={4}
                       value={bio}
                       onChange={e => setBio(e.target.value)}
-                      placeholder="Outline your research history, appointments, and curriculum design approach..."
+                      placeholder="Tell learners about your background, experience, and teaching areas..."
                       className="px-3.5 py-2.5 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm font-body border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none leading-relaxed"
                     />
                   </div>
 
                   <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-semibold text-[#121212]">
-                      Research Disciplines &amp; Technical Areas
+                      Areas of Expertise
                     </label>
                     <input
                       type="text"
                       value={expertise}
                       onChange={e => setExpertise(e.target.value)}
-                      placeholder="e.g., Distributed Consensus, Neural Search Trees, Formal Invariants"
+                      placeholder="e.g., Web Development, Python, Cloud Architecture"
                       className="px-3.5 py-2.5 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm font-body border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none"
                     />
                   </div>
@@ -817,21 +822,21 @@ export function Profile() {
                       disabled={updateInstructorProfile.isPending}
                       className="px-5 py-2 rounded-lg bg-[#121212] hover:bg-black text-[#f8f8f6] text-xs font-medium shadow-xs disabled:opacity-50"
                     >
-                      {updateInstructorProfile.isPending ? 'Saving...' : 'Save Faculty Profile'}
+                      {updateInstructorProfile.isPending ? 'Saving...' : 'Save Instructor Profile'}
                     </button>
                   </div>
                 </form>
               ) : (
                 <div className="flex flex-col gap-5">
                   <div className="flex flex-col gap-1">
-                    <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">Faculty Biography</span>
+                    <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">Instructor Biography</span>
                     <p className="font-body text-xs sm:text-sm text-[#121212] leading-relaxed p-3.5 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1]">
-                      {instructorProfile?.bio || 'No faculty monograph submitted yet. Click "Edit Profile" to define your curriculum bio.'}
+                      {instructorProfile?.bio || 'No instructor bio provided yet. Click "Edit Profile" to add your bio.'}
                     </p>
                   </div>
 
                   <div className="flex flex-col gap-1">
-                    <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">Primary Disciplines &amp; Expertise</span>
+                    <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">Areas of Expertise</span>
                     <div className="p-3.5 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] text-xs font-mono text-[#373734]">
                       {instructorProfile?.expertise || 'Distributed Systems, Autonomous AI, Kernel Engineering'}
                     </div>
@@ -847,14 +852,14 @@ export function Profile() {
               <div className="flex items-center justify-between pb-4 border-b border-[#e7e6e1]">
                 <div className="flex flex-col">
                   <h2 className="font-heading text-xl sm:text-2xl text-[#121212] font-normal">
-                    Consortium Senate Governance &amp; Clearance
+                    Platform Administration &amp; Moderation
                   </h2>
                   <p className="font-body text-xs text-[#7b7974]">
-                    Registrar administrative powers, peer review oversight, and institutional authority.
+                    Instructor review, course approval, user moderation, and platform management.
                   </p>
                 </div>
                 <span className="px-2.5 py-1 rounded bg-[#121212] text-[#f8f8f6] font-mono text-[10px] font-bold">
-                  LEVEL 4 CLEARANCE
+                  ADMINISTRATOR
                 </span>
               </div>
 
@@ -862,46 +867,46 @@ export function Profile() {
                 <div className="p-4 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] flex items-start gap-3">
                   <ShieldCheck className="w-5 h-5 text-[#d97757] shrink-0 mt-0.5" />
                   <div className="flex flex-col">
-                    <span className="text-xs font-semibold text-[#121212]">Faculty Senate Accreditation</span>
-                    <span className="text-[11px] text-[#7b7974]">Approve or reject candidate instructor credentials</span>
+                    <span className="text-xs font-semibold text-[#121212]">Instructor Verification</span>
+                    <span className="text-[11px] text-[#7b7974]">Review and approve incoming instructor applications</span>
                   </div>
                 </div>
 
                 <div className="p-4 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] flex items-start gap-3">
                   <BookOpen className="w-5 h-5 text-[#d97757] shrink-0 mt-0.5" />
                   <div className="flex flex-col">
-                    <span className="text-xs font-semibold text-[#121212]">Curriculum Peer Review</span>
-                    <span className="text-[11px] text-[#7b7974]">Inspect staged syllabus drafts before public consortium release</span>
+                    <span className="text-xs font-semibold text-[#121212]">Course Moderation</span>
+                    <span className="text-[11px] text-[#7b7974]">Review and publish staged courses across catalog</span>
                   </div>
                 </div>
 
                 <div className="p-4 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] flex items-start gap-3">
                   <User className="w-5 h-5 text-[#d97757] shrink-0 mt-0.5" />
                   <div className="flex flex-col">
-                    <span className="text-xs font-semibold text-[#121212]">Scholar Registry Control</span>
-                    <span className="text-[11px] text-[#7b7974]">Audit institutional roles, flags, and account lifecycle states</span>
+                    <span className="text-xs font-semibold text-[#121212]">User Management</span>
+                    <span className="text-[11px] text-[#7b7974]">Manage student and instructor accounts and roles</span>
                   </div>
                 </div>
 
                 <div className="p-4 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] flex items-start gap-3">
                   <Award className="w-5 h-5 text-[#d97757] shrink-0 mt-0.5" />
                   <div className="flex flex-col">
-                    <span className="text-xs font-semibold text-[#121212]">Royalty &amp; Tuition Oversight</span>
-                    <span className="text-[11px] text-[#7b7974]">Financial settlement and 95% author royalty dispersion</span>
+                    <span className="text-xs font-semibold text-[#121212]">Financial &amp; Sales Oversight</span>
+                    <span className="text-[11px] text-[#7b7974]">Monitor platform transactions and instructor payouts</span>
                   </div>
                 </div>
               </div>
 
               <div className="p-4 rounded-xl bg-[#121212] text-[#f8f8f6] flex items-center justify-between">
                 <div className="flex flex-col">
-                  <span className="text-xs font-semibold">Active Senate Console Ready</span>
-                  <span className="font-mono text-[10px] text-[#9c9a92]">Route directly to administrative audit tools</span>
+                  <span className="text-xs font-semibold">Admin Dashboard Ready</span>
+                  <span className="font-mono text-[10px] text-[#9c9a92]">Manage courses, instructors, and reports</span>
                 </div>
                 <Link
                   to="/admin"
                   className="px-4 py-2 rounded-lg bg-[#ffffff] text-[#121212] hover:bg-[#efeeeb] font-body text-xs font-medium"
                 >
-                  Open Senate Console →
+                  Open Admin Dashboard →
                 </Link>
               </div>
             </div>
@@ -910,17 +915,17 @@ export function Profile() {
       )}
 
       {/* ============================================================== */}
-      {/* TAB 3: DISPATCHES & EMAIL NOTIFICATIONS                        */}
+      {/* TAB 3: EMAIL & NOTIFICATIONS                                   */}
       {/* ============================================================== */}
       {activeTab === 'dispatches' && (
         <div className="bg-[#ffffff] rounded-2xl p-6 sm:p-8 border border-[#e7e6e1] shadow-xs max-w-3xl mx-auto w-full flex flex-col gap-6">
           <div className="flex items-center justify-between pb-4 border-b border-[#e7e6e1]">
             <div className="flex flex-col">
               <h2 className="font-heading text-xl sm:text-2xl text-[#121212] font-normal">
-                Dispatches &amp; Communication Preferences
+                Email Notifications &amp; Communication
               </h2>
               <p className="font-body text-xs text-[#7b7974]">
-                Calibrate how the Academic Consortium communicates curriculum updates, defense grades, and seminar notices.
+                Choose how Lumina communicates course updates, assignment feedback, and announcements.
               </p>
             </div>
             <Bell className="w-5 h-5 text-[#d97757]" />
@@ -928,7 +933,7 @@ export function Profile() {
 
           {prefSaveSuccess && (
             <div className="p-3.5 rounded-xl bg-[#eaf4ea] text-[#245222] border border-[#4b7a47]/20 flex items-center justify-between text-xs font-medium">
-              <span>Communication preferences synchronized successfully.</span>
+              <span>Notification preferences saved successfully.</span>
               <Check className="w-4 h-4 text-[#4b7a47]" />
             </div>
           )}
@@ -937,10 +942,10 @@ export function Profile() {
           <div className="flex items-start justify-between gap-4 p-4 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1]">
             <div className="flex flex-col gap-1">
               <span className="text-xs sm:text-sm font-semibold text-[#121212]">
-                Consortium Institutional Email Dispatches
+                Course &amp; Platform Email Notifications
               </span>
               <p className="font-body text-xs text-[#7b7974] leading-relaxed">
-                Receive important academic alerts regarding new peer monograph releases, cohort defenses, and grade certifications.
+                Receive important email updates regarding course milestones, quiz grades, and instructor messages.
               </p>
             </div>
 
@@ -963,11 +968,21 @@ export function Profile() {
           {/* Granular Sub-options */}
           <div className="flex flex-col gap-3">
             <span className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold">
-              Dispatched Topics
+              Notification Topics
             </span>
 
             <div className="flex items-center justify-between p-3 rounded-lg border border-[#e7e6e1] text-xs">
-              <span className="text-[#373734]">Peer Review &amp; Evaluation Defenses</span>
+              <span className="text-[#373734]">Assignment Reviews &amp; Quiz Grades</span>
+              <span className="font-mono text-[10px] text-[#4b7a47] font-semibold">ENABLED</span>
+            </div>
+
+            <div className="flex items-center justify-between p-3 rounded-lg border border-[#e7e6e1] text-xs">
+              <span className="text-[#373734]">Course Updates &amp; New Lessons</span>
+              <span className="font-mono text-[10px] text-[#4b7a47] font-semibold">ENABLED</span>
+            </div>
+
+            <div className="flex items-center justify-between p-3 rounded-lg border border-[#e7e6e1] text-xs">
+              <span className="text-[#373734]">Instructor Announcements &amp; Q&amp;A</span>
               <span className="font-mono text-[10px] text-[#4b7a47] font-semibold">ENABLED</span>
             </div>
 
@@ -992,10 +1007,10 @@ export function Profile() {
           <div className="flex items-center justify-between pb-4 border-b border-[#e7e6e1]">
             <div className="flex flex-col">
               <h2 className="font-heading text-xl sm:text-2xl text-[#121212] font-normal">
-                Security &amp; Cryptographic Clearance
+                Security &amp; Account Access
               </h2>
               <p className="font-body text-xs text-[#7b7974]">
-                Consortium identity verification, authentication credentials, and session state.
+                Account security, authentication credentials, and active login sessions.
               </p>
             </div>
             <Key className="w-5 h-5 text-[#d97757]" />
@@ -1003,21 +1018,21 @@ export function Profile() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="p-3.5 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] flex flex-col">
-              <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">Auth Protocol</span>
-              <span className="font-mono text-xs text-[#121212] mt-0.5">JWT Bearer Token • SHA-256</span>
+              <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">Authentication</span>
+              <span className="font-mono text-xs text-[#121212] mt-0.5">Secure JWT Token</span>
             </div>
 
             <div className="p-3.5 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] flex flex-col">
-              <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">Role Privilege Tier</span>
-              <span className="font-mono text-xs text-[#121212] mt-0.5">{user.role} ACCESS</span>
+              <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">Account Role</span>
+              <span className="font-mono text-xs text-[#121212] mt-0.5">{user.role}</span>
             </div>
           </div>
 
           {/* Session Termination Button */}
           <div className="p-4 rounded-xl bg-[#ffdad6]/40 border border-[#ba1a1a]/20 flex items-center justify-between">
             <div className="flex flex-col">
-              <span className="text-xs font-semibold text-[#93000a]">Terminate Active Session</span>
-              <span className="font-body text-[11px] text-[#7b7974]">Sign out from this terminal and clear local JWT clearance.</span>
+              <span className="text-xs font-semibold text-[#93000a]">Sign Out</span>
+              <span className="font-body text-[11px] text-[#7b7974]">Sign out from this device and end your active session.</span>
             </div>
             <button
               type="button"

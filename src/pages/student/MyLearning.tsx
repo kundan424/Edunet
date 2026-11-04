@@ -103,11 +103,6 @@ export function MyLearning() {
   const completedCount = dashboard?.completedCourses || continueCourses.filter(c => c.progressPercentage >= 100).length;
   const totalCompletedLessons = continueCourses.reduce((sum, c) => sum + c.completedModules, 0);
 
-  // Dynamic ECTS credits (6 ECTS per fully completed course, partial for in-progress)
-  const earnedEcts = Math.max(0, continueCourses.reduce((sum, c) => sum + Math.round((c.progressPercentage / 100) * 6), 0));
-  const totalEctsGoal = 90;
-  const ectsPct = Math.min(100, Math.round((earnedEcts / totalEctsGoal) * 100));
-
   // Dynamic Weekly Study Hours
   const calculatedHours = (Math.max(1.5, totalCompletedLessons * 0.75 + continueCourses.reduce((sum, c) => sum + (c.progressPercentage * 0.05), 0))).toFixed(1);
   const weeklyHoursGoal = 10.0;
@@ -142,7 +137,7 @@ export function MyLearning() {
               <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-soft-stone border border-chalk flex items-center justify-center font-mono text-xl sm:text-2xl font-semibold text-carbon-ink tracking-wider shadow-xs">
                 {studentInitials}
               </div>
-              <div className="absolute -bottom-1 -right-1 bg-carbon-ink text-paper-white p-1 rounded-full ring-2 ring-paper-white" title="Verified Scholar">
+              <div className="absolute -bottom-1 -right-1 bg-carbon-ink text-paper-white p-1 rounded-full ring-2 ring-paper-white" title="Verified Student">
                 <CheckCircle2 className="w-3.5 h-3.5 text-paper-white" />
               </div>
             </div>
@@ -150,30 +145,30 @@ export function MyLearning() {
             <div className="space-y-1.5">
               <div className="flex flex-wrap items-center gap-2.5">
                 <h1 className="text-2xl sm:text-3xl font-serif font-normal text-carbon-ink tracking-tight">
-                  {user?.name || 'Elena Rostova'}
+                  {user?.name || 'Student'}
                 </h1>
                 <span className="font-mono text-xs px-2 py-0.5 rounded bg-soft-stone border border-chalk text-graphite">
                   {studentId}
                 </span>
                 <span className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-soft-stone border border-chalk text-graphite flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-clay"></span>
-                  MSc Distributed Systems Track
+                  Active Student Track
                 </span>
               </div>
 
-              {/* Consortium Standing & Badges */}
+              {/* Student Status & Badges */}
               <div className="flex flex-wrap items-center gap-3 text-xs text-graphite">
                 <span className="flex items-center gap-1 text-carbon-ink font-medium">
                   <ShieldCheck className="w-3.5 h-3.5 text-clay" />
-                  Verified Consortium Scholar
+                  Verified Student
                 </span>
                 <span className="text-mist">•</span>
                 <span className="px-2 py-0.5 rounded bg-soft-stone text-graphite border border-chalk font-mono text-[11px]">
-                  Academic Standing: In Good Standing
+                  Account Status: Active
                 </span>
                 <span className="text-mist">•</span>
                 <span className="text-ashen font-serif italic">
-                  Stanford AI Lab &amp; MIT PDOS Joint Cohort VIII
+                  Enrolled Learner
                 </span>
               </div>
             </div>
@@ -241,7 +236,7 @@ export function MyLearning() {
         {/* KPI 2 */}
         <div className="paper-card paper-card-hover p-5 relative overflow-hidden group">
           <div className="flex items-center justify-between text-ashen mb-3">
-            <span className="text-xs font-medium uppercase tracking-wider text-ashen font-mono">Completed Credentials</span>
+            <span className="text-xs font-medium uppercase tracking-wider text-ashen font-mono">Completed Courses</span>
             <div className="p-1.5 rounded-lg bg-soft-stone text-carbon-ink border border-chalk">
               <Award className="w-4 h-4 text-carbon-ink" />
             </div>
@@ -250,10 +245,10 @@ export function MyLearning() {
             <span className="text-3xl font-serif text-carbon-ink tabular">
               {completedCount}
             </span>
-            <span className="text-xs text-ashen">ECTS Badges</span>
+            <span className="text-xs text-ashen">Certificates</span>
           </div>
           <p className="text-xs text-graphite flex items-center gap-1 font-mono">
-            <span className="text-clay">✓</span> Audited &amp; ECTS-timestamped
+            <span className="text-clay">✓</span> Verifiable completion records
           </p>
         </div>
 
@@ -274,27 +269,36 @@ export function MyLearning() {
             <span className="text-xs font-mono px-1.5 py-0.5 rounded bg-soft-stone text-graphite border border-chalk">+1.8%</span>
           </div>
           <p className="text-xs text-ashen font-mono">
-            vs cohort benchmark (92.4%)
+            vs platform benchmark (92.4%)
           </p>
         </div>
 
         {/* KPI 4 */}
         <div className="paper-card paper-card-hover p-5 relative overflow-hidden group">
           <div className="flex items-center justify-between text-ashen mb-3">
-            <span className="text-xs font-medium uppercase tracking-wider text-ashen font-mono">Transferable ECTS Credits</span>
+            <span className="text-xs font-medium uppercase tracking-wider text-ashen font-mono">Course Completion Rate</span>
             <div className="p-1.5 rounded-lg bg-soft-stone text-carbon-ink border border-chalk">
               <GraduationCap className="w-4 h-4 text-carbon-ink" />
             </div>
           </div>
           <div className="flex items-baseline gap-2 mb-1">
-            <span className="text-3xl font-serif text-carbon-ink tabular">{earnedEcts} <span className="text-base text-ashen font-normal">/ {totalEctsGoal}</span></span>
-            <span className="text-xs text-clay font-mono">ECTS</span>
+            <span className="text-3xl font-serif text-carbon-ink tabular">
+              {continueCourses.length > 0
+                ? Math.round(continueCourses.reduce((sum, c) => sum + c.progressPercentage, 0) / continueCourses.length)
+                : 0}%
+            </span>
+            <span className="text-xs text-clay font-mono">AVG</span>
           </div>
           <div className="w-full h-1.5 bg-chalk rounded-full overflow-hidden mt-1 mb-1">
-            <div className="h-full bg-carbon-ink rounded-full transition-all duration-500" style={{ width: `${ectsPct}%` }}></div>
+            <div
+              className="h-full bg-carbon-ink rounded-full transition-all duration-500"
+              style={{
+                width: `${continueCourses.length > 0 ? Math.round(continueCourses.reduce((sum, c) => sum + c.progressPercentage, 0) / continueCourses.length) : 0}%`
+              }}
+            />
           </div>
           <p className="text-[11px] text-ashen">
-            {ectsPct}% toward MSc Degree requirement
+            Overall average across enrolled courses
           </p>
         </div>
 
@@ -421,12 +425,12 @@ export function MyLearning() {
             )}
           </div>
 
-          {/* Bottom Left: Peer Feedback & Evaluated Defenses Drawer */}
+          {/* Bottom Left: Assignment Feedback & Progress */}
           <div className="paper-card p-5 space-y-4">
             <div className="flex items-center justify-between border-b border-chalk pb-3">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-clay" />
-                <h3 className="text-sm font-semibold text-carbon-ink tracking-tight">Peer Feedback &amp; Evaluated Defenses</h3>
+                <h3 className="text-sm font-semibold text-carbon-ink tracking-tight">Assignment Feedback &amp; Grades</h3>
               </div>
               <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-soft-stone text-graphite border border-chalk">
                 Verified Progress
@@ -461,11 +465,11 @@ export function MyLearning() {
                   <span className="w-2 h-2 rounded-full bg-clay"></span>
                   <span className="text-graphite font-medium">Evaluation Criteria Met</span>
                 </div>
-                <span className="font-mono text-clay text-[11px] font-semibold">Verified Defenses</span>
+                <span className="font-mono text-clay text-[11px] font-semibold">Completed Tasks</span>
               </div>
             ) : (
               <div className="p-4 rounded-lg bg-soft-stone border border-chalk text-center text-xs text-ashen leading-relaxed">
-                No course defenses submitted yet. Complete quizzes and assignments in your enrolled courses to receive graded peer feedback.
+                No assignments submitted yet. Complete quizzes and assignments in your enrolled courses to receive graded feedback.
               </div>
             )}
           </div>
@@ -475,16 +479,16 @@ export function MyLearning() {
         {/* ── RIGHT COLUMN (40% / 5 cols): Academic Calendar & Credentials ── */}
         <div className="lg:col-span-5 space-y-8">
           
-          {/* Academic Calendar & Upcoming Deadlines */}
+          {/* Calendar & Upcoming Deadlines */}
           <div className="paper-card p-5 space-y-5">
             <div className="flex items-center justify-between border-b border-chalk pb-3">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-carbon-ink" />
-                <h3 className="text-sm font-semibold text-carbon-ink tracking-tight">Calendar &amp; Invariant Deadlines</h3>
+                <h3 className="text-sm font-semibold text-carbon-ink tracking-tight">Calendar &amp; Upcoming Deadlines</h3>
               </div>
               <button 
                 type="button"
-                onClick={() => alert('Calendar synced! All lecture deadlines and live defense hours added to your iCal feed.')}
+                onClick={() => alert('Calendar synced! All course milestones and lesson schedules added to your calendar feed.')}
                 className="px-2.5 py-1 rounded bg-soft-stone hover:bg-chalk border border-chalk text-[11px] font-mono text-graphite transition-colors flex items-center gap-1 cursor-pointer"
               >
                 <span>+ Sync iCal</span>
@@ -500,21 +504,21 @@ export function MyLearning() {
                     <span className="w-1.5 h-1.5 rounded-full bg-clay"></span>
                     Due in 2 Days (Fri, 23:59 UTC)
                   </span>
-                  <span className="text-[11px] font-mono text-ashen">Lab 02 Defense</span>
+                  <span className="text-[11px] font-mono text-ashen">Assignment</span>
                 </div>
                 <h4 className="text-xs font-semibold text-carbon-ink mb-1">
-                  Zero-Trust Microkernel Sandbox Defense
+                  Practical Course Project Assignment
                 </h4>
                 <div className="text-[11px] text-ashen mb-3 font-serif italic">
                   Course: {primaryCourse.courseTitle}
                 </div>
                 <div className="flex items-center justify-between pt-2 border-t border-chalk text-[11px]">
-                  <span className="text-ashen font-mono">Weight: 20 ECTS Pts</span>
+                  <span className="text-ashen font-mono">Max: 100 Points</span>
                   <Link 
                     to={`/learn/${primaryCourse.courseId}`}
                     className="text-xs font-mono font-medium text-clay hover:text-carbon-ink flex items-center gap-1"
                   >
-                    <span>Submit Repo Invariants →</span>
+                    <span>Submit Assignment →</span>
                   </Link>
                 </div>
               </div>
@@ -523,19 +527,19 @@ export function MyLearning() {
               <div className="p-3.5 rounded-lg bg-soft-stone border border-chalk space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-paper-white text-graphite border border-chalk">
-                    Live Colloquium
+                    Live Session
                   </span>
                   <span className="text-[11px] font-mono text-ashen">Monday, 17:00 UTC</span>
                 </div>
                 <h4 className="text-xs font-semibold text-carbon-ink">
-                  Cohort Office Hours &amp; Live Invariant Q&amp;A
+                  Office Hours &amp; Live Q&amp;A
                 </h4>
                 <div className="text-[11px] text-ashen font-serif italic">
-                  Faculty Host: Prof. K. Vikram (Stanford Systems)
+                  Instructor: Dr. Vikram (Computer Systems)
                 </div>
                 <button 
                   type="button"
-                  onClick={() => alert('Connecting to Live Faculty Seminar Room...')}
+                  onClick={() => alert('Connecting to Live Session Room...')}
                   className="w-full mt-2 py-2 rounded bg-carbon-ink hover:bg-graphite text-paper-white text-xs font-medium font-mono transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <span className="w-2 h-2 rounded-full bg-clay animate-pulse"></span>
@@ -545,12 +549,12 @@ export function MyLearning() {
             </div>
           </div>
 
-          {/* Bottom Right: Earned Credentials & ECTS Portfolio */}
+          {/* Bottom Right: Earned Credentials & Certificates */}
           <div className="paper-card p-5 space-y-4">
             <div className="flex items-center justify-between border-b border-chalk pb-3">
               <div className="flex items-center gap-2">
                 <Award className="w-4 h-4 text-carbon-ink" />
-                <h3 className="text-sm font-semibold text-carbon-ink tracking-tight">Earned Credentials &amp; ECTS Portfolio</h3>
+                <h3 className="text-sm font-semibold text-carbon-ink tracking-tight">Earned Certificates &amp; Credentials</h3>
               </div>
               <span className="text-[11px] font-mono text-clay">Verifiable</span>
             </div>
@@ -559,17 +563,17 @@ export function MyLearning() {
             <div className="p-4 rounded-lg bg-soft-stone border border-chalk space-y-3">
               <div className="flex items-start justify-between gap-3">
                 <div className="space-y-1">
-                  <div className="text-[10px] font-mono text-ashen uppercase tracking-wider">Accredited Unit</div>
-                  <h4 className="text-xs font-semibold text-carbon-ink">Foundations of Formal Verification</h4>
+                  <div className="text-[10px] font-mono text-ashen uppercase tracking-wider">Completed Course</div>
+                  <h4 className="text-xs font-semibold text-carbon-ink">Foundations of Modern Software Systems</h4>
                   <div className="text-[11px] text-ashen font-serif italic">
-                    Issued by Cambridge Computer Lab
+                    Issued by Lumina Learning
                   </div>
                 </div>
                 <div className="text-right">
                   <span className="px-2 py-0.5 rounded bg-paper-white border border-chalk text-carbon-ink font-mono text-xs font-medium">
-                    6.0 ECTS
+                    Certificate
                   </span>
-                  <div className="text-[10px] font-mono text-ashen mt-1">ECTS-2026-992A</div>
+                  <div className="text-[10px] font-mono text-ashen mt-1">CERT-2026-992A</div>
                 </div>
               </div>
 
@@ -577,7 +581,7 @@ export function MyLearning() {
               <div className="grid grid-cols-3 gap-2 pt-2 border-t border-chalk">
                 <button 
                   type="button"
-                  onClick={() => alert('Official Verified PDF Transcript generated with Cambridge cryptographic stamp.')}
+                  onClick={() => alert('Official Verified PDF Certificate generated.')}
                   className="py-1 px-2 rounded bg-paper-white hover:bg-chalk border border-chalk text-[10px] font-mono text-graphite text-center transition-colors cursor-pointer"
                 >
                   PDF Transcript

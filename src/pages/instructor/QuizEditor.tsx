@@ -68,8 +68,8 @@ export function QuizEditor() {
     return (
       <div className="w-full max-w-[1200px] mx-auto py-24 flex flex-col items-center justify-center gap-3">
         <div className="w-8 h-8 border-2 border-[#121212]/20 border-t-[#121212] rounded-full animate-spin" />
-        <span className="font-heading text-lg text-[#121212]">Loading Evaluation Monograph...</span>
-        <span className="font-mono text-xs text-[#7b7974]">LUM-DEFENSE-{lessonId?.slice(0, 6).toUpperCase()}</span>
+        <span className="font-heading text-lg text-[#121212]">Loading Quiz...</span>
+        <span className="font-mono text-xs text-[#7b7974]">QUIZ-{lessonId?.slice(0, 6).toUpperCase()}</span>
       </div>
     );
   }
@@ -81,9 +81,9 @@ export function QuizEditor() {
           <div className="w-12 h-12 rounded-full bg-[#ffdad6] flex items-center justify-center text-[#ba1a1a]">
             <AlertCircle className="w-6 h-6" />
           </div>
-          <h2 className="font-heading text-xl text-[#121212]">Failed to load assessment</h2>
+          <h2 className="font-heading text-xl text-[#121212]">Failed to load quiz</h2>
           <p className="font-body text-xs text-[#7b7974] leading-relaxed">
-            {(error as any)?.message || 'Assessment defense not found or unauthorized.'}
+            {(error as any)?.message || 'Quiz not found or unauthorized.'}
           </p>
           <div className="flex gap-2 pt-2">
             <button
@@ -137,26 +137,26 @@ export function QuizEditor() {
 
   return (
     <div className="flex flex-col w-full pb-20">
-      {/* ── Breadcrumb & Assessment Header Bar ── */}
+      {/* ── Breadcrumb & Quiz Header Bar ── */}
       <section className="w-full bg-[#f8f8f6]/90 border-b border-[#e7e6e1] py-4">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 flex flex-col gap-3">
           {/* Breadcrumb Row */}
           <div className="flex items-center justify-between text-xs font-mono text-[#7b7974]">
             <div className="flex items-center gap-2 flex-wrap">
-              <Link to="/instructor" className="hover:text-[#121212] transition-colors">Instructor Guild</Link>
+              <Link to="/instructor" className="hover:text-[#121212] transition-colors">Instructor Studio</Link>
               <span>/</span>
               <Link to="/instructor/courses" className="hover:text-[#121212] transition-colors">Courses</Link>
               <span>/</span>
               <Link to={`/instructor/courses/${courseId}`} className="hover:text-[#121212] transition-colors">
-                Studio ({courseId?.slice(0, 8)})
+                Course Studio
               </Link>
               <span>/</span>
-              <span className="text-[#121212] font-semibold">Evaluation Defense</span>
+              <span className="text-[#121212] font-semibold">Quiz</span>
             </div>
             <div className="hidden sm:flex items-center gap-2 font-mono text-[11px] text-[#9c9a92]">
-              <span>Assessment Protocol:</span>
+              <span>Quiz ID:</span>
               <span className="bg-[#e7e6e1] text-[#121212] px-2 py-0.5 rounded text-[10px] tracking-wide font-semibold">
-                LUM-QUIZ-{lessonId?.slice(0, 6).toUpperCase()}
+                QUIZ-{lessonId?.slice(0, 6).toUpperCase()}
               </span>
             </div>
           </div>
@@ -166,15 +166,15 @@ export function QuizEditor() {
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-3">
                 <h1 className="font-heading text-2xl sm:text-3xl text-[#121212] font-normal">
-                  {isNew ? 'Initialize Evaluation Assessment' : (quiz?.title || 'Edit Assessment Defense')}
+                  {isNew ? 'Create New Quiz' : (quiz?.title || 'Edit Quiz')}
                 </h1>
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#faecd8] text-[#8c501e] font-mono text-[10px] font-bold">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#d97757]" />
-                  {isNew ? 'NEW DRAFT' : 'EVALUATION HARNESS'}
+                  {isNew ? 'NEW DRAFT' : 'QUIZ BUILDER'}
                 </span>
               </div>
               <p className="font-body text-xs text-[#7b7974]">
-                Formulate comprehension checkpoints, invariant proofs, and cohort grading thresholds.
+                Add questions, set the passing score, and configure quiz settings.
               </p>
             </div>
 
@@ -183,7 +183,7 @@ export function QuizEditor() {
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#ffffff] hover:bg-[#efeeeb] text-[#121212] text-xs font-medium transition-colors border border-[#e7e6e1] shadow-2xs self-start sm:self-auto"
             >
               <ArrowLeft className="w-3.5 h-3.5 text-[#7b7974]" />
-              <span>Back to Course Studio</span>
+              <span>Back to Course</span>
             </Link>
           </div>
         </div>
@@ -204,7 +204,7 @@ export function QuizEditor() {
                 }`}
               >
                 <Settings className="w-4 h-4 text-[#7b7974]" />
-                <span>Assessment Settings</span>
+                <span>Quiz Settings</span>
               </button>
 
               <button
@@ -217,7 +217,7 @@ export function QuizEditor() {
                 }`}
               >
                 <HelpCircle className="w-4 h-4 text-[#121212]" />
-                <span>Question Bank</span>
+                <span>Questions</span>
                 <span className="ml-1 px-1.5 py-0.2 rounded-full bg-[#efeeeb] text-[#373734] font-mono text-[10px]">
                   {quiz?.questions?.length || 0}
                 </span>
@@ -237,7 +237,7 @@ export function QuizEditor() {
                 <div className="flex items-center gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-[#4b7a47] shrink-0" />
                   <span className="font-body text-xs font-medium">
-                    Assessment settings successfully saved to evaluation harness.
+                    Quiz settings successfully saved.
                   </span>
                 </div>
                 <span className="font-mono text-[10px] text-[#4b7a47] uppercase font-bold tracking-wider">Saved</span>
@@ -247,7 +247,7 @@ export function QuizEditor() {
             <form onSubmit={handleSaveSettings} className="bg-[#ffffff] rounded-2xl p-6 sm:p-8 border border-[#e7e6e1] shadow-xs flex flex-col gap-6">
               <div className="flex flex-col gap-1 pb-4 border-b border-[#e7e6e1]">
                 <h2 className="font-heading text-xl sm:text-2xl text-[#121212] font-normal">
-                  Evaluation Rubric &amp; Calibration
+                  Quiz Settings &amp; Grading
                 </h2>
                 <p className="font-body text-xs text-[#7b7974]">
                   Configure passing threshold, attempt limits, and test duration.
@@ -257,14 +257,14 @@ export function QuizEditor() {
               {/* Title */}
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold text-[#121212]">
-                  Assessment Title *
+                  Quiz Title *
                 </label>
                 <input
                   type="text"
                   required
                   value={formData.title}
                   onChange={e => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="e.g., UCT Exploration vs Exploitation Balance Defense"
+                  placeholder="e.g., Chapter 1 Knowledge Check"
                   className="w-full px-4 py-2.5 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm font-body border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none"
                 />
               </div>
@@ -272,13 +272,13 @@ export function QuizEditor() {
               {/* Description */}
               <div className="flex flex-col gap-1.5">
                 <label className="text-xs font-semibold text-[#121212]">
-                  Pedagogical Instructions &amp; Overview
+                  Quiz Instructions &amp; Overview
                 </label>
                 <textarea
                   rows={3}
                   value={formData.description}
                   onChange={e => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Outline test instructions, allowable references, or mathematical constants..."
+                  placeholder="Outline quiz instructions, guidelines, and what students should know..."
                   className="w-full px-4 py-2.5 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm font-body border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none leading-relaxed"
                 />
               </div>
@@ -287,7 +287,7 @@ export function QuizEditor() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="flex flex-col gap-1.5">
                   <label className="text-xs font-semibold text-[#121212]">
-                    Pass Benchmark (%) *
+                    Passing Score (%) *
                   </label>
                   <div className="relative flex items-center">
                     <input
@@ -338,7 +338,7 @@ export function QuizEditor() {
               {/* Action */}
               <div className="flex items-center justify-between pt-4 border-t border-[#e7e6e1]">
                 <span className="font-mono text-[11px] text-[#9c9a92]">
-                  {isNew ? 'Initializes quiz defense in registry' : 'Synced with curriculum tree'}
+                  {isNew ? 'Creates quiz for this lesson' : 'Saved to course'}
                 </span>
                 <button
                   type="submit"
@@ -382,10 +382,10 @@ function QuestionManager({
       <div className="flex items-center justify-between bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-xs">
         <div className="flex flex-col">
           <h3 className="font-heading text-lg sm:text-xl text-[#121212] font-normal">
-            Assessment Question Bank
+            Quiz Questions
           </h3>
           <span className="font-mono text-xs text-[#7b7974]">
-            {questions.length} {questions.length === 1 ? 'Question' : 'Questions'} registered
+            {questions.length} {questions.length === 1 ? 'Question' : 'Questions'} added
           </span>
         </div>
 
@@ -404,7 +404,7 @@ function QuestionManager({
       {isAdding && (
         <div className="bg-[#ffffff] rounded-2xl p-6 border-2 border-[#121212] shadow-sm animate-in fade-in">
           <div className="flex items-center justify-between pb-3 border-b border-[#e7e6e1] mb-4">
-            <h4 className="font-heading text-base text-[#121212]">Add New Assessment Question</h4>
+            <h4 className="font-heading text-base text-[#121212]">Add New Question</h4>
             <span className="font-mono text-xs text-[#7b7974]">Question #{questions.length + 1}</span>
           </div>
 
@@ -425,9 +425,9 @@ function QuestionManager({
             <FileQuestion className="w-6 h-6" />
           </div>
           <div className="flex flex-col gap-1 max-w-sm">
-            <span className="font-heading text-lg text-[#121212]">No Questions in Assessment Bank</span>
+            <span className="font-heading text-lg text-[#121212]">No Questions Added Yet</span>
             <p className="font-body text-xs text-[#7b7974] leading-relaxed">
-              Add your first multi-choice, single select, or true/false question to complete the evaluation defense.
+              Add your first multiple choice, single select, or true/false question for this quiz.
             </p>
           </div>
           <button
@@ -643,13 +643,13 @@ function QuestionForm({
     <form onSubmit={handleSave} className="flex flex-col gap-4">
       {/* Question Text */}
       <div className="flex flex-col gap-1.5">
-        <label className="text-xs font-semibold text-[#121212]">Question Scenario / Prompt *</label>
+        <label className="text-xs font-semibold text-[#121212]">Question Text *</label>
         <textarea
           required
           rows={2}
           value={text}
           onChange={e => setText(e.target.value)}
-          placeholder="State the invariant proof or problem scenario..."
+          placeholder="Enter your question here..."
           className="w-full px-3.5 py-2.5 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm font-body border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none"
         />
       </div>
@@ -673,7 +673,7 @@ function QuestionForm({
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-semibold text-[#121212]">Points Weight</label>
+          <label className="text-xs font-semibold text-[#121212]">Points</label>
           <input
             type="number"
             required
@@ -685,7 +685,7 @@ function QuestionForm({
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <label className="text-xs font-semibold text-[#121212]">Display Sequence</label>
+          <label className="text-xs font-semibold text-[#121212]">Question Order</label>
           <input
             type="number"
             required
@@ -699,7 +699,7 @@ function QuestionForm({
 
       {/* Options Section */}
       <div className="flex flex-col gap-2 pt-2">
-        <label className="text-xs font-semibold text-[#121212]">Answer Choices &amp; Grading Key</label>
+        <label className="text-xs font-semibold text-[#121212]">Answer Choices</label>
 
         {type === 'TRUE_FALSE' ? (
           <div className="flex gap-4 p-3 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1]">

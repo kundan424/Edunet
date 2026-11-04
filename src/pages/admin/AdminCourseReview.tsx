@@ -34,7 +34,7 @@ export function AdminCourseReview() {
   const approveMutation = useApproveCourse();
   const rejectMutation = useRejectCourse();
 
-  if (isLoading) return <LoadingState message="Conducting Senate Curriculum Audit..." />;
+  if (isLoading) return <LoadingState message="Loading course for review..." />;
   if (error || !data) {
     const errorMsg =
       (error as any)?.message ||
@@ -47,7 +47,7 @@ export function AdminCourseReview() {
           className="inline-flex items-center gap-2 text-xs font-mono text-[#7b7974] hover:text-[#121212] transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Return to Moderation Docket</span>
+          <span>Return to Course Moderation</span>
         </button>
         <ErrorState
           title="Curriculum Unavailable for Moderation"
@@ -106,10 +106,10 @@ export function AdminCourseReview() {
   };
 
   const quickCritiques = [
-    'Syllabus modules lack verifiable learning objectives.',
-    'Insufficient formal assessment defenses or quiz evaluation checkpoints.',
-    'Audio/Video recording quality requires transcoding re-upload.',
-    'Prerequisites or academic rigor tier misaligned with course category.'
+    'Syllabus modules lack clear learning objectives.',
+    'Insufficient quizzes or knowledge check questions.',
+    'Audio/Video recording quality requires improvement.',
+    'Prerequisites or difficulty level misaligned with course category.'
   ];
 
   return (
@@ -121,29 +121,29 @@ export function AdminCourseReview() {
           className="inline-flex items-center gap-2 text-xs font-mono text-[#7b7974] hover:text-[#121212] transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Return to Curriculum Moderation Docket</span>
+          <span>Return to Course Moderation</span>
         </Link>
         <span className="font-mono text-[11px] text-[#7b7974]">
-          Audit Session ID: #{course.id.slice(0, 8).toUpperCase()}
+          Course ID: #{course.id.slice(0, 8).toUpperCase()}
         </span>
       </div>
 
-      {/* ── A. Monograph Summary & Senate Action Banner ── */}
+      {/* ── A. Course Summary & Action Banner ── */}
       <section className="bg-[#ffffff] rounded-2xl p-6 sm:p-8 border border-[#e7e6e1] shadow-xs relative overflow-hidden">
         <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
           <div className="space-y-3 max-w-3xl">
             <div className="flex flex-wrap items-center gap-2.5">
               <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-[#fff5f0] text-[#d97757] border border-[#d97757]/30 font-semibold uppercase">
-                Pending Senate Approval
+                Pending Review
               </span>
               <span className="font-mono text-xs px-2.5 py-0.5 rounded bg-[#f8f8f6] text-[#7b7974] border border-[#e7e6e1]">
                 {course.category}
               </span>
               <span className="font-mono text-xs px-2.5 py-0.5 rounded bg-[#f8f8f6] text-[#7b7974] border border-[#e7e6e1] uppercase">
-                {course.difficulty} Rigor
+                {course.difficulty}
               </span>
               <span className="font-mono text-xs text-[#4b7a47] font-semibold">
-                {course.price === 0 || course.price === null ? 'Scholarship / Free' : `$${course.price.toFixed(2)} Tuition`}
+                {course.price === 0 || course.price === null ? 'Free' : `$${course.price.toFixed(2)}`}
               </span>
             </div>
 
@@ -152,14 +152,14 @@ export function AdminCourseReview() {
             </h1>
 
             <p className="text-xs sm:text-sm text-[#7b7974] leading-relaxed">
-              {course.description || 'No detailed syllabus synopsis provided with monograph proposal.'}
+              {course.description || 'No course description provided.'}
             </p>
 
             {/* Authoring Faculty */}
             <div className="flex items-center gap-2 pt-2 text-xs font-mono text-[#373734]">
               <GraduationCap className="w-4 h-4 text-[#d97757]" />
               <span className="font-medium text-[#121212]">
-                Authoring Scholar: {(course as any).instructorName || 'Consortium Fellow'}
+                Instructor: {(course as any).instructorName || 'Instructor'}
               </span>
               <span className="text-[#9c9a92]">•</span>
               <span className="text-[#7b7974]">
@@ -179,7 +179,7 @@ export function AdminCourseReview() {
               disabled={approveMutation.isPending || rejectMutation.isPending}
               className="flex-1 sm:flex-initial px-5 py-2.5 rounded-xl border border-[#ba1a1a]/40 text-[#ba1a1a] hover:bg-[#ffdad6]/20 font-mono text-xs font-medium transition-all cursor-pointer"
             >
-              Decline Monograph
+              Reject Course
             </button>
             <button
               type="button"
@@ -299,24 +299,24 @@ export function AdminCourseReview() {
           )}
         </div>
 
-        {/* Right Column (4 cols): Senate Compliance Rubric & Inspector */}
+        {/* Right Column (4 cols): Course Quality Checklist & Actions */}
         <div className="lg:col-span-4 space-y-6">
           <div className="bg-[#ffffff] rounded-2xl p-6 border border-[#e7e6e1] shadow-xs space-y-5">
             <div className="flex items-center gap-2 pb-3 border-b border-[#e7e6e1]">
               <ShieldCheck className="w-4 h-4 text-[#d97757]" />
               <h2 className="font-heading text-base text-[#121212]">
-                Accreditation Audit Rubric
+                Course Quality Checklist
               </h2>
             </div>
 
             <div className="space-y-3.5 text-xs font-mono">
               <div className="p-3 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] space-y-1">
                 <div className="flex items-center justify-between font-semibold text-[#121212]">
-                  <span>Academic Rigor Score</span>
-                  <span className="text-[#4b7a47]">96% Match</span>
+                  <span>Difficulty Level Match</span>
+                  <span className="text-[#4b7a47]">Aligned</span>
                 </div>
                 <p className="text-[11px] text-[#7b7974] leading-snug">
-                  Curriculum depth aligns with {course.difficulty} classification standards.
+                  Course depth aligns with {course.difficulty} classification standards.
                 </p>
               </div>
 
@@ -332,11 +332,11 @@ export function AdminCourseReview() {
 
               <div className="p-3 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] space-y-1">
                 <div className="flex items-center justify-between font-semibold text-[#121212]">
-                  <span>Evaluation Benchmarks</span>
+                  <span>Assessments</span>
                   <span className="text-[#d97757]">
                     {sections.some(s => s.lessons.some(l => l.lessonType === 'QUIZ'))
-                      ? 'Defenses Staged'
-                      : 'Self-Paced Reading'}
+                      ? 'Quizzes Added'
+                      : 'Lessons Only'}
                   </span>
                 </div>
                 <p className="text-[11px] text-[#7b7974] leading-snug">
@@ -345,14 +345,14 @@ export function AdminCourseReview() {
               </div>
             </div>
 
-            {/* Quick Senate Actions */}
+            {/* Review Actions */}
             <div className="pt-3 border-t border-[#e7e6e1] space-y-2">
               <button
                 type="button"
                 onClick={() => setShowApproveModal(true)}
                 className="w-full py-2.5 rounded-xl bg-[#121212] hover:bg-black text-[#ffffff] font-mono text-xs font-medium shadow-xs transition-colors cursor-pointer"
               >
-                Approve Monograph
+                Approve Course
               </button>
               <button
                 type="button"
@@ -362,14 +362,14 @@ export function AdminCourseReview() {
                 }}
                 className="w-full py-2 rounded-xl text-xs font-mono text-[#ba1a1a] hover:bg-[#ffdad6]/20 transition-colors cursor-pointer"
               >
-                Decline with Critique
+                Reject with Feedback
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── C. Decline Monograph Modal ── */}
+      {/* ── C. Reject Course Modal ── */}
       {showRejectModal && (
         <div className="fixed inset-0 bg-[#000000]/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-[#ffffff] rounded-2xl max-w-lg w-full p-6 sm:p-7 border border-[#e7e6e1] shadow-2xl space-y-5 animate-in zoom-in-95 duration-150">
@@ -380,10 +380,10 @@ export function AdminCourseReview() {
                 </div>
                 <div>
                   <h3 className="font-serif text-lg font-medium text-[#121212]">
-                    Decline Curriculum Proposal
+                    Reject Course
                   </h3>
                   <span className="font-mono text-xs text-[#7b7974]">
-                    Instructor: {(course as any).instructorName || 'Consortium Fellow'}
+                    Instructor: {(course as any).instructorName || 'Instructor'}
                   </span>
                 </div>
               </div>
@@ -399,7 +399,7 @@ export function AdminCourseReview() {
 
             <div className="space-y-3">
               <label className="font-mono text-xs text-[#121212] font-semibold block">
-                Quick Academic Senate Critiques (Click to append):
+                Quick Feedback Suggestions (Click to append):
               </label>
               <div className="flex flex-col gap-1.5">
                 {quickCritiques.map((crit, idx) => (
@@ -418,14 +418,14 @@ export function AdminCourseReview() {
 
               <div className="space-y-1.5 pt-2">
                 <label className="font-mono text-xs text-[#121212] font-semibold block">
-                  Detailed Peer Review Critique (Required):
+                  Feedback for Instructor (Required):
                 </label>
                 <textarea
                   required
                   rows={4}
                   value={rejectReason}
                   onChange={e => setRejectReason(e.target.value)}
-                  placeholder="Outline the required adjustments, syllabus expansions, or pedagogical changes needed before re-submission..."
+                  placeholder="Outline the required adjustments or changes needed before re-submission..."
                   className="w-full p-3.5 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] text-xs font-mono text-[#121212] placeholder:text-[#9c9a92] focus:outline-none focus:border-[#ba1a1a]"
                 />
               </div>
@@ -445,14 +445,14 @@ export function AdminCourseReview() {
                 disabled={!rejectReason.trim() || rejectMutation.isPending}
                 className="px-5 py-2.5 rounded-xl bg-[#ba1a1a] hover:bg-[#93000a] text-[#ffffff] font-mono text-xs font-medium shadow-xs disabled:opacity-50 cursor-pointer"
               >
-                {rejectMutation.isPending ? 'Submitting Critique...' : 'Decline Proposal'}
+                {rejectMutation.isPending ? 'Submitting...' : 'Reject Course'}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* ── D. Approve Monograph Modal ── */}
+      {/* ── D. Approve Course Modal ── */}
       {showApproveModal && (
         <div className="fixed inset-0 bg-[#000000]/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-[#ffffff] rounded-2xl max-w-md w-full p-6 sm:p-7 border border-[#e7e6e1] shadow-2xl space-y-5 animate-in zoom-in-95 duration-150">
@@ -462,21 +462,21 @@ export function AdminCourseReview() {
               </div>
               <div className="space-y-1">
                 <h3 className="font-serif text-xl font-medium text-[#121212]">
-                  Grant Formal Accreditation
+                  Approve Course for Publication
                 </h3>
                 <p className="text-xs text-[#7b7974] leading-relaxed">
-                  Are you sure you wish to clear "{course.title}" for immediate dissemination? The monograph will become publicly discoverable in the Consortium course catalog.
+                  Are you sure you wish to approve "{course.title}"? The course will be published immediately in the course catalog.
                 </p>
               </div>
             </div>
 
             <div className="p-3.5 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] text-xs font-mono text-[#373734] space-y-1">
               <div className="flex justify-between">
-                <span>Accreditation Tier:</span>
-                <span className="font-semibold text-[#121212]">Consortium Level III</span>
+                <span>Status:</span>
+                <span className="font-semibold text-[#121212]">Published</span>
               </div>
               <div className="flex justify-between">
-                <span>Tuition Model:</span>
+                <span>Pricing:</span>
                 <span className="font-semibold text-[#121212]">
                   {course.price === 0 || course.price === null ? 'Scholarship' : `$${course.price.toFixed(2)}`}
                 </span>

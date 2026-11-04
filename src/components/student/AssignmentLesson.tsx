@@ -36,14 +36,14 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
     }
   }, [submission, onComplete]);
 
-  if (assignLoading || subLoading) return <LoadingState message="Loading lab defense specification..." />;
+  if (assignLoading || subLoading) return <LoadingState message="Loading assignment specifications..." />;
   if (assignError || !assignment) return <ErrorState message="We couldn't retrieve the assignment specifications." />;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!submissionText.trim()) return;
 
-    if (window.confirm("Submit your lab defense for peer and faculty review?")) {
+    if (window.confirm("Submit your assignment for review?")) {
       submitAssignment.mutate({ submissionText }, {
         onSuccess: () => {
           setSubmissionText('');
@@ -59,7 +59,7 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
       <div className="pb-4 border-b border-[#e7e6e1] flex flex-col gap-1.5">
         <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold">
           <Award className="w-3.5 h-3.5" />
-          <span>Lab Defense &amp; Project Evaluation</span>
+          <span>Assignment &amp; Project Evaluation</span>
         </div>
         <h2 className="font-heading text-xl sm:text-2xl font-semibold text-[#121212] leading-snug">
           {assignment.title || title}
@@ -68,12 +68,12 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
         {/* Evaluation Standards Row */}
         <div className="flex flex-wrap gap-4 mt-3 pt-3 border-t border-[#e7e6e1]/80">
           <div className="p-3 rounded-xl bg-[#efeeeb]/50 border border-[#e7e6e1] flex flex-col gap-0.5">
-            <span className="text-[10px] font-mono uppercase text-[#7b7974]">Max Defense Score</span>
+            <span className="text-[10px] font-mono uppercase text-[#7b7974]">Max Points</span>
             <span className="font-heading text-base font-bold text-[#121212]">{assignment.maxScore} points</span>
           </div>
           {assignment.dueAt && (
             <div className="p-3 rounded-xl bg-[#efeeeb]/50 border border-[#e7e6e1] flex flex-col gap-0.5">
-              <span className="text-[10px] font-mono uppercase text-[#7b7974]">Milestone Due Date</span>
+              <span className="text-[10px] font-mono uppercase text-[#7b7974]">Due Date</span>
               <span className="font-heading text-base font-bold text-[#121212] flex items-center gap-1.5">
                 <Calendar className="w-3.5 h-3.5 text-[#d97757]" />
                 {new Date(assignment.dueAt).toLocaleDateString(undefined, {
@@ -89,11 +89,11 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
         </div>
       </div>
 
-      {/* Instructions Monograph */}
+      {/* Instructions */}
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 text-xs font-mono font-semibold uppercase text-[#7b7974]">
           <FileText className="w-3.5 h-3.5" />
-          <span>Defense Requirements &amp; Instructions</span>
+          <span>Assignment Requirements &amp; Instructions</span>
         </div>
         <div className="p-5 sm:p-6 rounded-2xl bg-[#f8f8f6] border border-[#e7e6e1] font-body text-xs sm:text-sm text-[#373734] leading-relaxed whitespace-pre-wrap">
           {assignment.instructions}
@@ -104,7 +104,7 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
       <div className="pt-2 flex flex-col gap-4">
         <div className="flex items-center justify-between pb-2 border-b border-[#e7e6e1]">
           <span className="text-xs font-mono font-semibold uppercase text-[#7b7974]">
-            Your Submission &amp; Defense Status
+            Your Submission &amp; Status
           </span>
           {submission && (
             <span className="text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold bg-[#efeeeb] px-2.5 py-0.5 rounded border border-[#e7e6e1]">
@@ -133,10 +133,10 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
                   )}
                   <span className="font-heading text-sm font-semibold text-[#121212]">
                     {submission.status === 'GRADED' 
-                      ? 'Evaluated by Faculty & Benchmarks' 
+                      ? 'Graded by Instructor' 
                       : submission.status === 'RETURNED' 
                         ? 'Returned for Revision' 
-                        : 'Defense Submitted · Awaiting Faculty Review'}
+                        : 'Assignment Submitted · Awaiting Review'}
                   </span>
                 </div>
 
@@ -150,7 +150,7 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
               {submission.feedback && (
                 <div className="p-3.5 rounded-xl bg-[#ffffff] border border-[#e7e6e1] text-xs">
                   <span className="font-mono text-[10px] uppercase text-[#7b7974] block mb-1">
-                    Faculty Review Notes:
+                    Instructor Feedback:
                   </span>
                   <p className="font-body text-[#373734] italic">
                     "{submission.feedback}"
@@ -159,7 +159,7 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
               )}
 
               <div className="p-3.5 rounded-xl bg-[#ffffff] border border-[#e7e6e1] text-xs font-mono text-[#373734] whitespace-pre-wrap">
-                <span className="text-[10px] text-[#7b7974] uppercase block mb-1">Submitted Defense Output:</span>
+                <span className="text-[10px] text-[#7b7974] uppercase block mb-1">Your Submission:</span>
                 {submission.submissionText}
               </div>
             </div>
@@ -167,14 +167,14 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
             {submission.status === 'RETURNED' && (
               <form onSubmit={handleSubmit} className="mt-2 flex flex-col gap-3">
                 <h4 className="font-heading text-sm font-semibold text-[#121212]">
-                  Resubmit Revised Defense
+                  Resubmit Assignment
                 </h4>
                 <textarea
                   required
                   rows={6}
                   value={submissionText}
                   onChange={e => setSubmissionText(e.target.value)}
-                  placeholder="Enter your revised code, defense notes, or benchmark traces..."
+                  placeholder="Enter your revised code, notes, or answers..."
                   className="w-full rounded-xl border border-[#e7e6e1] bg-[#ffffff] p-4 font-mono text-xs text-[#121212] focus:outline-none focus:ring-1 focus:ring-[#121212] transition-all"
                 />
                 <button 
@@ -183,7 +183,7 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
                   className="self-start px-5 py-2.5 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium transition-all shadow-xs flex items-center gap-2 cursor-pointer disabled:opacity-50"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
-                  <span>{submitAssignment.isPending ? 'Resubmitting...' : 'Resubmit Defense'}</span>
+                  <span>{submitAssignment.isPending ? 'Resubmitting...' : 'Resubmit Assignment'}</span>
                 </button>
               </form>
             )}
@@ -195,12 +195,12 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
               rows={8}
               value={submissionText}
               onChange={e => setSubmissionText(e.target.value)}
-              placeholder="Paste your defense implementation, benchmark logs, architectural explanations, or repository links..."
+              placeholder="Paste your submission, code solutions, explanations, or project repository links..."
               className="w-full rounded-xl border border-[#e7e6e1] bg-[#ffffff] p-4 font-mono text-xs text-[#121212] focus:outline-none focus:ring-1 focus:ring-[#121212] transition-all placeholder:text-[#9c9a92]"
             />
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <span className="text-xs text-[#7b7974] font-mono">
-                Submissions are time-stamped and evaluated against automated CI benchmarks.
+                Submissions are time-stamped and evaluated by the course instructor.
               </span>
               <button 
                 type="submit" 
@@ -208,7 +208,7 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
                 className="self-end sm:self-auto px-6 py-2.5 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium transition-all shadow-xs flex items-center gap-2 cursor-pointer disabled:opacity-50"
               >
                 <Send className="w-3.5 h-3.5" />
-                <span>{submitAssignment.isPending ? 'Submitting Defense...' : 'Submit Defense for Review'}</span>
+                <span>{submitAssignment.isPending ? 'Submitting...' : 'Submit Assignment'}</span>
               </button>
             </div>
           </form>

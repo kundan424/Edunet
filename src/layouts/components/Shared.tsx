@@ -192,7 +192,7 @@ export function Header() {
                             className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
                           >
                             <LayoutDashboard className="w-4 h-4 text-[#7b7974]" />
-                            <span>Scholar Dashboard</span>
+                            <span>Student Dashboard</span>
                           </Link>
                           <Link
                             to="/learn"
@@ -213,7 +213,7 @@ export function Header() {
                             className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
                           >
                             <LayoutDashboard className="w-4 h-4 text-[#7b7974]" />
-                            <span>Faculty Dashboard</span>
+                            <span>Instructor Dashboard</span>
                           </Link>
                           <Link
                             to="/instructor/courses"
@@ -234,7 +234,7 @@ export function Header() {
                             className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
                           >
                             <LayoutDashboard className="w-4 h-4 text-[#7b7974]" />
-                            <span>Senate Dashboard</span>
+                            <span>Admin Dashboard</span>
                           </Link>
                           <Link
                             to="/admin/courses"
@@ -250,7 +250,7 @@ export function Header() {
                             className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
                           >
                             <ShieldAlert className="w-4 h-4 text-[#7b7974]" />
-                            <span>Faculty Applications</span>
+                            <span>Instructor Applications</span>
                           </Link>
                         </>
                       )}
@@ -340,7 +340,7 @@ export function Header() {
             {isAuthenticated && user?.role === 'INSTRUCTOR' && (
               <>
                 <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
-                  Faculty Dashboard
+                  Instructor Dashboard
                 </Link>
                 <Link to="/instructor/courses" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
                   My Courses
@@ -351,13 +351,13 @@ export function Header() {
             {isAuthenticated && user?.role === 'ADMIN' && (
               <>
                 <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
-                  Senate Dashboard
+                  Admin Dashboard
                 </Link>
                 <Link to="/admin/courses" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
                   Course Moderation
                 </Link>
                 <Link to="/admin/instructors" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
-                  Faculty Applications
+                  Instructor Applications
                 </Link>
               </>
             )}

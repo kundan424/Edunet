@@ -65,14 +65,14 @@ export function AdminInstructors() {
     });
   }, [instructors, searchQuery, selectedDiscipline]);
 
-  if (isLoading) return <LoadingState message="Accessing Consortium Academic Senate Docket..." />;
+  if (isLoading) return <LoadingState message="Loading instructor verification requests..." />;
   if (error || !instructors) {
     return (
       <div className="w-full max-w-7xl mx-auto py-6 space-y-6 font-sans">
         <AdminNav />
         <ErrorState
-          title="Senate Docket Inaccessible"
-          message="Unable to load pending faculty dossiers from the credentials registry."
+          title="Instructor Requests Inaccessible"
+          message="Unable to load pending instructor applications."
           onRetry={() => refetch()}
         />
       </div>
@@ -113,24 +113,24 @@ export function AdminInstructors() {
     <div className="w-full max-w-7xl mx-auto py-4 sm:py-6 space-y-8 font-sans">
       <AdminNav />
 
-      {/* ── A. Senate Governance Header & Metrics ── */}
+      {/* ── A. Instructor Verification Header & Metrics ── */}
       <section className="bg-[#ffffff] rounded-2xl p-6 sm:p-8 border border-[#e7e6e1] shadow-xs relative overflow-hidden">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
             <div className="flex items-center gap-2">
               <span className="font-mono text-xs px-2.5 py-0.5 rounded bg-[#121212] text-[#ffffff] font-semibold tracking-wider uppercase">
-                Academic Senate
+                Instructor Verification
               </span>
               <span className="text-xs font-mono text-[#7b7974] flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5 text-[#d97757]" />
-                Docket Active • 2026 Term
+                Pending Applications
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-serif text-[#121212] tracking-tight">
-              Faculty Credentials &amp; Verification Senate
+              Instructor Verification &amp; Approvals
             </h1>
             <p className="text-xs sm:text-sm text-[#7b7974] leading-relaxed">
-              Review candidate dossiers, evaluate disciplinary expertise, and grant formal Consortium tenure to prospective instructors.
+              Review instructor applications, evaluate expertise, and approve instructors to create and publish courses.
             </p>
           </div>
 
@@ -143,18 +143,18 @@ export function AdminInstructors() {
               <span className="font-serif text-2xl font-normal text-[#d97757] mt-0.5">
                 {instructors.length}
               </span>
-              <span className="text-[10px] font-mono text-[#9c9a92]">Dossiers Staged</span>
+              <span className="text-[10px] font-mono text-[#9c9a92]">Applications Pending</span>
             </div>
 
             <div className="p-4 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] flex flex-col min-w-[120px]">
               <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">
-                Senate Quorum
+                Status
               </span>
               <span className="font-serif text-2xl font-normal text-[#121212] mt-0.5 flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#4b7a47]"></span>
-                In Session
+                Active
               </span>
-              <span className="text-[10px] font-mono text-[#9c9a92]">Consortium Verified</span>
+              <span className="text-[10px] font-mono text-[#9c9a92]">Platform Verified</span>
             </div>
           </div>
         </div>
@@ -212,12 +212,12 @@ export function AdminInstructors() {
           </div>
           <div className="space-y-1 max-w-md">
             <h3 className="font-serif text-xl text-[#121212]">
-              {searchQuery ? 'No Matching Candidates' : 'Senate Docket Clear'}
+              {searchQuery ? 'No Matching Instructors' : 'No Pending Applications'}
             </h3>
             <p className="text-xs text-[#7b7974] leading-relaxed">
               {searchQuery
                 ? 'No prospective instructors matched your search criteria. Try modifying your search query.'
-                : 'All faculty accreditation requests have been reviewed and verified by the Academic Senate.'}
+                : 'All instructor applications have been reviewed and verified.'}
             </p>
           </div>
           {searchQuery && (
@@ -287,15 +287,15 @@ export function AdminInstructors() {
                   {/* Biography Statement */}
                   <div className="space-y-1">
                     <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold tracking-wider">
-                      Scholastic Dossier Excerpt
+                      Biography Excerpt
                     </span>
                     <p className="font-serif text-xs text-[#373734] leading-relaxed line-clamp-3 italic">
-                      "{candidate.bio || 'Candidate has submitted credentials awaiting full monograph statement.'}"
+                      "{candidate.bio || 'Candidate has not provided a biography yet.'}"
                     </p>
                   </div>
                 </div>
 
-                {/* Senate Review Actions */}
+                {/* Review Actions */}
                 <div className="pt-4 border-t border-[#e7e6e1] space-y-2.5">
                   <button
                     type="button"
@@ -303,7 +303,7 @@ export function AdminInstructors() {
                     className="w-full py-2 px-3 rounded-xl bg-[#f8f8f6] hover:bg-[#efeeeb] text-[#121212] font-mono text-xs font-medium border border-[#e7e6e1] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <Eye className="w-3.5 h-3.5 text-[#7b7974]" />
-                    <span>Inspect Full Dossier</span>
+                    <span>View Profile</span>
                   </button>
 
                   <div className="grid grid-cols-2 gap-2">
@@ -314,7 +314,7 @@ export function AdminInstructors() {
                       className="py-2 px-3 rounded-xl bg-[#121212] hover:bg-black text-[#ffffff] font-mono text-xs font-medium transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
                     >
                       <UserCheck className="w-3.5 h-3.5 text-[#4b7a47]" />
-                      <span>Admit</span>
+                      <span>Approve</span>
                     </button>
 
                     <button
@@ -324,7 +324,7 @@ export function AdminInstructors() {
                       className="py-2 px-3 rounded-xl bg-[#ffffff] hover:bg-[#ffdad6]/20 text-[#ba1a1a] border border-[#e7e6e1] hover:border-[#ba1a1a]/40 font-mono text-xs font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
                     >
                       <UserX className="w-3.5 h-3.5 text-[#ba1a1a]" />
-                      <span>Decline</span>
+                      <span>Reject</span>
                     </button>
                   </div>
                 </div>
@@ -334,7 +334,7 @@ export function AdminInstructors() {
         </div>
       )}
 
-      {/* ── D. Inspect Candidate Dossier Modal ── */}
+      {/* ── D. View Instructor Profile Modal ── */}
       {inspectCandidate && (
         <div className="fixed inset-0 bg-[#000000]/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
           <div className="bg-[#ffffff] rounded-2xl max-w-2xl w-full p-6 sm:p-8 border border-[#e7e6e1] shadow-2xl relative max-h-[90vh] overflow-y-auto space-y-6 animate-in zoom-in-95 duration-150">
@@ -364,44 +364,44 @@ export function AdminInstructors() {
             <div className="space-y-4">
               <div>
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold block mb-1">
-                  Primary Academic Disciplines
+                  Areas of Expertise
                 </span>
                 <p className="font-body text-sm font-semibold text-[#121212]">
-                  {inspectCandidate.expertise || 'Scholastic Curriculum Fellow'}
+                  {inspectCandidate.expertise || 'Instructor'}
                 </p>
               </div>
 
               <div>
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold block mb-1.5">
-                  Curriculum Statement &amp; Biography
+                  Instructor Biography
                 </span>
                 <div className="p-4 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] font-serif text-sm text-[#373734] leading-relaxed whitespace-pre-wrap max-h-48 overflow-y-auto">
                   {inspectCandidate.bio || 'No formal biography submitted with application.'}
                 </div>
               </div>
 
-              {/* Senate Verification Rubric */}
+              {/* Instructor Verification Standards */}
               <div className="p-4 rounded-xl bg-[#efeeeb]/70 border border-[#e7e6e1] space-y-2.5">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-[#121212] font-semibold flex items-center gap-1.5">
                   <ShieldCheck className="w-4 h-4 text-[#d97757]" />
-                  Consortium Accreditation Standard Compliance
+                  Instructor Verification Standards
                 </span>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono text-[#373734]">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-[#4b7a47]" />
-                    <span>Academic Identity Verified</span>
+                    <span>Identity Verified</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-[#4b7a47]" />
-                    <span>Pedagogical Standards Clear</span>
+                    <span>Teaching Standards Met</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-[#4b7a47]" />
-                    <span>Conflict of Interest Audit Pass</span>
+                    <span>Background Verification Pass</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-3.5 h-3.5 text-[#4b7a47]" />
-                    <span>Eligible for Curriculum Authoring</span>
+                    <span>Eligible for Course Authoring</span>
                   </div>
                 </div>
               </div>
@@ -414,7 +414,7 @@ export function AdminInstructors() {
                 onClick={() => setInspectCandidate(null)}
                 className="px-4 py-2.5 rounded-xl text-xs font-mono text-[#7b7974] hover:bg-[#efeeeb] cursor-pointer"
               >
-                Close Dossier
+                Close
               </button>
               <button
                 type="button"
@@ -423,7 +423,7 @@ export function AdminInstructors() {
                 }}
                 className="px-4 py-2.5 rounded-xl border border-[#ba1a1a]/40 text-[#ba1a1a] hover:bg-[#ffdad6]/20 font-mono text-xs font-medium cursor-pointer"
               >
-                Decline Candidacy
+                Reject Application
               </button>
               <button
                 type="button"
@@ -432,7 +432,7 @@ export function AdminInstructors() {
                 }}
                 className="px-5 py-2.5 rounded-xl bg-[#121212] hover:bg-black text-[#ffffff] font-mono text-xs font-medium shadow-xs cursor-pointer"
               >
-                Admit to Faculty
+                Approve Instructor
               </button>
             </div>
           </div>
@@ -460,13 +460,13 @@ export function AdminInstructors() {
               <div className="space-y-1">
                 <h3 className="font-serif text-lg font-medium text-[#121212]">
                   {actionConfirm.type === 'APPROVE'
-                    ? 'Confirm Faculty Admission'
-                    : 'Decline Candidate Dossier'}
+                    ? 'Approve Instructor Application'
+                    : 'Reject Instructor Application'}
                 </h3>
                 <p className="text-xs text-[#7b7974] leading-relaxed">
                   {actionConfirm.type === 'APPROVE'
-                    ? `Are you sure you wish to admit ${actionConfirm.candidate.name} into the Consortium Faculty? They will be granted full authoring, testing, and grading authority.`
-                    : `Are you sure you wish to decline the faculty candidacy for ${actionConfirm.candidate.name}?`}
+                    ? `Are you sure you wish to approve ${actionConfirm.candidate.name} as an instructor? They will be granted permissions to create, publish, and manage courses.`
+                    : `Are you sure you wish to reject the instructor application for ${actionConfirm.candidate.name}?`}
                 </p>
               </div>
             </div>
@@ -474,12 +474,12 @@ export function AdminInstructors() {
             {actionConfirm.type === 'REJECT' && (
               <div className="space-y-1.5">
                 <label className="font-mono text-[11px] text-[#121212] font-semibold">
-                  Reason for Senate Rejection (Optional)
+                  Reason for Rejection (Optional)
                 </label>
                 <textarea
                   value={rejectReason}
                   onChange={e => setRejectReason(e.target.value)}
-                  placeholder="e.g., Incomplete curriculum statement, unverified institutional affiliation..."
+                  placeholder="e.g., Incomplete profile details, insufficient information..."
                   rows={3}
                   className="w-full p-3 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] text-xs font-mono text-[#121212] placeholder:text-[#9c9a92] focus:outline-none focus:border-[#ba1a1a]"
                 />

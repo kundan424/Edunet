@@ -12,7 +12,7 @@ export function AdminNav() {
   };
 
   const navItems = [
-    { label: 'Senate Overview', path: '/admin', icon: LayoutDashboard },
+    { label: 'Overview', path: '/admin', icon: LayoutDashboard },
     { label: 'Instructor Verification', path: '/admin/instructors', icon: UserCheck },
     { label: 'Course Moderation', path: '/admin/courses', icon: ShieldCheck },
   ];

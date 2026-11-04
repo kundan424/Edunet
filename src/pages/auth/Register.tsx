@@ -17,7 +17,7 @@ export function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!agreeHonorCode) {
-      setError('Please agree to the Lumina Academic Honor Code to proceed.');
+      setError('Please agree to the Terms of Service to proceed.');
       return;
     }
     setError('');
@@ -55,17 +55,17 @@ export function Register() {
             </span>
           </div>
           <span className="text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold bg-[#efeeeb] px-2 py-0.5 rounded border border-[#e7e6e1]">
-            Admissions
+            Sign Up
           </span>
         </div>
 
         {/* Header */}
         <div className="flex flex-col gap-1.5 mb-6 text-left">
           <h1 className="font-heading text-2xl font-semibold text-[#121212] tracking-tight">
-            Create Academic Account
+            Create an Account
           </h1>
           <p className="font-body text-xs sm:text-sm text-[#7b7974] leading-relaxed">
-            Join 140,000+ researchers and students earning accredited university credits and certificates.
+            Join over 140,000 learners mastering in-demand skills and earning certificates.
           </p>
         </div>
 
@@ -82,7 +82,7 @@ export function Register() {
           {/* Account Role Selection */}
           <div className="flex flex-col gap-1.5 text-left">
             <label className="text-xs font-semibold text-[#121212]">
-              Select Academic Track
+              I want to join as
             </label>
             <div className="grid grid-cols-2 gap-2.5">
               
@@ -101,8 +101,8 @@ export function Register() {
                   {formData.role === 'STUDENT' && <Check className="w-3.5 h-3.5 text-[#121212]" />}
                 </div>
                 <div>
-                  <div className="font-semibold text-xs text-[#121212]">Student / Learner</div>
-                  <div className="text-[10px] text-[#7b7974] leading-tight mt-0.5">Audit labs &amp; earn ECTS</div>
+                  <div className="font-semibold text-xs text-[#121212]">Student</div>
+                  <div className="text-[10px] text-[#7b7974] leading-tight mt-0.5">Take courses &amp; learn</div>
                 </div>
               </button>
 
@@ -121,8 +121,8 @@ export function Register() {
                   {formData.role === 'INSTRUCTOR' && <Check className="w-3.5 h-3.5 text-[#121212]" />}
                 </div>
                 <div>
-                  <div className="font-semibold text-xs text-[#121212]">Faculty / Instructor</div>
-                  <div className="text-[10px] text-[#7b7974] leading-tight mt-0.5">Publish &amp; grade defenses</div>
+                  <div className="font-semibold text-xs text-[#121212]">Instructor</div>
+                  <div className="text-[10px] text-[#7b7974] leading-tight mt-0.5">Create courses &amp; teach</div>
                 </div>
               </button>
 
@@ -132,7 +132,7 @@ export function Register() {
           {/* Full Name */}
           <div className="flex flex-col gap-1.5 text-left">
             <label className="text-xs font-semibold text-[#121212]" htmlFor="reg-name">
-              Full Legal Name
+              Full Name
             </label>
             <input 
               id="reg-name"
@@ -188,7 +188,7 @@ export function Register() {
             </div>
           </div>
 
-          {/* Honor Code Checkbox */}
+          {/* Terms & Honor Code Checkbox */}
           <div className="flex items-start gap-2 pt-1">
             <input
               id="honor-code"
@@ -198,7 +198,7 @@ export function Register() {
               className="w-3.5 h-3.5 mt-0.5 rounded border-[#e7e6e1] text-[#121212] focus:ring-[#121212] cursor-pointer"
             />
             <label htmlFor="honor-code" className="text-xs text-[#7b7974] cursor-pointer select-none leading-relaxed">
-              I agree to uphold the <span className="text-[#121212] font-medium">Lumina Academic Honor Code</span> and verify my lab submissions are authentic.
+              I agree to the <span className="text-[#121212] font-medium">Terms of Service</span> and <span className="text-[#121212] font-medium">Privacy Policy</span>.
             </label>
           </div>
 
@@ -208,7 +208,7 @@ export function Register() {
             disabled={loading}
             className="w-full h-10 mt-2 bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] font-medium text-xs sm:text-sm rounded-xl transition-colors flex items-center justify-center gap-2 shadow-xs cursor-pointer disabled:opacity-60"
           >
-            <span>{loading ? 'Creating Account...' : 'Create Academic Account'}</span>
+            <span>{loading ? 'Creating Account...' : 'Create Account'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </form>
@@ -224,7 +224,7 @@ export function Register() {
         {/* Security Seal */}
         <div className="mt-4 flex items-center justify-center gap-1.5 text-[11px] font-mono text-[#9c9a92]">
           <ShieldCheck className="w-3.5 h-3.5 text-[#3c8254]" />
-          <span>Verifiable Digital Academic Credentials</span>
+          <span>Secure Account &amp; Privacy Protected</span>
         </div>
 
       </div>

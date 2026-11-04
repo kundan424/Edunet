@@ -494,13 +494,13 @@ export function Courses() {
               </div>
             </div>
 
-            {/* Vertical Filter Group 4: Academic Standards Notice */}
+            {/* Learning Notice */}
             <div className="p-3.5 rounded-xl bg-[#efeeeb]/70 border border-[#e7e6e1] text-xs text-[#373734] space-y-1.5 mt-2">
               <div className="font-semibold text-[#121212] text-[11px] font-mono uppercase tracking-wider">
-                Audited Standards
+                Course Standards
               </div>
               <p className="text-[11.5px] leading-relaxed text-[#7b7974]">
-                All programs include free lecture monograph auditing, open discussion cohorts, and optional verifiable university ECTS credits.
+                All courses include self-paced learning, interactive quizzes, community discussions, and certificates upon completion.
               </p>
             </div>
 

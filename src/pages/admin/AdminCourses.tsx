@@ -107,24 +107,24 @@ export function AdminCourses() {
     <div className="w-full max-w-7xl mx-auto py-4 sm:py-6 space-y-8 font-sans">
       <AdminNav />
 
-      {/* ── A. Senate Governance Header & Metrics ── */}
+      {/* ── A. Moderation Header & Metrics ── */}
       <section className="bg-[#ffffff] rounded-2xl p-6 sm:p-8 border border-[#e7e6e1] shadow-xs relative overflow-hidden">
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-2 max-w-2xl">
             <div className="flex items-center gap-2">
               <span className="font-mono text-xs px-2.5 py-0.5 rounded bg-[#121212] text-[#ffffff] font-semibold tracking-wider uppercase">
-                Curriculum Senate
+                Course Moderation
               </span>
               <span className="text-xs font-mono text-[#7b7974] flex items-center gap-1">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#d97757]" />
-                Institutional Peer Review Standard
+                Quality &amp; Publishing Standards
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-serif text-[#121212] tracking-tight">
-              Curriculum Moderation &amp; Peer Review Docket
+              Course Moderation &amp; Approvals
             </h1>
             <p className="text-xs sm:text-sm text-[#7b7974] leading-relaxed">
-              Audit submitted monographs, evaluate syllabus rigor, verify instructional integrity, and clear courses for global consortium publication.
+              Review submitted courses, evaluate lesson quality, and approve courses for publication on Lumina.
             </p>
           </div>
 
@@ -132,23 +132,23 @@ export function AdminCourses() {
           <div className="flex items-center gap-4 self-stretch sm:self-auto shrink-0 flex-wrap">
             <div className="p-4 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] flex flex-col min-w-[130px]">
               <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">
-                Pending Audits
+                Pending Review
               </span>
               <span className="font-serif text-2xl font-normal text-[#d97757] mt-0.5">
                 {pageData.totalElements}
               </span>
-              <span className="text-[10px] font-mono text-[#9c9a92]">Monographs Staged</span>
+              <span className="text-[10px] font-mono text-[#9c9a92]">Courses Awaiting Review</span>
             </div>
 
             <div className="p-4 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] flex flex-col min-w-[130px]">
               <span className="font-mono text-[10px] uppercase text-[#7b7974] font-semibold">
-                Senate Standard
+                Review Status
               </span>
               <span className="font-serif text-2xl font-normal text-[#121212] mt-0.5 flex items-center gap-1.5">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#4b7a47]"></span>
-                Active Quorum
+                Active Queue
               </span>
-              <span className="text-[10px] font-mono text-[#9c9a92]">Accreditation Cleared</span>
+              <span className="text-[10px] font-mono text-[#9c9a92]">Quality Checked</span>
             </div>
           </div>
         </div>
@@ -232,12 +232,12 @@ export function AdminCourses() {
           </div>
           <div className="space-y-1 max-w-md">
             <h3 className="font-serif text-xl text-[#121212]">
-              {searchQuery ? 'No Monographs Found' : 'Curriculum Queue Clear'}
+              {searchQuery ? 'No Courses Found' : 'Moderation Queue Clear'}
             </h3>
             <p className="text-xs text-[#7b7974] leading-relaxed">
               {searchQuery
-                ? 'No submitted curricula matched your search query. Try clearing filters or checking other terms.'
-                : 'All submitted course curricula have been audited and evaluated. The Senate moderation queue is currently clear.'}
+                ? 'No submitted courses matched your search query. Try clearing filters or checking other terms.'
+                : 'All submitted courses have been reviewed. The moderation queue is currently clear.'}
             </p>
           </div>
           {searchQuery && (
@@ -261,22 +261,22 @@ export function AdminCourses() {
               <thead>
                 <tr className="border-b border-[#e7e6e1] bg-[#f8f8f6]/70">
                   <th className="py-3.5 px-5 font-mono text-[10px] uppercase font-bold text-[#7b7974] tracking-wider">
-                    Curriculum Monograph
+                    Course
                   </th>
                   <th className="py-3.5 px-4 font-mono text-[10px] uppercase font-bold text-[#7b7974] tracking-wider">
-                    Authoring Faculty
+                    Instructor
                   </th>
                   <th className="py-3.5 px-4 font-mono text-[10px] uppercase font-bold text-[#7b7974] tracking-wider">
-                    Discipline &amp; Rigor
+                    Category &amp; Level
                   </th>
                   <th className="py-3.5 px-4 font-mono text-[10px] uppercase font-bold text-[#7b7974] tracking-wider">
-                    Tuition / Grant
+                    Price
                   </th>
                   <th className="py-3.5 px-4 font-mono text-[10px] uppercase font-bold text-[#7b7974] tracking-wider">
                     Status
                   </th>
                   <th className="py-3.5 px-5 font-mono text-[10px] uppercase font-bold text-[#7b7974] tracking-wider text-right">
-                    Senate Actions
+                    Actions
                   </th>
                 </tr>
               </thead>
@@ -311,7 +311,7 @@ export function AdminCourses() {
                     <td className="py-4 px-4 font-mono text-xs text-[#373734]">
                       <div className="flex items-center gap-2">
                         <GraduationCap className="w-3.5 h-3.5 text-[#9c9a92]" />
-                        <span>{course.instructorName || 'Consortium Fellow'}</span>
+                        <span>{course.instructorName || 'Instructor'}</span>
                       </div>
                     </td>
 
@@ -330,7 +330,7 @@ export function AdminCourses() {
                     {/* Price */}
                     <td className="py-4 px-4 font-mono text-xs text-[#121212] font-semibold">
                       {course.price === 0 || course.price === null ? (
-                        <span className="text-[#4b7a47]">Scholarship / Free</span>
+                        <span className="text-[#4b7a47]">Free</span>
                       ) : (
                         `$${course.price.toFixed(2)}`
                       )}
@@ -339,7 +339,7 @@ export function AdminCourses() {
                     {/* Status Pill */}
                     <td className="py-4 px-4">
                       <span className="font-mono text-[10px] font-semibold uppercase px-2.5 py-1 rounded-full bg-[#fff5f0] text-[#d97757] border border-[#d97757]/30 whitespace-nowrap">
-                        Awaiting Peer Review
+                        Awaiting Review
                       </span>
                     </td>
 
@@ -350,7 +350,7 @@ export function AdminCourses() {
                           to={`/admin/courses/${course.id}/review`}
                           className="px-3.5 py-1.5 rounded-lg bg-[#121212] hover:bg-black text-[#ffffff] font-mono text-xs font-medium transition-all shadow-xs inline-flex items-center gap-1.5 cursor-pointer"
                         >
-                          <span>Audit</span>
+                          <span>Review</span>
                           <ArrowRight className="w-3.5 h-3.5 text-[#d97757]" />
                         </Link>
                       </div>
@@ -392,7 +392,7 @@ export function AdminCourses() {
                   </h3>
                   <span className="font-mono text-xs text-[#7b7974] flex items-center gap-1 pt-1">
                     <GraduationCap className="w-3.5 h-3.5 text-[#9c9a92]" />
-                    {course.instructorName || 'Consortium Fellow'}
+                    {course.instructorName || 'Instructor'}
                   </span>
                 </div>
               </div>
@@ -406,7 +406,7 @@ export function AdminCourses() {
                   to={`/admin/courses/${course.id}/review`}
                   className="px-3.5 py-1.5 rounded-lg bg-[#121212] hover:bg-black text-[#ffffff] font-mono text-xs font-medium transition-all shadow-xs inline-flex items-center gap-1.5 cursor-pointer"
                 >
-                  <span>Audit Curriculum</span>
+                  <span>Review Course</span>
                   <ArrowRight className="w-3.5 h-3.5 text-[#d97757]" />
                 </Link>
               </div>
@@ -419,7 +419,7 @@ export function AdminCourses() {
       {pageData.totalPages > 1 && (
         <section className="flex items-center justify-between pt-4 border-t border-[#e7e6e1]">
           <span className="font-mono text-xs text-[#7b7974]">
-            Page {pageData.number + 1} of {pageData.totalPages} ({pageData.totalElements} Curricula)
+            Page {pageData.number + 1} of {pageData.totalPages} ({pageData.totalElements} Courses)
           </span>
 
           <div className="flex items-center gap-2">
@@ -466,13 +466,13 @@ export function AdminCourses() {
               <div className="space-y-1">
                 <h3 className="font-serif text-lg font-medium text-[#121212]">
                   {actionConfirm.type === 'APPROVE'
-                    ? 'Approve Monograph Publication'
-                    : 'Decline Course Curriculum'}
+                    ? 'Approve Course Publication'
+                    : 'Reject Course'}
                 </h3>
                 <p className="text-xs text-[#7b7974] leading-relaxed">
                   {actionConfirm.type === 'APPROVE'
-                    ? `Publish "${actionConfirm.course.title}" to the global Consortium academic catalog immediately?`
-                    : `Specify the rationale for declining "${actionConfirm.course.title}". The instructor will receive this peer review critique.`}
+                    ? `Publish "${actionConfirm.course.title}" to the Lumina course catalog immediately?`
+                    : `Specify the reason for rejecting "${actionConfirm.course.title}". The instructor will receive this feedback.`}
                 </p>
               </div>
             </div>
@@ -480,13 +480,13 @@ export function AdminCourses() {
             {actionConfirm.type === 'REJECT' && (
               <div className="space-y-1.5">
                 <label className="font-mono text-[11px] text-[#121212] font-semibold">
-                  Peer Review Critique / Reason for Declination
+                  Feedback / Reason for Rejection
                 </label>
                 <textarea
                   required
                   value={rejectReason}
                   onChange={e => setRejectReason(e.target.value)}
-                  placeholder="e.g., Incomplete syllabus modules, insufficient reference citations..."
+                  placeholder="e.g., Incomplete lesson descriptions, missing video links..."
                   rows={3}
                   className="w-full p-3 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] text-xs font-mono text-[#121212] placeholder:text-[#9c9a92] focus:outline-none focus:border-[#ba1a1a]"
                 />
@@ -514,10 +514,10 @@ export function AdminCourses() {
                 {actionConfirm.type === 'APPROVE'
                   ? approveMutation.isPending
                     ? 'Publishing...'
-                    : 'Approve & Disseminate'
+                    : 'Approve & Publish'
                   : rejectMutation.isPending
-                  ? 'Declining...'
-                  : 'Decline Monograph'}
+                  ? 'Rejecting...'
+                  : 'Reject Course'}
               </button>
             </div>
           </div>

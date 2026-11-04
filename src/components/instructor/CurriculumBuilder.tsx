@@ -40,7 +40,7 @@ export function CurriculumBuilder({ courseId, sections, isEditable, onOpenBasicI
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const runtimeStr = hours > 0 ? `${hours}h ${minutes}m` : `${minutes || totalLessons * 15}m`;
 
-  const defensesCount = sections.reduce((acc, s) => {
+  const assessmentsCount = sections.reduce((acc, s) => {
     return acc + s.lessons.filter(l => l.lessonType === 'QUIZ' || l.lessonType === 'ASSIGNMENT').length;
   }, 0);
 
@@ -85,8 +85,8 @@ export function CurriculumBuilder({ courseId, sections, isEditable, onOpenBasicI
 
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#efeeeb] text-[#121212]">
             <Award className="w-4 h-4 text-[#d97757]" />
-            <span className="font-body text-xs sm:text-sm font-semibold">{defensesCount}</span>
-            <span className="font-mono text-[10px] text-[#7b7974] uppercase tracking-wider">Lab Defenses</span>
+            <span className="font-body text-xs sm:text-sm font-semibold">{assessmentsCount}</span>
+            <span className="font-mono text-[10px] text-[#7b7974] uppercase tracking-wider">Assessments</span>
           </div>
         </div>
 
@@ -134,14 +134,14 @@ export function CurriculumBuilder({ courseId, sections, isEditable, onOpenBasicI
         </div>
       </div>
 
-      {/* ── Quick Monograph Abstract Banner ── */}
+      {/* ── Quick Course Overview Banner ── */}
       <div className="bg-[#efeeeb]/70 rounded-2xl p-4 border border-[#e7e6e1] flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-xl bg-[#ffffff] border border-[#e7e6e1] flex items-center justify-center text-[#d97757] shadow-xs shrink-0">
             <Info className="w-4 h-4" />
           </div>
           <p className="font-body text-xs sm:text-sm text-[#373734] leading-relaxed">
-            <span className="font-semibold text-[#121212]">Pedagogical Standard:</span> Each module must contain at least one formal verification check (Quiz or Monograph Code Harness) before consortium registry submission.
+            <span className="font-semibold text-[#121212]">Curriculum Standard:</span> Structure each section with video lectures, reading notes, and quizzes or assignments to test student understanding.
           </p>
         </div>
 
@@ -177,9 +177,9 @@ export function CurriculumBuilder({ courseId, sections, isEditable, onOpenBasicI
               <BookOpen className="w-6 h-6" />
             </div>
             <div className="flex flex-col gap-1 max-w-sm">
-              <span className="font-heading text-lg sm:text-xl text-[#121212]">No Curriculum Staged</span>
+              <span className="font-heading text-lg sm:text-xl text-[#121212]">No Curriculum Added Yet</span>
               <p className="font-body text-xs text-[#7b7974] leading-relaxed">
-                Initialize your first modular section (e.g., Foundations, Architectural Invariants) to begin structuring lecture videos, quizzes, and monographs.
+                Add your first course section (e.g., Introduction, Core Fundamentals) to begin organizing lessons, quizzes, and resources.
               </p>
             </div>
             {isEditable && (
@@ -209,7 +209,7 @@ export function CurriculumBuilder({ courseId, sections, isEditable, onOpenBasicI
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-xs font-semibold text-[#121212]">Section Monograph Title *</label>
+              <label className="text-xs font-semibold text-[#121212]">Section Title *</label>
               <input
                 type="text"
                 required

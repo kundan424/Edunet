@@ -74,13 +74,13 @@ export function LessonEditor({ courseId, sectionId, lesson, isEditable, index }:
         : 'Video upload pending • Standard 1080p profile',
     },
     TEXT: {
-      label: 'Monograph',
+      label: 'Reading Note',
       icon: FileText,
       badgeBg: 'bg-[#eeeeec]',
       badgeText: 'text-[#373734]',
       iconBg: 'bg-[#373734]',
       iconColor: 'text-[#f8f8f6]',
-      summary: 'KaTeX Markdown supported • ~15 min estimated reading time',
+      summary: 'Markdown supported • ~15 min estimated reading time',
     },
     QUIZ: {
       label: 'Quiz',
@@ -89,10 +89,10 @@ export function LessonEditor({ courseId, sectionId, lesson, isEditable, index }:
       badgeText: 'text-[#8c501e]',
       iconBg: 'bg-[#534b46]',
       iconColor: 'text-[#f8f8f6]',
-      summary: 'Auto-graded assessment • Passing threshold calibrated in settings',
+      summary: 'Auto-graded assessment • Multiple choice & true/false questions',
     },
     RESOURCE: {
-      label: 'Resource Kit',
+      label: 'Resources',
       icon: Paperclip,
       badgeBg: 'bg-[#eeeeec]',
       badgeText: 'text-[#373734]',
@@ -100,16 +100,16 @@ export function LessonEditor({ courseId, sectionId, lesson, isEditable, index }:
       iconColor: 'text-[#f8f8f6]',
       summary: lesson.durationSeconds 
         ? 'Supplementary documents / code archive attached' 
-        : 'PDF slides, TeX source, or Rust/Python labs pending upload',
+        : 'PDF slides, notes, or source files pending upload',
     },
     ASSIGNMENT: {
-      label: 'Milestone',
+      label: 'Assignment',
       icon: Award,
       badgeBg: 'bg-[#faecd8]',
       badgeText: 'text-[#8c501e]',
       iconBg: 'bg-[#d97757]',
       iconColor: 'text-[#ffffff]',
-      summary: 'Graded Milestone • SWE-bench test harness & peer review defense',
+      summary: 'Graded Assignment • Practical project submission & instructor review',
     },
   }[lesson.lessonType] || {
     label: lesson.lessonType,

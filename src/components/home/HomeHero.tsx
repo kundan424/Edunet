@@ -22,7 +22,7 @@ export function HomeHero() {
           {/* Accreditation Badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#efeeeb]/90 backdrop-blur-xs text-[#7b7974] font-body text-xs tracking-wider uppercase mb-5 border border-[#e7e6e1]">
             <span className="w-1.5 h-1.5 rounded-full bg-[#d97757] inline-block animate-pulse"></span>
-            <span className="font-medium text-[#373734]">Accredited Academic Consortium · 2026 Enrollment</span>
+            <span className="font-medium text-[#373734]">Online Learning Platform · 2026 Enrollment</span>
           </div>
 
           {/* Main Headline */}

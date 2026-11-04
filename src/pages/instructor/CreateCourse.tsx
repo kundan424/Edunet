@@ -62,7 +62,7 @@ export function CreateCourse() {
           navigate(`/instructor/courses/${data.id}`);
         },
         onError: (err: any) => {
-          setError(err.message || 'Failed to initialize curriculum monograph. Please check your network and try again.');
+          setError(err.message || 'Failed to create course. Please check your network and try again.');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       }
@@ -75,11 +75,11 @@ export function CreateCourse() {
       <div className="max-w-3xl mx-auto w-full mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3">
           <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-xs font-mono text-[#7b7974]">
-            <Link to="/instructor" className="hover:text-[#121212] transition-colors">Instructor Guild</Link>
+            <Link to="/instructor" className="hover:text-[#121212] transition-colors">Instructor Studio</Link>
             <span className="text-[#b7b7b5]">/</span>
-            <Link to="/instructor/courses" className="hover:text-[#121212] transition-colors">Curriculum Registry</Link>
+            <Link to="/instructor/courses" className="hover:text-[#121212] transition-colors">My Courses</Link>
             <span className="text-[#b7b7b5]">/</span>
-            <span className="text-[#121212] font-semibold">Initialize Course</span>
+            <span className="text-[#121212] font-semibold">Create Course</span>
           </nav>
           <Link
             to="/instructor/courses"
@@ -98,17 +98,17 @@ export function CreateCourse() {
             </span>
             <div className="flex flex-col">
               <span className="font-body text-xs sm:text-sm font-semibold text-[#121212] leading-none">
-                Curriculum Monograph &amp; Metadata
+                Course Details &amp; Pricing
               </span>
               <span className="text-[11px] font-mono text-[#7b7974] leading-tight mt-0.5">
-                Foundational monograph record &amp; tuition schema
+                Basic course information and pricing
               </span>
             </div>
           </div>
           <div className="hidden sm:flex items-center gap-1.5 text-xs font-mono text-[#9c9a92]">
             <span className="text-[#d97757] font-semibold">Step 1 of 3</span>
             <span>•</span>
-            <span>Studio Layout Next</span>
+            <span>Course Editor Next</span>
           </div>
         </div>
       </div>
@@ -120,15 +120,15 @@ export function CreateCourse() {
           <div className="flex items-center justify-between">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-[#efeeeb] text-[10px] font-mono text-[#373734] tracking-wide uppercase font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-[#d97757]" />
-              Onboarding Step 1 of 3 • Curriculum Registry
+              Step 1 of 3 • Course Setup
             </span>
-            <span className="text-[11px] font-mono text-[#9c9a92] hidden sm:inline">LUM-SPEC-2026</span>
+            <span className="text-[11px] font-mono text-[#9c9a92] hidden sm:inline">COURSE-SETUP</span>
           </div>
           <h1 className="font-heading text-2xl sm:text-3xl text-[#121212] tracking-tight font-normal pt-1">
-            Initialize Curriculum Record
+            Create New Course
           </h1>
           <p className="font-body text-xs sm:text-sm text-[#7b7974] leading-relaxed max-w-2xl">
-            Set up the fundamental monograph identity and syllabus metadata before opening the interactive curriculum studio.
+            Set up basic course information and pricing before adding lessons and sections.
           </p>
         </div>
 
@@ -140,9 +140,9 @@ export function CreateCourse() {
               <div className="flex items-start gap-2.5">
                 <ShieldCheck className="w-4 h-4 text-[#121212] mt-0.5 shrink-0" />
                 <div className="flex flex-col">
-                  <span className="text-xs font-semibold text-[#121212]">Academic Protocol Standards</span>
+                  <span className="text-xs font-semibold text-[#121212]">Course Creation Guidelines</span>
                   <span className="text-[11px] font-body text-[#7b7974] leading-relaxed">
-                    Course title must be between 3 and 150 characters. Pricing may be zero or left blank for open consortium distribution under the Lumina Open-Archive Commons.
+                    Course title must be between 3 and 150 characters. Set price to 0 or leave blank to make this course free.
                   </span>
                 </div>
               </div>
@@ -206,7 +206,7 @@ export function CreateCourse() {
             </div>
             <div className="flex items-center justify-between pt-0.5 text-[11px]">
               <p className="text-[#7b7974]">
-                A concise, descriptive title for the monograph catalog and peer-reviewed syllabus.
+                A concise, descriptive title for the course catalog.
               </p>
               <span className="font-mono text-[#373734] font-medium whitespace-nowrap pl-2">
                 {formData.title.length} / 150 characters
@@ -214,14 +214,14 @@ export function CreateCourse() {
             </div>
           </div>
 
-          {/* Field 2: Curriculum Description */}
+          {/* Field 2: Course Description */}
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center justify-between">
               <label className="text-xs sm:text-sm font-semibold text-[#121212] flex items-center gap-1" htmlFor="courseDescription">
-                <span>Curriculum Description</span>
+                <span>Course Description</span>
               </label>
               <span className="text-[10px] font-mono text-[#7b7974] px-2 py-0.5 bg-[#efeeeb] rounded">
-                Recommended • Markdown Supported
+                Recommended
               </span>
             </div>
             <textarea 
@@ -230,12 +230,12 @@ export function CreateCourse() {
               maxLength={500}
               value={formData.description}
               onChange={e => setFormData({ ...formData, description: e.target.value })}
-              placeholder="What will students learn in this curriculum? Outline core invariant proofs, architectural deliverables, and lab milestones..."
+              placeholder="What will students learn in this course? Outline core topics, assignments, and learning outcomes..."
               className="w-full px-4 py-2.5 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm placeholder:text-[#9c9a92] border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none transition-colors resize-y leading-relaxed"
             />
             <div className="flex items-center justify-between pt-0.5 text-[11px]">
               <p className="text-[#7b7974]">
-                Provide a high-level syllabus overview (up to 500 characters). You can enrich this with TeX formulas in the full editor later.
+                Provide a high-level course overview (up to 500 characters).
               </p>
               <span className="font-mono text-[#373734] font-medium whitespace-nowrap pl-2">
                 {formData.description.length} / 500 characters
@@ -243,10 +243,10 @@ export function CreateCourse() {
             </div>
           </div>
 
-          {/* Field 3: Category & Academic Discipline */}
+          {/* Field 3: Category */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs sm:text-sm font-semibold text-[#121212]" htmlFor="disciplineInput">
-              Category &amp; Academic Discipline
+              Category
             </label>
             <div className="relative flex items-center">
               <input 
@@ -304,14 +304,14 @@ export function CreateCourse() {
                 <ChevronDown className="w-4 h-4 text-[#9c9a92] absolute right-3 top-3 pointer-events-none" />
               </div>
               <p className="text-[11px] text-[#7b7974] pt-0.5">
-                Calibrates automated prerequisite checking across student folios.
+                Helps learners find courses suited to their experience level.
               </p>
             </div>
 
-            {/* Column B: Tuition / Price */}
+            {/* Column B: Course Price */}
             <div className="flex flex-col gap-1.5">
               <label className="text-xs sm:text-sm font-semibold text-[#121212]" htmlFor="tuitionPrice">
-                Tuition / Monograph Price (USD)
+                Course Price (USD)
               </label>
               <div className="relative flex items-center">
                 <span className="absolute left-3.5 text-xs sm:text-sm text-[#373734] font-semibold pointer-events-none">$</span>
@@ -327,7 +327,7 @@ export function CreateCourse() {
                 />
               </div>
               <p className="text-[11px] text-[#7b7974] pt-0.5">
-                Leave blank or 0 for open access. Faculty receives 95% net monograph royalties.
+                Leave blank or 0 for free access. Instructors receive net course earnings.
               </p>
             </div>
           </div>
@@ -337,32 +337,32 @@ export function CreateCourse() {
             <div className="flex items-center justify-between">
               <span className="text-xs sm:text-sm font-semibold text-[#121212] flex items-center gap-1.5">
                 <Layers className="w-4 h-4 text-[#d97757]" />
-                <span>Curriculum Scaffold Auto-Configuration</span>
+                <span>Included Course Features</span>
               </span>
               <span className="text-[10px] font-mono text-[#7b7974] uppercase bg-[#ffffff] px-2 py-0.5 rounded border border-[#e7e6e1]">
-                Auto-provisioned
+                Available
               </span>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
               <div className="p-2.5 rounded-lg bg-[#ffffff] border border-[#e7e6e1] flex items-center gap-2.5 shadow-xs">
                 <BookOpen className="w-4 h-4 text-[#373734] shrink-0" />
                 <div className="flex flex-col">
-                  <span className="text-xs font-semibold text-[#121212] leading-tight">Monograph Leaf</span>
-                  <span className="text-[10px] font-mono text-[#9c9a92]">TeTeX &amp; Markdown</span>
+                  <span className="text-xs font-semibold text-[#121212] leading-tight">Video &amp; Reading Lessons</span>
+                  <span className="text-[10px] font-mono text-[#9c9a92]">Video, Audio &amp; Text</span>
                 </div>
               </div>
               <div className="p-2.5 rounded-lg bg-[#ffffff] border border-[#e7e6e1] flex items-center gap-2.5 shadow-xs">
                 <Terminal className="w-4 h-4 text-[#373734] shrink-0" />
                 <div className="flex flex-col">
-                  <span className="text-xs font-semibold text-[#121212] leading-tight">Kernel Sandboxes</span>
-                  <span className="text-[10px] font-mono text-[#9c9a92]">Wasm &amp; MicroVMs</span>
+                  <span className="text-xs font-semibold text-[#121212] leading-tight">Quizzes &amp; Tests</span>
+                  <span className="text-[10px] font-mono text-[#9c9a92]">Instant Feedback</span>
                 </div>
               </div>
               <div className="p-2.5 rounded-lg bg-[#ffffff] border border-[#e7e6e1] flex items-center gap-2.5 shadow-xs">
                 <Award className="w-4 h-4 text-[#373734] shrink-0" />
                 <div className="flex flex-col">
-                  <span className="text-xs font-semibold text-[#121212] leading-tight">Peer Invariants</span>
-                  <span className="text-[10px] font-mono text-[#9c9a92]">Consortium Rubric</span>
+                  <span className="text-xs font-semibold text-[#121212] leading-tight">Assignments &amp; Projects</span>
+                  <span className="text-[10px] font-mono text-[#9c9a92]">Instructor Reviews</span>
                 </div>
               </div>
             </div>
@@ -386,7 +386,7 @@ export function CreateCourse() {
                   disabled={createCourse.isPending}
                   className="px-4 py-2.5 rounded-lg bg-[#efeeeb] hover:bg-[#e7e6e1] text-[#121212] font-body text-xs font-medium transition-colors border border-[#e7e6e1] cursor-pointer disabled:opacity-50"
                 >
-                  Save as Inactive Draft
+                  Save as Draft
                 </button>
                 <button 
                   type="submit"
@@ -396,11 +396,11 @@ export function CreateCourse() {
                   {createCourse.isPending ? (
                     <>
                       <div className="w-3.5 h-3.5 border-2 border-[#f8f8f6]/30 border-t-[#f8f8f6] rounded-full animate-spin" />
-                      <span>Initializing Monograph...</span>
+                      <span>Creating Course...</span>
                     </>
                   ) : (
                     <>
-                      <span>Create Course &amp; Open Studio</span>
+                      <span>Create Course &amp; Add Content</span>
                       <ArrowRight className="w-3.5 h-3.5 text-[#d97757]" />
                     </>
                   )}
@@ -410,19 +410,20 @@ export function CreateCourse() {
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] font-mono text-[#7b7974] pt-1">
               <span>
-                Upon creation, you will immediately route to the curriculum studio.
+                Upon creation, you will immediately route to the course editor.
               </span>
             </div>
           </div>
         </form>
       </div>
 
-      {/* Auxiliary Consortium Footnote */}
+      {/* Auxiliary Footnote */}
       <div className="max-w-3xl mx-auto w-full mt-6 text-center">
         <span className="text-[11px] font-mono text-[#9c9a92]">
-          Faculty Fellow ID: <strong className="text-[#373734] font-normal">OX-8842-EV</strong> • Lumina Academic Consortium Syllabus Charter §14.b
+          Lumina Learning • Instructor Studio
         </span>
       </div>
     </div>
   );
 }
+
