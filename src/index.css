@@ -15,6 +15,12 @@
   --color-obsidian: #000000;
   --color-clay: #d97757;
 
+  /* Pill Navigation Design Tokens */
+  --color-ash: #efeeeb;
+  --color-steel: #7b7974;
+  --color-canvas-white: #ffffff;
+  --font-polysans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
   /* Typography */
   --font-anthropic-serif: 'Newsreader', 'Source Serif 4', 'Anthropic Serif', ui-serif, Charter, Georgia, Cambria, 'Times New Roman', Times, serif;
   --font-anthropic-sans: 'Inter', 'Anthropic Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -130,3 +136,6 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+.pill-nav {
+  border-radius: 9999px;
+}
