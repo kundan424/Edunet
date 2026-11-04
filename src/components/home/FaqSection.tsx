@@ -6,20 +6,20 @@ export function FaqSection() {
 
   const faqs = [
     {
-      question: 'How does an online Degree or MasterTrack differ from a short course?',
-      answer: 'Degrees and MasterTrack™ credentials award formal university credits that appear on an official university transcript. They include faculty-graded capstone examinations, live oral defense sessions, and verified identity verification.'
+      question: 'How do courses and certificate tracks work on Lumina?',
+      answer: 'Courses provide structured video lectures, downloadable resources, interactive quizzes, and assignments. Upon completing all required modules, you earn a verifiable course completion certificate.'
     },
     {
-      question: 'Can I audit courses for free without paying tuition?',
-      answer: 'Yes. All Lumina academic reading materials, lecture monographs, and community discussions are completely open. Tuition is only charged if you submit projects to the live automated grading kernel and wish to receive an official accredited credential.'
+      question: 'Can I preview courses before enrolling?',
+      answer: 'Yes. All course overviews, syllabi, learning objectives, and initial lecture previews are completely open so you can explore the curriculum before enrolling.'
     },
     {
-      question: 'How do I qualify for need-based tuition assistance?',
-      answer: 'Applications are reviewed on a rolling basis. Any student demonstrated with limited educational access can submit a brief 300-word statement explaining their academic goals. Approvals take fewer than 48 hours.'
+      question: 'Are courses self-paced and do I get lifetime access?',
+      answer: 'Yes. Enrolled students enjoy flexible self-paced learning and lifetime access to course videos, quizzes, assignments, and curriculum updates so you can study on your own schedule.'
     },
     {
-      question: 'What are the system requirements for the interactive cloud kernel sandboxes?',
-      answer: 'None beyond a modern web browser. All compiler pipelines, Linux kernel tracepoint tools, and GPU inference instances run remotely in dedicated QEMU/Firecracker microVMs at zero cost to you.'
+      question: 'What are the technical requirements to participate?',
+      answer: 'All you need is a modern web browser and a stable internet connection. All interactive quizzes, assignments, and video lectures work seamlessly across desktop and mobile devices.'
     }
   ];
 

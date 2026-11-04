@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { ShieldCheck, HeartHandshake, Award } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ShieldCheck, BookOpen, Award, ArrowRight } from 'lucide-react';
 
 export function EnterpriseSection() {
   const [consultationSubmitted, setConsultationSubmitted] = useState(false);
-  const [financialAidOpen, setFinancialAidOpen] = useState(false);
+  const [curriculumGuideOpen, setCurriculumGuideOpen] = useState(false);
 
   return (
     <section className="py-16 lg:py-20 border-b border-[#e7e6e1] w-full" id="enterprise-section">
@@ -33,10 +34,10 @@ export function EnterpriseSection() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => setFinancialAidOpen(!financialAidOpen)}
+                  onClick={() => setCurriculumGuideOpen(!curriculumGuideOpen)}
                   className="px-5 py-3 rounded-lg bg-[#efeeeb] hover:bg-[#e7e6e1] text-[#121212] text-[14px] font-medium transition-colors border border-[#e7e6e1] cursor-pointer"
                 >
-                  Apply for Financial Aid (Individuals)
+                  {curriculumGuideOpen ? 'Close Curriculum Guide' : 'Explore Curriculum Syllabus Guide'}
                 </button>
               </div>
 
@@ -46,39 +47,55 @@ export function EnterpriseSection() {
                 </div>
               )}
 
-              {financialAidOpen && (
-                <div className="mt-4 p-4 rounded-xl bg-[#efeeeb] border border-[#e7e6e1] text-xs text-[#373734] max-w-md space-y-2">
-                  <div className="font-semibold text-[#121212]">Need-Based Financial Aid Application</div>
-                  <p>All Lumina programs offer up to 90% tuition reduction. Submit a brief statement on course selection to receive rolling decision within 48 hours.</p>
+              {curriculumGuideOpen && (
+                <div className="mt-4 p-5 rounded-xl bg-[#efeeeb] border border-[#e7e6e1] text-xs text-[#373734] max-w-lg space-y-2.5">
+                  <div className="font-semibold text-sm text-[#121212] flex items-center justify-between">
+                    <span>Curriculum Syllabi &amp; Prerequisite Roadmaps</span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-[#ffffff] border border-[#e7e6e1] text-[#d97757]">
+                      Academic Edition
+                    </span>
+                  </div>
+                  <p className="leading-relaxed">
+                    Access in-depth course outlines, module prerequisites, required readings, and laboratory milestones across all Computer Science and AI tracks.
+                  </p>
+                  <div className="pt-1.5 flex items-center gap-3">
+                    <Link
+                      to="/courses"
+                      className="inline-flex items-center gap-1.5 font-medium text-xs text-[#121212] hover:text-[#d97757] transition-colors font-mono"
+                    >
+                      <span>Browse Full Course Catalog</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* Right Column: Standards & Financial Access */}
+            {/* Right Column: Standards & Learning Access */}
             <div className="lg:col-span-5 bg-[#efeeeb]/70 rounded-2xl p-6 sm:p-7 border border-[#e7e6e1]">
               <h4 className="font-heading text-[19px] text-[#121212] mb-3 font-semibold">
-                Academic Standards &amp; Financial Access
+                Academic Standards &amp; Learning Access
               </h4>
               <p className="text-[13px] text-[#373734] mb-4 leading-relaxed">
-                We believe top-tier engineering education should be globally accessible:
+                We believe top-tier computer science education should be open, rigorous, and verifiable:
               </p>
               <ul className="text-[12.5px] text-[#373734] space-y-3">
                 <li className="flex items-start gap-2.5">
                   <ShieldCheck className="w-4 h-4 text-[#d97757] shrink-0 mt-0.5" />
                   <span>
-                    <strong className="text-[#121212]">100% Free to Audit:</strong> Learn freely with complete access to lecture readings and monographs without fee.
+                    <strong className="text-[#121212]">100% Free Course Audit:</strong> Learn freely with complete access to lecture readings, course materials, and syllabi without fee.
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <HeartHandshake className="w-4 h-4 text-[#d97757] shrink-0 mt-0.5" />
+                  <BookOpen className="w-4 h-4 text-[#d97757] shrink-0 mt-0.5" />
                   <span>
-                    <strong className="text-[#121212]">Need-Based Financial Aid:</strong> Up to 90% tuition reduction for qualifying applicants worldwide.
+                    <strong className="text-[#121212]">Self-Paced Flexible Access:</strong> Study on your schedule with lifetime access to enrolled content, structured quizzes, and updates.
                   </span>
                 </li>
                 <li className="flex items-start gap-2.5">
                   <Award className="w-4 h-4 text-[#d97757] shrink-0 mt-0.5" />
                   <span>
-                    <strong className="text-[#121212]">European Credit Transfer (ECTS):</strong> Fully verifiable university transcript and credits upon graduation.
+                    <strong className="text-[#121212]">European Credit Transfer (ECTS):</strong> Fully verifiable university transcript and credits upon course completion.
                   </span>
                 </li>
               </ul>

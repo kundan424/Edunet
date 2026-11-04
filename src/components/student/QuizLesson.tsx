@@ -38,12 +38,13 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
   const effectiveQuiz = quiz;
   const effectiveAttempt = activeAttempt;
   const effectiveHistory = history || [];
+  const hasPassed = effectiveHistory.some(h => h.passed);
 
   useEffect(() => {
-    if (effectiveHistory && effectiveHistory.some(h => h.passed)) {
+    if (hasPassed) {
       onComplete();
     }
-  }, [effectiveHistory, onComplete]);
+  }, [hasPassed, onComplete]);
 
   if (quizLoading || attemptLoading) return <LoadingState message="Loading knowledge assessment..." />;
 

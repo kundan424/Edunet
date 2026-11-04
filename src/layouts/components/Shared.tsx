@@ -411,152 +411,149 @@ export function Header() {
  */
 export function Footer() {
   return (
-    <footer className="w-full bg-[#000000] text-[#f8f8f6] pt-16 pb-12 border-t border-[#121212]">
+    <footer className="w-full bg-[#000000] text-[#f8f8f6] pt-14 pb-10 border-t border-[#121212]">
       <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* 5-Column Directory Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 pb-12 border-b border-[#373734]/40">
+        {/* Clean 4-Column Directory Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-[#373734]/40">
           
-          {/* Col 1: Online Degrees */}
+          {/* Col 1: Brand & Mission */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-md bg-[#1c1b1b] border border-[#373734] flex items-center justify-center font-heading text-sm font-semibold text-[#f8f8f6]">
+                L
+              </div>
+              <span className="font-medium tracking-tight text-sm text-[#f8f8f6]">
+                LUMINA <span className="text-[10px] font-mono text-[#9c9a92] px-1.5 py-0.5 rounded bg-[#1c1b1b] border border-[#373734]">LEARNING</span>
+              </span>
+            </div>
+            <p className="text-[13px] text-[#7b7974] leading-relaxed">
+              An academic-grade online learning environment designed for deep technical mastery, practical problem-solving, and continuous learning.
+            </p>
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#1c1b1b] border border-[#373734] text-[11px] font-mono text-[#9c9a92]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#3c8254]"></span>
+              <span>Platform Operational</span>
+            </div>
+          </div>
+
+          {/* Col 2: Explore Catalog */}
           <div>
             <h4 className="font-mono text-[11px] uppercase tracking-wider text-[#9c9a92] mb-4">
-              Online Degrees
+              Explore Courses
             </h4>
             <ul className="space-y-2.5 text-[13px] text-[#7b7974]">
               <li>
-                <Link to="/courses?search=Degree" className="hover:text-[#f8f8f6] transition-colors">
-                  Master of Computer Science
+                <Link to="/courses" className="hover:text-[#f8f8f6] transition-colors">
+                  All Courses Catalog
+                </Link>
+              </li>
+              <li>
+                <Link to="/courses?search=Computer" className="hover:text-[#f8f8f6] transition-colors">
+                  Computer Science &amp; Systems
                 </Link>
               </li>
               <li>
                 <Link to="/courses?search=AI" className="hover:text-[#f8f8f6] transition-colors">
-                  Master of Science in AI Systems
+                  Artificial Intelligence &amp; ML
                 </Link>
               </li>
               <li>
-                <Link to="/courses?search=Distributed" className="hover:text-[#f8f8f6] transition-colors">
-                  MicroMasters in Distributed Runtimes
+                <Link to="/courses?search=Architecture" className="hover:text-[#f8f8f6] transition-colors">
+                  Distributed System Architecture
                 </Link>
               </li>
               <li>
-                <Link to="/courses?search=Cryptography" className="hover:text-[#f8f8f6] transition-colors">
-                  Postgraduate Diploma in Cryptography
+                <Link to="/courses?search=Development" className="hover:text-[#f8f8f6] transition-colors">
+                  Full-Stack &amp; Cloud Engineering
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Col 3: Student & Instructor Hub */}
+          <div>
+            <h4 className="font-mono text-[11px] uppercase tracking-wider text-[#9c9a92] mb-4">
+              Learning Hub
+            </h4>
+            <ul className="space-y-2.5 text-[13px] text-[#7b7974]">
+              <li>
+                <Link to="/learn" className="hover:text-[#f8f8f6] transition-colors">
+                  Student Dashboard
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="hover:text-[#f8f8f6] transition-colors">
-                  Credit Transfer Evaluation
+                <Link to="/profile" className="hover:text-[#f8f8f6] transition-colors">
+                  Account &amp; Learning Profile
+                </Link>
+              </li>
+              <li>
+                <Link to="/instructor/courses" className="hover:text-[#f8f8f6] transition-colors">
+                  Instructor Studio
                 </Link>
               </li>
               <li>
                 <a href="/#enterprise-section" className="hover:text-[#f8f8f6] transition-colors">
-                  Scholarship &amp; Financial Aid
+                  Curriculum Syllabus Guide
                 </a>
               </li>
-            </ul>
-          </div>
-
-          {/* Col 2: Popular Specializations */}
-          <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-wider text-[#9c9a92] mb-4">
-              Popular Specializations
-            </h4>
-            <ul className="space-y-2.5 text-[13px] text-[#7b7974]">
               <li>
-                <Link to="/courses?search=Transformer" className="hover:text-[#f8f8f6] transition-colors">
-                  Transformer Architectures &amp; RLHF
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses?search=Rust" className="hover:text-[#f8f8f6] transition-colors">
-                  Rust Systems &amp; eBPF Observability
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses?search=Formal" className="hover:text-[#f8f8f6] transition-colors">
-                  TLA+ &amp; Formal Software Invariants
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses?search=Database" className="hover:text-[#f8f8f6] transition-colors">
-                  Distributed Database Engines
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses?search=Quantum" className="hover:text-[#f8f8f6] transition-colors">
-                  Quantum Algorithm Verification
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses" className="hover:text-[#f8f8f6] transition-colors">
-                  Free Introductory Masterclasses
+                <Link to="/about" className="hover:text-[#f8f8f6] transition-colors">
+                  Accreditation &amp; Standards
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Col 3: Institutional Partners */}
+          {/* Col 4: Platform & Support */}
           <div>
             <h4 className="font-mono text-[11px] uppercase tracking-wider text-[#9c9a92] mb-4">
-              Partner Universities
+              Platform &amp; Legal
             </h4>
             <ul className="space-y-2.5 text-[13px] text-[#7b7974]">
-              <li><Link to="/courses?search=MIT" className="hover:text-[#f8f8f6] transition-colors">MIT CSAIL</Link></li>
-              <li><Link to="/courses?search=Stanford" className="hover:text-[#f8f8f6] transition-colors">Stanford University</Link></li>
-              <li><Link to="/courses?search=Cambridge" className="hover:text-[#f8f8f6] transition-colors">University of Cambridge</Link></li>
-              <li><Link to="/courses?search=Carnegie" className="hover:text-[#f8f8f6] transition-colors">Carnegie Mellon University</Link></li>
-              <li><Link to="/courses?search=ETH" className="hover:text-[#f8f8f6] transition-colors">ETH Zürich</Link></li>
-              <li><Link to="/courses?search=Oxford" className="hover:text-[#f8f8f6] transition-colors">University of Oxford</Link></li>
-            </ul>
-          </div>
-
-          {/* Col 4: Platform & Solutions */}
-          <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-wider text-[#9c9a92] mb-4">
-              Enterprise &amp; Campus
-            </h4>
-            <ul className="space-y-2.5 text-[13px] text-[#7b7974]">
-              <li><a href="/#enterprise-section" className="hover:text-[#f8f8f6] transition-colors">Lumina for Enterprise</a></li>
-              <li><a href="/#enterprise-section" className="hover:text-[#f8f8f6] transition-colors">Lumina for Higher Education</a></li>
-              <li><Link to="/about" className="hover:text-[#f8f8f6] transition-colors">Automated Grading API</Link></li>
-              <li><Link to="/about" className="hover:text-[#f8f8f6] transition-colors">LMS Integration (Canvas/LTI)</Link></li>
-              <li><Link to="/about" className="hover:text-[#f8f8f6] transition-colors">Research Monograph Archive</Link></li>
-              <li><Link to="/about" className="hover:text-[#f8f8f6] transition-colors">System Benchmarks</Link></li>
-            </ul>
-          </div>
-
-          {/* Col 5: Platform & Governance */}
-          <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-wider text-[#9c9a92] mb-4">
-              Platform Governance
-            </h4>
-            <ul className="space-y-2.5 text-[13px] text-[#7b7974]">
-              <li><Link to="/about" className="hover:text-[#f8f8f6] transition-colors">About Lumina Platform</Link></li>
-              <li><Link to="/about" className="hover:text-[#f8f8f6] transition-colors">Academic Advisory Council</Link></li>
-              <li><Link to="/about" className="hover:text-[#f8f8f6] transition-colors">Accreditation &amp; ECTS Standards</Link></li>
-              <li><Link to="/terms" className="hover:text-[#f8f8f6] transition-colors">Honor Code &amp; Academic Integrity</Link></li>
-              <li><Link to="/contact" className="hover:text-[#f8f8f6] transition-colors">Careers at Lumina</Link></li>
-              <li><Link to="/contact" className="hover:text-[#f8f8f6] transition-colors">Press &amp; University Inquiries</Link></li>
+              <li>
+                <Link to="/about" className="hover:text-[#f8f8f6] transition-colors">
+                  About Lumina Platform
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy" className="hover:text-[#f8f8f6] transition-colors">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms" className="hover:text-[#f8f8f6] transition-colors">
+                  Terms of Service &amp; Honor Code
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="hover:text-[#f8f8f6] transition-colors">
+                  Contact &amp; Student Inquiries
+                </Link>
+              </li>
+              <li>
+                <a href="/#faq" className="hover:text-[#f8f8f6] transition-colors">
+                  Curriculum FAQ
+                </a>
+              </li>
             </ul>
           </div>
 
         </div>
 
         {/* Bottom Attribution & Legal */}
-        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[#7b7974] text-[12px]">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[#7b7974] text-[12px]">
           <div className="flex items-center gap-3">
-            <div className="w-6 h-6 rounded-full bg-[#f8f8f6] text-[#121212] flex items-center justify-center font-heading text-xs font-semibold">
+            <div className="w-5 h-5 rounded-full bg-[#f8f8f6] text-[#121212] flex items-center justify-center font-heading text-[10px] font-bold">
               L
             </div>
             <span>© 2026 Lumina Learning Platform Inc. All rights reserved.</span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-6">
+          <div className="flex flex-wrap items-center gap-5">
             <Link to="/privacy" className="hover:text-[#f8f8f6] transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-[#f8f8f6] transition-colors">Terms of Use</Link>
-            <Link to="/about" className="hover:text-[#f8f8f6] transition-colors">Accreditation Disclosures</Link>
-            <Link to="/about" className="hover:text-[#f8f8f6] transition-colors">Accessibility</Link>
-            <Link to="/about" className="hover:text-[#f8f8f6] transition-colors">System Status</Link>
+            <Link to="/terms" className="hover:text-[#f8f8f6] transition-colors">Terms of Service</Link>
+            <Link to="/about" className="hover:text-[#f8f8f6] transition-colors">About</Link>
+            <Link to="/contact" className="hover:text-[#f8f8f6] transition-colors">Support</Link>
           </div>
         </div>
 

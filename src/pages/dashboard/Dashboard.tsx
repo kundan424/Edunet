@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useAuth } from '../../auth/AuthProvider';
 import { useStudentDashboard } from '../../features/dashboard/queries';
@@ -59,12 +59,13 @@ export function Dashboard() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  if (!user) {
-    navigate('/login');
-    return null;
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
 
-  const role = user.role;
+  const role = user?.role;
   const isStudent = role === 'STUDENT';
   const isInstructor = role === 'INSTRUCTOR';
   const isAdmin = role === 'ADMIN';
@@ -74,28 +75,28 @@ export function Dashboard() {
     data: studentData, 
     isLoading: studentLoading,
     error: studentError 
-  } = useStudentDashboard({ enabled: isStudent });
+  } = useStudentDashboard({ enabled: Boolean(isStudent && user) });
 
   const { 
     data: instructorData, 
     isLoading: instructorLoading,
     error: instructorError 
-  } = useInstructorDashboard({ enabled: isInstructor });
+  } = useInstructorDashboard({ enabled: Boolean(isInstructor && user) });
 
   const { 
     data: adminData, 
     isLoading: adminLoading,
     error: adminError 
-  } = useAdminDashboard({ enabled: isAdmin });
+  } = useAdminDashboard({ enabled: Boolean(isAdmin && user) });
 
   // Query real student enrollments to combine with continueLearning
   const { data: enrollmentsPage } = useQuery<Page<EnrollmentResponseDTO>>({
     queryKey: ['enrollments'],
     queryFn: () => api.get('/api/v1/enrollments'),
-    enabled: isStudent,
+    enabled: Boolean(isStudent && user),
   });
 
-  const realEnrollments = enrollmentsPage?.content || [];
+  const realEnrollments = useMemo(() => enrollmentsPage?.content || [], [enrollmentsPage?.content]);
 
   // Reactive student courses list with live progress synced across workspaces
   const studentCourses = useMemo(() => {
@@ -159,6 +160,10 @@ export function Dashboard() {
 
   const isLoading = (isStudent && studentLoading) || (isInstructor && instructorLoading) || (isAdmin && adminLoading);
   const error = (isStudent && studentError) || (isInstructor && instructorError) || (isAdmin && adminError);
+
+  if (!user) {
+    return null;
+  }
 
   if (isLoading) {
     return (
@@ -227,7 +232,7 @@ export function Dashboard() {
       primaryActionLabel: 'Audit Staged Courses',
       primaryActionPath: '/admin/courses'
     }
-  }[role];
+  }[user.role];
 
   return (
     <div className="flex flex-col w-full max-w-[1200px] mx-auto pb-20">
