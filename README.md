@@ -11,14 +11,27 @@
 
 ---
 
-## 📸 Platform Preview
+## 🌐 Live Platform Preview & Demo
 
-![Lumina Home Page](./public/images/landing_page.png)
+<div align="center">
+
+[![Live Application Demo](https://img.shields.io/badge/Live_Demo-Launch_Application-success?style=for-the-badge&logo=google-chrome&logoColor=white)](https://e-learning-frontend-vvnf.onrender.com/)
+<br />
+<br />
+
+[![Lumina Live Platform Preview](./public/images/landing_page.png)](https://e-learning-frontend-vvnf.onrender.com/)
+
+<p align="center">
+  <b>🔗 <a href="https://e-learning-frontend-vvnf.onrender.com/">Click here or click on the preview image above to open the live application</a> 🔗</b>
+</p>
+
+</div>
 
 ---
 
 ## 📑 Table of Contents
 
+- [Live Platform Preview & Demo](#-live-platform-preview--demo)
 - [Platform Screenshots & Tour](#-platform-screenshots--tour)
   - [1. Landing Page & Editorial Experience](#1-landing-page--editorial-experience)
   - [2. Course Discovery & Catalog](#2-course-discovery--catalog)
@@ -250,4 +263,11 @@ To display images stored in your repository directly in your `README.md`, refere
 <p align="center">
   <img src="./public/images/landing_page.png" alt="Lumina Platform" width="850" />
 </p>
+```
+
+### Clickable Live Preview Link (Standard Alternative to `<iframe>`)
+GitHub and Markdown parsers block interactive `<iframe>` tags for security reasons (preventing XSS and clickjacking). To provide a live interactive experience, wrap your preview snapshot in a markdown link:
+
+```markdown
+[![Preview Title](./public/images/landing_page.png)](https://your-deployed-frontend-url.com)
 ```
