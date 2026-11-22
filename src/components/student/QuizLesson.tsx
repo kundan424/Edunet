@@ -50,20 +50,20 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
 
   if (!effectiveQuiz || !effectiveQuiz.questions || effectiveQuiz.questions.length === 0) {
     return (
-      <div className="p-8 sm:p-12 text-center flex flex-col items-center gap-4 bg-[#ffffff] border border-[#e7e6e1] rounded-2xl shadow-xs">
-        <div className="w-12 h-12 rounded-full bg-[#efeeeb] flex items-center justify-center text-[#7b7974]">
+      <div className="p-8 sm:p-12 text-center flex flex-col items-center gap-4 bg-card border border-rule rounded-[10px] shadow-xs">
+        <div className="w-12 h-12 rounded-full bg-wash flex items-center justify-center text-muted">
           <ListChecks className="w-6 h-6" />
         </div>
         <div className="flex flex-col gap-1 max-w-md">
-          <h3 className="font-heading text-lg font-semibold text-[#121212]">{title || 'Graded Assessment'}</h3>
-          <p className="font-body text-xs text-[#7b7974] leading-relaxed">
+          <h3 className="font-sans text-lg font-semibold text-foreground">{title || 'Graded Assessment'}</h3>
+          <p className="font-body text-xs text-muted leading-relaxed">
             No graded quiz has been published for this lesson yet. When the instructor adds questions, they will appear here automatically.
           </p>
         </div>
         <button
           type="button"
           onClick={onComplete}
-          className="mt-2 px-5 py-2 rounded-xl bg-[#121212] text-[#f8f8f6] text-xs font-medium hover:bg-black/80 transition-colors cursor-pointer"
+          className="mt-2 px-5 py-2 rounded-[10px] bg-card text-[#f8f8f6] text-xs font-medium hover:bg-black/80 transition-colors cursor-pointer"
         >
           Mark Lesson Complete
         </button>
@@ -131,46 +131,46 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
     <div className="flex flex-col gap-6 w-full">
       
       {/* Assessment Header */}
-      <div className="pb-4 border-b border-[#e7e6e1] flex flex-col gap-1.5">
-        <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold">
+      <div className="pb-4 border-b border-rule flex flex-col gap-1.5">
+        <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-ember font-semibold">
           <ListChecks className="w-3.5 h-3.5" />
           <span>Knowledge Verification Assessment</span>
         </div>
-        <h2 className="font-heading text-xl sm:text-2xl font-semibold text-[#121212] leading-snug">
+        <h2 className="font-sans text-xl sm:text-2xl font-semibold text-foreground leading-snug">
           {title}
         </h2>
         {effectiveQuiz.description && (
-          <p className="font-body text-xs sm:text-sm text-[#7b7974] leading-relaxed mt-1">
+          <p className="font-body text-xs sm:text-sm text-muted leading-relaxed mt-1">
             {effectiveQuiz.description}
           </p>
         )}
 
         {/* Verification Standards Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3 pt-3 border-t border-[#e7e6e1]/80">
-          <div className="p-3 rounded-xl bg-[#efeeeb]/50 border border-[#e7e6e1] flex flex-col gap-0.5">
-            <span className="text-[10px] font-mono uppercase text-[#7b7974]">Passing Benchmark</span>
-            <span className="font-heading text-base font-bold text-[#121212]">{effectiveQuiz.passScore}%</span>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3 pt-3 border-t border-rule/80">
+          <div className="p-3 rounded-[10px] bg-wash/50 border border-rule flex flex-col gap-0.5">
+            <span className="text-[10px] font-mono uppercase text-muted">Passing Benchmark</span>
+            <span className="font-sans text-base font-bold text-foreground">{effectiveQuiz.passScore}%</span>
           </div>
-          <div className="p-3 rounded-xl bg-[#efeeeb]/50 border border-[#e7e6e1] flex flex-col gap-0.5">
-            <span className="text-[10px] font-mono uppercase text-[#7b7974]">Attempts Allowed</span>
-            <span className="font-heading text-base font-bold text-[#121212]">{attemptsTaken} / {effectiveQuiz.attemptsAllowed}</span>
+          <div className="p-3 rounded-[10px] bg-wash/50 border border-rule flex flex-col gap-0.5">
+            <span className="text-[10px] font-mono uppercase text-muted">Attempts Allowed</span>
+            <span className="font-sans text-base font-bold text-foreground">{attemptsTaken} / {effectiveQuiz.attemptsAllowed}</span>
           </div>
           {effectiveQuiz.timeLimitSeconds ? (
-            <div className="p-3 rounded-xl bg-[#efeeeb]/50 border border-[#e7e6e1] flex flex-col gap-0.5 col-span-2 sm:col-span-1">
-              <span className="text-[10px] font-mono uppercase text-[#7b7974]">Time Limit</span>
-              <span className="font-heading text-base font-bold text-[#121212]">{Math.floor(effectiveQuiz.timeLimitSeconds / 60)} minutes</span>
+            <div className="p-3 rounded-[10px] bg-wash/50 border border-rule flex flex-col gap-0.5 col-span-2 sm:col-span-1">
+              <span className="text-[10px] font-mono uppercase text-muted">Time Limit</span>
+              <span className="font-sans text-base font-bold text-foreground">{Math.floor(effectiveQuiz.timeLimitSeconds / 60)} minutes</span>
             </div>
           ) : (
-            <div className="p-3 rounded-xl bg-[#efeeeb]/50 border border-[#e7e6e1] flex flex-col gap-0.5 col-span-2 sm:col-span-1">
-              <span className="text-[10px] font-mono uppercase text-[#7b7974]">Evaluation Pace</span>
-              <span className="font-heading text-base font-bold text-[#3c8254]">Untimed</span>
+            <div className="p-3 rounded-[10px] bg-wash/50 border border-rule flex flex-col gap-0.5 col-span-2 sm:col-span-1">
+              <span className="text-[10px] font-mono uppercase text-muted">Evaluation Pace</span>
+              <span className="font-sans text-base font-bold text-[#3c8254]">Untimed</span>
             </div>
           )}
         </div>
       </div>
 
       {submissionError && (
-        <div className="p-4 rounded-xl bg-[#ba1a1a]/10 border border-[#ba1a1a]/30 text-[#ba1a1a] text-xs font-medium flex items-center gap-2">
+        <div className="p-4 rounded-[10px] bg-[#ba1a1a]/10 border border-[#ba1a1a]/30 text-[#ba1a1a] text-xs font-medium flex items-center gap-2">
           <AlertCircle className="w-4 h-4 shrink-0" />
           <span>{submissionError}</span>
         </div>
@@ -179,23 +179,23 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
       {!effectiveAttempt ? (
         <div className="flex flex-col gap-5">
           {lastAttempt && (
-            <div className={`p-4 rounded-xl border flex items-center justify-between gap-4 ${
+            <div className={`p-4 rounded-[10px] border flex items-center justify-between gap-4 ${
               lastAttempt.passed 
                 ? 'bg-[#3c8254]/5 border-[#3c8254]/30' 
-                : 'bg-[#efeeeb] border-[#e7e6e1]'
+                : 'bg-wash border-rule'
             }`}>
               <div className="flex items-center gap-3">
                 <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                  lastAttempt.passed ? 'bg-[#3c8254]/10 text-[#3c8254]' : 'bg-[#121212]/10 text-[#121212]'
+                  lastAttempt.passed ? 'bg-[#3c8254]/10 text-[#3c8254]' : 'bg-card/10 text-foreground'
                 }`}>
                   {lastAttempt.passed ? <CheckCircle2 className="w-4 h-4" /> : <RotateCcw className="w-4 h-4" />}
                 </div>
                 <div>
-                  <div className="font-heading text-sm font-semibold text-[#121212]">
+                  <div className="font-sans text-sm font-semibold text-foreground">
                     Previous Attempt: {lastAttempt.percentage}% Score
                   </div>
-                  <div className="text-[11px] font-mono text-[#7b7974]">
-                    Status: <span className={lastAttempt.passed ? 'text-[#3c8254] font-semibold' : 'text-[#d97757] font-semibold'}>
+                  <div className="text-[11px] font-mono text-muted">
+                    Status: <span className={lastAttempt.passed ? 'text-[#3c8254] font-semibold' : 'text-ember font-semibold'}>
                       {lastAttempt.passed ? 'PASSED · Verified' : 'DID NOT PASS · Revision Recommended'}
                     </span>
                   </div>
@@ -211,20 +211,20 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
           )}
           
           {isOutOfAttempts ? (
-            <div className="p-6 rounded-2xl border border-[#e7e6e1] bg-[#efeeeb]/50 text-center flex flex-col items-center justify-center gap-2">
-              <AlertCircle className="w-6 h-6 text-[#d97757]" />
-              <h4 className="font-heading text-base font-semibold text-[#121212]">Maximum Assessment Attempts Reached</h4>
-              <p className="font-body text-xs text-[#7b7974] max-w-md">
+            <div className="p-6 rounded-[10px] border border-rule bg-wash/50 text-center flex flex-col items-center justify-center gap-2">
+              <AlertCircle className="w-6 h-6 text-ember" />
+              <h4 className="font-sans text-base font-semibold text-foreground">Maximum Assessment Attempts Reached</h4>
+              <p className="font-body text-xs text-muted max-w-md">
                 You have exhausted all {effectiveQuiz.attemptsAllowed} attempts for this evaluation. Contact faculty office hours for guidance.
               </p>
             </div>
           ) : (
-            <div className="p-6 rounded-2xl border border-[#e7e6e1] bg-[#ffffff] shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="p-6 rounded-[10px] border border-rule bg-card shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex flex-col gap-1">
-                <h4 className="font-heading text-base font-semibold text-[#121212]">
+                <h4 className="font-sans text-base font-semibold text-foreground">
                   {attemptsTaken > 0 ? 'Ready for Re-evaluation?' : 'Begin Verification Assessment'}
                 </h4>
-                <p className="font-body text-xs text-[#7b7974]">
+                <p className="font-body text-xs text-muted">
                   {attemptsRemaining} of {effectiveQuiz.attemptsAllowed} attempts remaining. Answers are evaluated instantaneously.
                 </p>
               </div>
@@ -233,7 +233,7 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
                 type="button"
                 onClick={handleStart}
                 disabled={startAttempt.isPending}
-                className="px-6 py-2.5 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer shrink-0 disabled:opacity-50"
+                className="px-6 py-2.5 rounded-[10px] bg-card hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer shrink-0 disabled:opacity-50"
               >
                 <span>{startAttempt.isPending ? 'Preparing Questions...' : (attemptsTaken > 0 ? 'Retry Assessment' : 'Start Assessment')}</span>
                 <ChevronRight className="w-3.5 h-3.5" />
@@ -245,12 +245,12 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
         <div className="flex flex-col gap-6">
           
           {/* Active Banner */}
-          <div className="p-3.5 rounded-xl bg-[#efeeeb] border border-[#e7e6e1] flex items-center justify-between">
-            <div className="flex items-center gap-2 text-xs font-mono font-medium text-[#121212]">
-              <span className="w-2 h-2 rounded-full bg-[#d97757] animate-pulse"></span>
+          <div className="p-3.5 rounded-[10px] bg-wash border border-rule flex items-center justify-between">
+            <div className="flex items-center gap-2 text-xs font-mono font-medium text-foreground">
+              <span className="w-2 h-2 rounded-full bg-ember animate-pulse"></span>
               <span>Assessment In Progress · Select all correct options</span>
             </div>
-            <span className="text-[10px] font-mono text-[#7b7974]">
+            <span className="text-[10px] font-mono text-muted">
               {effectiveQuiz.questions.length} Questions
             </span>
           </div>
@@ -262,14 +262,14 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
               return (
                 <div 
                   key={q.id} 
-                  className="rounded-2xl border border-[#e7e6e1] bg-[#ffffff] p-5 sm:p-6 shadow-xs flex flex-col gap-4"
+                  className="rounded-[10px] border border-rule bg-card p-5 sm:p-6 shadow-xs flex flex-col gap-4"
                 >
                   <div className="flex items-start justify-between gap-4">
-                    <h3 className="font-heading text-base font-semibold text-[#121212] leading-snug">
-                      <span className="text-[#d97757] font-mono mr-2">{i + 1}.</span>
+                    <h3 className="font-sans text-base font-semibold text-foreground leading-snug">
+                      <span className="text-ember font-mono mr-2">{i + 1}.</span>
                       {q.questionText}
                     </h3>
-                    <span className="text-[10px] font-mono uppercase tracking-wider text-[#7b7974] bg-[#efeeeb] px-2 py-0.5 rounded border border-[#e7e6e1] shrink-0">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-muted bg-wash px-2 py-0.5 rounded border border-rule shrink-0">
                       {isMulti ? 'Multi-select' : 'Single Choice'}
                     </span>
                   </div>
@@ -280,10 +280,10 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
                       return (
                         <label 
                           key={opt.id} 
-                          className={`flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
+                          className={`flex items-center gap-3 p-3 rounded-[10px] border transition-all cursor-pointer ${
                             isSelected 
-                              ? 'bg-[#efeeeb] border-[#121212] font-medium text-[#121212]' 
-                              : 'bg-[#ffffff] border-[#e7e6e1] hover:bg-[#efeeeb]/50 text-[#373734]'
+                              ? 'bg-wash border-rule font-medium text-foreground' 
+                              : 'bg-card border-rule hover:bg-wash/50 text-muted'
                           }`}
                         >
                           <input 
@@ -291,7 +291,7 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
                             name={q.id}
                             checked={isSelected}
                             onChange={() => handleToggleAnswer(q.id, opt.id, isMulti)}
-                            className="w-4 h-4 accent-[#121212] border-[#e7e6e1]"
+                            className="w-4 h-4 accent-[#121212] border-rule"
                           />
                           <span className="text-xs font-body leading-relaxed">
                             {opt.optionText}
@@ -306,8 +306,8 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
           </div>
 
           {/* Submit Action */}
-          <div className="pt-4 border-t border-[#e7e6e1] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <span className="text-xs text-[#7b7974] font-mono">
+          <div className="pt-4 border-t border-rule flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <span className="text-xs text-muted font-mono">
               Review your answers before submitting. Automated evaluation will record immediately.
             </span>
 
@@ -315,7 +315,7 @@ export function QuizLesson({ courseId, quizId, title, onComplete }: QuizLessonPr
               type="button"
               onClick={handleSubmit} 
               disabled={submitAttempt.isPending} 
-              className="px-6 py-3 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+              className="px-6 py-3 rounded-[10px] bg-card hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
             >
               <Award className="w-3.5 h-3.5" />
               <span>{submitAttempt.isPending ? 'Grading Answers...' : 'Submit Answers for Verification'}</span>

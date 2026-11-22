@@ -56,26 +56,26 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
     <div className="flex flex-col gap-6 w-full">
       
       {/* Assignment Header */}
-      <div className="pb-4 border-b border-[#e7e6e1] flex flex-col gap-1.5">
-        <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold">
+      <div className="pb-4 border-b border-rule flex flex-col gap-1.5">
+        <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-ember font-semibold">
           <Award className="w-3.5 h-3.5" />
           <span>Assignment &amp; Project Evaluation</span>
         </div>
-        <h2 className="font-heading text-xl sm:text-2xl font-semibold text-[#121212] leading-snug">
+        <h2 className="font-sans text-xl sm:text-2xl font-semibold text-foreground leading-snug">
           {assignment.title || title}
         </h2>
 
         {/* Evaluation Standards Row */}
-        <div className="flex flex-wrap gap-4 mt-3 pt-3 border-t border-[#e7e6e1]/80">
-          <div className="p-3 rounded-xl bg-[#efeeeb]/50 border border-[#e7e6e1] flex flex-col gap-0.5">
-            <span className="text-[10px] font-mono uppercase text-[#7b7974]">Max Points</span>
-            <span className="font-heading text-base font-bold text-[#121212]">{assignment.maxScore} points</span>
+        <div className="flex flex-wrap gap-4 mt-3 pt-3 border-t border-rule/80">
+          <div className="p-3 rounded-[10px] bg-wash/50 border border-rule flex flex-col gap-0.5">
+            <span className="text-[10px] font-mono uppercase text-muted">Max Points</span>
+            <span className="font-sans text-base font-bold text-foreground">{assignment.maxScore} points</span>
           </div>
           {assignment.dueAt && (
-            <div className="p-3 rounded-xl bg-[#efeeeb]/50 border border-[#e7e6e1] flex flex-col gap-0.5">
-              <span className="text-[10px] font-mono uppercase text-[#7b7974]">Due Date</span>
-              <span className="font-heading text-base font-bold text-[#121212] flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5 text-[#d97757]" />
+            <div className="p-3 rounded-[10px] bg-wash/50 border border-rule flex flex-col gap-0.5">
+              <span className="text-[10px] font-mono uppercase text-muted">Due Date</span>
+              <span className="font-sans text-base font-bold text-foreground flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-ember" />
                 {new Date(assignment.dueAt).toLocaleDateString(undefined, {
                   weekday: 'short',
                   month: 'short',
@@ -91,23 +91,23 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
 
       {/* Instructions */}
       <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2 text-xs font-mono font-semibold uppercase text-[#7b7974]">
+        <div className="flex items-center gap-2 text-xs font-mono font-semibold uppercase text-muted">
           <FileText className="w-3.5 h-3.5" />
           <span>Assignment Requirements &amp; Instructions</span>
         </div>
-        <div className="p-5 sm:p-6 rounded-2xl bg-[#f8f8f6] border border-[#e7e6e1] font-body text-xs sm:text-sm text-[#373734] leading-relaxed whitespace-pre-wrap">
+        <div className="p-5 sm:p-6 rounded-[10px] bg-wash border border-rule font-body text-xs sm:text-sm text-muted leading-relaxed whitespace-pre-wrap">
           {assignment.instructions}
         </div>
       </div>
 
       {/* Submission Status & Form */}
       <div className="pt-2 flex flex-col gap-4">
-        <div className="flex items-center justify-between pb-2 border-b border-[#e7e6e1]">
-          <span className="text-xs font-mono font-semibold uppercase text-[#7b7974]">
+        <div className="flex items-center justify-between pb-2 border-b border-rule">
+          <span className="text-xs font-mono font-semibold uppercase text-muted">
             Your Submission &amp; Status
           </span>
           {submission && (
-            <span className="text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold bg-[#efeeeb] px-2.5 py-0.5 rounded border border-[#e7e6e1]">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-ember font-semibold bg-wash px-2.5 py-0.5 rounded border border-rule">
               Status: {submission.status}
             </span>
           )}
@@ -115,23 +115,23 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
         
         {submission ? (
           <div className="flex flex-col gap-4">
-            <div className={`p-5 rounded-2xl border flex flex-col gap-3.5 ${
+            <div className={`p-5 rounded-[10px] border flex flex-col gap-3.5 ${
               submission.status === 'GRADED' 
                 ? 'bg-[#3c8254]/5 border-[#3c8254]/30' 
                 : submission.status === 'RETURNED' 
-                  ? 'bg-[#d97757]/5 border-[#d97757]/30' 
-                  : 'bg-[#efeeeb]/50 border-[#e7e6e1]'
+                  ? 'bg-ember/5 border-ember/30' 
+                  : 'bg-wash/50 border-rule'
             }`}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   {submission.status === 'GRADED' ? (
                     <CheckCircle2 className="w-4 h-4 text-[#3c8254]" />
                   ) : submission.status === 'RETURNED' ? (
-                    <AlertCircle className="w-4 h-4 text-[#d97757]" />
+                    <AlertCircle className="w-4 h-4 text-ember" />
                   ) : (
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#d97757] animate-pulse" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-ember animate-pulse" />
                   )}
-                  <span className="font-heading text-sm font-semibold text-[#121212]">
+                  <span className="font-sans text-sm font-semibold text-foreground">
                     {submission.status === 'GRADED' 
                       ? 'Graded by Instructor' 
                       : submission.status === 'RETURNED' 
@@ -148,25 +148,25 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
               </div>
               
               {submission.feedback && (
-                <div className="p-3.5 rounded-xl bg-[#ffffff] border border-[#e7e6e1] text-xs">
-                  <span className="font-mono text-[10px] uppercase text-[#7b7974] block mb-1">
+                <div className="p-3.5 rounded-[10px] bg-card border border-rule text-xs">
+                  <span className="font-mono text-[10px] uppercase text-muted block mb-1">
                     Instructor Feedback:
                   </span>
-                  <p className="font-body text-[#373734] italic">
+                  <p className="font-body text-muted italic">
                     "{submission.feedback}"
                   </p>
                 </div>
               )}
 
-              <div className="p-3.5 rounded-xl bg-[#ffffff] border border-[#e7e6e1] text-xs font-mono text-[#373734] whitespace-pre-wrap">
-                <span className="text-[10px] text-[#7b7974] uppercase block mb-1">Your Submission:</span>
+              <div className="p-3.5 rounded-[10px] bg-card border border-rule text-xs font-mono text-muted whitespace-pre-wrap">
+                <span className="text-[10px] text-muted uppercase block mb-1">Your Submission:</span>
                 {submission.submissionText}
               </div>
             </div>
             
             {submission.status === 'RETURNED' && (
               <form onSubmit={handleSubmit} className="mt-2 flex flex-col gap-3">
-                <h4 className="font-heading text-sm font-semibold text-[#121212]">
+                <h4 className="font-sans text-sm font-semibold text-foreground">
                   Resubmit Assignment
                 </h4>
                 <textarea
@@ -175,12 +175,12 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
                   value={submissionText}
                   onChange={e => setSubmissionText(e.target.value)}
                   placeholder="Enter your revised code, notes, or answers..."
-                  className="w-full rounded-xl border border-[#e7e6e1] bg-[#ffffff] p-4 font-mono text-xs text-[#121212] focus:outline-none focus:ring-1 focus:ring-[#121212] transition-all"
+                  className="w-full rounded-[10px] border border-rule bg-card p-4 font-mono text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-[#121212] transition-all"
                 />
                 <button 
                   type="submit" 
                   disabled={submitAssignment.isPending} 
-                  className="self-start px-5 py-2.5 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium transition-all shadow-xs flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                  className="self-start px-5 py-2.5 rounded-[10px] bg-card hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium transition-all shadow-xs flex items-center gap-2 cursor-pointer disabled:opacity-50"
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
                   <span>{submitAssignment.isPending ? 'Resubmitting...' : 'Resubmit Assignment'}</span>
@@ -196,16 +196,16 @@ export function AssignmentLesson({ courseId, lessonId, title, onComplete }: Assi
               value={submissionText}
               onChange={e => setSubmissionText(e.target.value)}
               placeholder="Paste your submission, code solutions, explanations, or project repository links..."
-              className="w-full rounded-xl border border-[#e7e6e1] bg-[#ffffff] p-4 font-mono text-xs text-[#121212] focus:outline-none focus:ring-1 focus:ring-[#121212] transition-all placeholder:text-[#9c9a92]"
+              className="w-full rounded-[10px] border border-rule bg-card p-4 font-mono text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-[#121212] transition-all placeholder:text-muted"
             />
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <span className="text-xs text-[#7b7974] font-mono">
+              <span className="text-xs text-muted font-mono">
                 Submissions are time-stamped and evaluated by the course instructor.
               </span>
               <button 
                 type="submit" 
                 disabled={submitAssignment.isPending} 
-                className="self-end sm:self-auto px-6 py-2.5 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium transition-all shadow-xs flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                className="self-end sm:self-auto px-6 py-2.5 rounded-[10px] bg-card hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium transition-all shadow-xs flex items-center gap-2 cursor-pointer disabled:opacity-50"
               >
                 <Send className="w-3.5 h-3.5" />
                 <span>{submitAssignment.isPending ? 'Submitting...' : 'Submit Assignment'}</span>

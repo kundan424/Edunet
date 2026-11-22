@@ -301,38 +301,38 @@ export function LearningWorkspace() {
       {/* ===================================================================== */}
       {/* 1. WORKSPACE SUB-HEADER (Minimalist Focus Header directly below Global) */}
       {/* ===================================================================== */}
-      <div className="bg-[#ffffff] border-b border-[#e7e6e1] sticky top-0 sm:top-16 z-30 shadow-[0_1px_3px_rgba(18,18,18,0.02)] mb-6 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
+      <div className="bg-card border-b border-rule sticky top-0 sm:top-16 z-30 shadow-none mb-6 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-[1540px] mx-auto h-12 flex items-center justify-between gap-4">
           
           {/* Navigation Escape & Breadcrumb */}
           <div className="flex items-center gap-3 min-w-0">
             <Link
               to="/learn"
-              className="px-2.5 py-1 rounded-md bg-[#efeeeb] hover:bg-[#e7e6e1] border border-[#e7e6e1] text-xs font-mono text-[#373734] transition-colors flex items-center gap-1.5 shrink-0"
+              className="px-2.5 py-1 rounded-lg bg-canvas hover:bg-wash border border-rule text-xs font-mono text-foreground transition-colors flex items-center gap-1.5 shrink-0 font-medium"
               title="Return to Student Dashboard"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Exit to Dashboard</span>
             </Link>
             
-            <span className="text-[#e7e6e1] hidden sm:inline">•</span>
+            <span className="text-[#CBD5E1] hidden sm:inline">•</span>
             
             <div className="hidden sm:flex items-center gap-2 text-xs truncate">
-              <span className="font-medium text-[#121212] truncate max-w-[200px] lg:max-w-[280px]">
+              <span className="font-semibold text-foreground truncate max-w-[200px] lg:max-w-[280px]">
                 {course.title}
               </span>
               {activeSectionInfo && (
                 <>
-                  <span className="text-[#e7e6e1]">/</span>
-                  <span className="text-[#7b7974] shrink-0">
+                  <span className="text-[#CBD5E1]">/</span>
+                  <span className="text-muted shrink-0 font-mono">
                     Module {String(activeSectionInfo.sectionIndex + 1).padStart(2, '0')}
                   </span>
                 </>
               )}
               {activeLesson && (
                 <>
-                  <span className="text-[#e7e6e1]">/</span>
-                  <span className="text-[#d97757] font-mono font-medium truncate max-w-[240px]">
+                  <span className="text-[#CBD5E1]">/</span>
+                  <span className="text-ember font-mono font-semibold truncate max-w-[240px]">
                     {activeLesson.title}
                   </span>
                 </>
@@ -345,24 +345,24 @@ export function LearningWorkspace() {
             
             {/* Dynamic Progress Tracker */}
             <div className="hidden md:flex items-center gap-2.5">
-              <span className="text-xs font-mono text-[#7b7974]">
+              <span className="text-xs font-mono text-muted">
                 {completionPct}% · {completedCount} / {totalLessons} Complete
               </span>
-              <div className="w-24 h-1.5 bg-[#e7e6e1] rounded-full overflow-hidden">
+              <div className="w-24 h-1.5 bg-[#E2E8F0] rounded-full overflow-hidden">
                 <div 
-                  className="h-full bg-[#121212] rounded-full transition-all duration-500" 
+                  className="h-full bg-ember rounded-full transition-all duration-500" 
                   style={{ width: `${completionPct}%` }}
                 />
               </div>
             </div>
 
             {/* Workspace Utility Toggles */}
-            <div className="flex items-center gap-1 border-l border-[#e7e6e1] pl-3">
+            <div className="flex items-center gap-1 border-l border-rule pl-3">
               <button
                 type="button"
                 onClick={() => setZenMode(!zenMode)}
-                className={`px-2 py-1 rounded hover:bg-[#efeeeb] text-xs font-mono transition-colors flex items-center gap-1 cursor-pointer ${
-                  zenMode ? 'text-[#d97757] font-semibold bg-[#efeeeb]' : 'text-[#7b7974] hover:text-[#121212]'
+                className={`px-2 py-1 rounded-md text-xs font-mono transition-colors flex items-center gap-1 cursor-pointer ${
+                  zenMode ? 'text-ember font-semibold bg-wash' : 'text-muted hover:text-foreground hover:bg-canvas'
                 }`}
                 title="Toggle Zen Full Width"
               >
@@ -373,10 +373,10 @@ export function LearningWorkspace() {
               <button
                 type="button"
                 onClick={() => setShowShortcuts(!showShortcuts)}
-                className="p-1 rounded hover:bg-[#efeeeb] text-[#7b7974] hover:text-[#121212] transition-colors cursor-pointer"
+                className="p-1 rounded-md text-muted hover:text-foreground hover:bg-canvas transition-colors cursor-pointer"
                 title="Workspace Help & Shortcuts"
               >
-                <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-[#efeeeb] text-[#373734] rounded border border-[#e7e6e1]">?</kbd>
+                <kbd className="px-1.5 py-0.5 text-[10px] font-mono bg-canvas text-foreground rounded border border-rule">?</kbd>
               </button>
             </div>
 
@@ -391,22 +391,22 @@ export function LearningWorkspace() {
       <div className="flex-1 w-full max-w-[1540px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           
-          {/* ── MAIN STAGE (75% / 9 cols, expands to 12 in Zen Mode) ── */}
-          <div className={`${zenMode ? 'lg:col-span-12' : 'lg:col-span-9'} space-y-5 transition-all duration-300 w-full`}>
+          {/* ── MAIN STAGE (expanded to 12 in Zen Mode) ── */}
+          <div className={`${zenMode ? 'lg:col-span-12' : 'lg:col-span-8'} space-y-5 transition-all duration-300 w-full`}>
             
             {/* ── Dynamic Lesson Content & Quiz Switcher Tabs ── */}
             {activeLesson && (
-              <div className="bg-[#ffffff] rounded-2xl p-1.5 border border-[#e7e6e1] flex items-center justify-between gap-1 overflow-x-auto shadow-xs">
+              <div className="bg-card rounded-[10px] p-1.5 border border-rule flex items-center justify-between gap-1 overflow-x-auto shadow-none">
                 <div className="flex items-center gap-1 min-w-max">
                   
                   {/* Tab 1: Lesson Content */}
                   <button
                     type="button"
                     onClick={() => setActiveView('lesson')}
-                    className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
+                    className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-colors flex items-center gap-1.5 cursor-pointer ${
                       activeView === 'lesson'
-                        ? 'bg-[#121212] text-[#f8f8f6] font-medium shadow-xs'
-                        : 'text-[#7b7974] hover:text-[#121212] hover:bg-[#efeeeb]'
+                        ? 'bg-ember text-white font-semibold'
+                        : 'text-muted hover:text-foreground hover:bg-wash'
                     }`}
                   >
                     {getLessonTypeIcon(activeLesson.lessonType)}
@@ -417,10 +417,10 @@ export function LearningWorkspace() {
                   <button
                     type="button"
                     onClick={() => setActiveView('quiz')}
-                    className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all flex items-center gap-1.5 cursor-pointer ${
+                    className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-colors flex items-center gap-1.5 cursor-pointer ${
                       activeView === 'quiz'
-                        ? 'bg-[#121212] text-[#f8f8f6] font-medium shadow-xs'
-                        : 'text-[#7b7974] hover:text-[#121212] hover:bg-[#efeeeb]'
+                        ? 'bg-ember text-white font-semibold'
+                        : 'text-muted hover:text-foreground hover:bg-wash'
                     }`}
                   >
                     <ListChecks className="w-3.5 h-3.5" />
@@ -432,13 +432,13 @@ export function LearningWorkspace() {
                 {/* Status Indicator */}
                 <div className="flex items-center gap-2 pr-2 shrink-0">
                   {isCurrentLessonComplete ? (
-                    <span className="px-2.5 py-0.5 rounded text-[11px] font-mono bg-[#efeeeb] text-[#3c8254] font-medium border border-[#e7e6e1] flex items-center gap-1">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-[#3c8254]" />
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-green-50 text-[#16A34A] font-semibold border border-green-200 flex items-center gap-1">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#16A34A]" />
                       <span>Verified Complete</span>
                     </span>
                   ) : (
-                    <span className="px-2.5 py-0.5 rounded text-[11px] font-mono bg-[#efeeeb] text-[#d97757] font-medium border border-[#e7e6e1] flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#d97757] animate-pulse"></span>
+                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono bg-wash text-ember font-semibold border border-rule flex items-center gap-1">
+                      <span className="w-1.5 h-1.5 rounded-full bg-ember animate-pulse"></span>
                       <span>In Progress</span>
                     </span>
                   )}
@@ -447,15 +447,15 @@ export function LearningWorkspace() {
             )}
 
             {/* ── Main Lesson Stage Card ── */}
-            <div className="bg-[#ffffff] rounded-2xl border border-[#e7e6e1] shadow-[0_1px_3px_rgba(18,18,18,0.02)] overflow-hidden">
+            <div className="bg-card rounded-[10px] border border-rule shadow-none overflow-hidden">
               {!activeLessonId || !activeLesson ? (
-                <div className="p-12 sm:p-16 text-center flex flex-col items-center justify-center gap-4 bg-[#f8f8f6]">
-                  <div className="w-14 h-14 rounded-2xl bg-[#efeeeb] flex items-center justify-center text-[#d97757]">
+                <div className="p-12 sm:p-16 text-center flex flex-col items-center justify-center gap-4 bg-canvas">
+                  <div className="w-14 h-14 rounded-[10px] bg-wash flex items-center justify-center text-ember">
                     <BookOpen className="w-7 h-7" />
                   </div>
                   <div className="space-y-1">
-                    <h3 className="font-heading text-lg font-semibold text-[#121212]">Select a Lesson</h3>
-                    <p className="font-body text-xs text-[#7b7974] max-w-sm mx-auto">
+                    <h3 className="font-sans text-lg font-bold text-foreground">Select a Lesson</h3>
+                    <p className="font-sans text-xs text-muted max-w-sm mx-auto">
                       Choose an active lecture, reading, or assessment from the syllabus sidebar to begin learning.
                     </p>
                   </div>
@@ -495,13 +495,13 @@ export function LearningWorkspace() {
                           onComplete={() => handleLessonComplete(activeLesson?.id)}
                         />
                       ) : activeLesson.lessonType === 'RESOURCE' ? (
-                        <div className="p-10 text-center flex flex-col items-center gap-4 bg-[#ffffff] rounded-2xl border border-[#e7e6e1] shadow-xs max-w-xl mx-auto">
-                          <div className="w-12 h-12 rounded-full bg-[#efeeeb] flex items-center justify-center text-[#d97757]">
+                        <div className="p-10 text-center flex flex-col items-center gap-4 bg-card rounded-[10px] border border-rule shadow-none max-w-xl mx-auto">
+                          <div className="w-12 h-12 rounded-lg bg-wash border border-rule flex items-center justify-center text-ember">
                             <Download className="w-6 h-6" />
                           </div>
                           <div className="flex flex-col gap-1">
-                            <h3 className="font-heading text-lg font-semibold text-[#121212]">{activeLesson.title}</h3>
-                            <p className="font-body text-xs text-[#7b7974] leading-relaxed">
+                            <h3 className="font-sans text-lg font-bold text-foreground">{activeLesson.title}</h3>
+                            <p className="font-sans text-xs text-muted leading-relaxed">
                               {activeLesson.description || 'Supplementary course files, reference notes, and downloadable assets.'}
                             </p>
                           </div>
@@ -525,7 +525,7 @@ export function LearningWorkspace() {
                                   alert('Could not download resource file or no file attached yet.');
                                 }
                               }}
-                              className="px-5 py-2.5 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium transition-all shadow-xs flex items-center gap-2 cursor-pointer"
+                              className="px-5 py-2.5 rounded-lg bg-ember hover:bg-ember/90 text-white text-xs font-semibold transition-colors shadow-none flex items-center gap-2 cursor-pointer"
                             >
                               <Download className="w-4 h-4" />
                               <span>Download Attached Resource</span>
@@ -533,17 +533,17 @@ export function LearningWorkspace() {
                             <button
                               type="button"
                               onClick={() => handleLessonComplete(activeLesson?.id)}
-                              className="px-5 py-2.5 rounded-xl bg-[#efeeeb] hover:bg-[#e7e6e1] text-[#121212] text-xs font-medium transition-all border border-[#e7e6e1] cursor-pointer"
+                              className="px-5 py-2.5 rounded-[10px] bg-canvas hover:bg-wash text-foreground text-xs font-semibold transition-all border border-rule cursor-pointer"
                             >
                               Mark Completed
                             </button>
                           </div>
                         </div>
                       ) : (
-                        <div className="p-12 text-center flex flex-col items-center gap-3 bg-[#efeeeb]/50 rounded-xl border border-[#e7e6e1]">
-                          <FileText className="w-8 h-8 text-[#7b7974]" />
-                          <h3 className="font-heading text-base font-semibold text-[#121212]">{activeLesson.title}</h3>
-                          <p className="font-body text-xs text-[#7b7974]">
+                        <div className="p-12 text-center flex flex-col items-center gap-3 bg-canvas rounded-[10px] border border-rule">
+                          <FileText className="w-8 h-8 text-muted" />
+                          <h3 className="font-sans text-base font-bold text-foreground">{activeLesson.title}</h3>
+                          <p className="font-sans text-xs text-muted">
                             {activeLesson.description || 'This lesson material is currently being prepared.'}
                           </p>
                         </div>
@@ -566,30 +566,30 @@ export function LearningWorkspace() {
             </div>
 
             {/* ── INTERACTIVE BOTTOM DOCK (Lesson Paging & Actions) ── */}
-            <div className="bg-[#ffffff] rounded-2xl border border-[#e7e6e1] p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-xs">
+            <div className="bg-card rounded-[10px] border border-rule p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-none">
               
               {/* Paging Left */}
               {prevLesson ? (
                 <button
                   type="button"
                   onClick={() => handleLessonClick(prevLesson.id)}
-                  className="px-3.5 py-2 rounded-xl bg-[#efeeeb] hover:bg-[#e7e6e1] text-[#373734] hover:text-[#121212] border border-[#e7e6e1] text-xs font-mono transition-colors flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
+                  className="px-3.5 py-2 rounded-lg bg-canvas hover:bg-wash text-foreground border border-rule text-xs font-mono transition-colors flex items-center gap-1.5 self-start sm:self-auto cursor-pointer font-medium"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                   <span className="truncate max-w-[200px]">← Previous ({prevLesson.title})</span>
                 </button>
               ) : (
-                <div className="text-xs font-mono text-[#7b7974] self-start sm:self-auto">
+                <div className="text-xs font-mono text-muted self-start sm:self-auto">
                   First lesson in syllabus
                 </div>
               )}
 
               {/* Center Downloadable Assets Pill */}
-              <div className="flex items-center gap-1.5 bg-[#efeeeb] px-3 py-1.5 rounded-xl border border-[#e7e6e1] text-[11px] font-mono text-[#373734]">
-                <span className="text-[#7b7974] pr-1 hidden md:inline">Syllabus Unit:</span>
-                <span className="text-[#121212] font-medium">{activeLesson ? getLessonTypeLabel(activeLesson.lessonType) : 'Lesson'}</span>
-                <span className="text-[#e7e6e1]">•</span>
-                <Link to={`/courses/${courseId}`} className="hover:text-[#d97757] transition-colors flex items-center gap-1">
+              <div className="flex items-center gap-1.5 bg-canvas px-3 py-1.5 rounded-lg border border-rule text-[11px] font-mono text-foreground">
+                <span className="text-muted pr-1 hidden md:inline">Syllabus Unit:</span>
+                <span className="text-foreground font-semibold">{activeLesson ? getLessonTypeLabel(activeLesson.lessonType) : 'Lesson'}</span>
+                <span className="text-[#CBD5E1]">•</span>
+                <Link to={`/courses/${courseId}`} className="text-ember hover:text-[#3730A3] transition-colors flex items-center gap-1 font-medium">
                   <span>Course Details</span>
                   <ExternalLink className="w-3 h-3" />
                 </Link>
@@ -600,14 +600,14 @@ export function LearningWorkspace() {
                 <button
                   type="button"
                   onClick={() => handleLessonComplete(activeLesson?.id)}
-                  className={`px-3 py-2 rounded-xl border text-xs font-mono transition-colors flex items-center gap-1.5 cursor-pointer ${
+                  className={`px-3 py-2 rounded-lg border text-xs font-mono transition-colors flex items-center gap-1.5 cursor-pointer ${
                     isCurrentLessonComplete 
-                      ? 'bg-[#efeeeb] text-[#3c8254] border-[#3c8254]/30 font-medium'
-                      : 'bg-[#efeeeb] hover:bg-[#e7e6e1] text-[#373734] border-[#e7e6e1]'
+                      ? 'bg-green-50 text-[#16A34A] border-green-200 font-semibold'
+                      : 'bg-canvas hover:bg-wash text-foreground border-rule'
                   }`}
                   title="Mark lesson verified complete"
                 >
-                  <CheckCircle2 className={`w-3.5 h-3.5 ${isCurrentLessonComplete ? 'text-[#3c8254]' : 'text-[#7b7974]'}`} />
+                  <CheckCircle2 className={`w-3.5 h-3.5 ${isCurrentLessonComplete ? 'text-[#16A34A]' : 'text-muted'}`} />
                   <span>{isCurrentLessonComplete ? 'Verified Done' : 'Mark Complete'}</span>
                 </button>
 
@@ -618,7 +618,7 @@ export function LearningWorkspace() {
                       handleLessonComplete(activeLesson?.id);
                       handleLessonClick(nextLesson.id);
                     }}
-                    className="px-4 py-2 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium font-mono transition-all flex items-center gap-1.5 shadow-xs cursor-pointer group"
+                    className="px-4 py-2 rounded-lg bg-ember hover:bg-ember/90 text-white text-xs font-semibold font-mono transition-colors flex items-center gap-1.5 shadow-none cursor-pointer group"
                   >
                     <span>Next Lesson →</span>
                   </button>
@@ -626,9 +626,9 @@ export function LearningWorkspace() {
                   <button
                     type="button"
                     onClick={() => handleLessonComplete(activeLesson?.id)}
-                    className="px-4 py-2 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium font-mono transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
+                    className="px-4 py-2 rounded-lg bg-ember hover:bg-ember/90 text-foreground text-xs font-bold font-mono transition-colors flex items-center gap-1.5 shadow-none cursor-pointer"
                   >
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#3c8254]" />
+                    <CheckCircle2 className="w-3.5 h-3.5 text-foreground" />
                     <span>Complete Full Course</span>
                   </button>
                 )}
@@ -637,16 +637,16 @@ export function LearningWorkspace() {
             </div>
 
             {/* ── EXPANDABLE DRAWER TABS (Q&A Discussion & Markdown Scratchpad) ── */}
-            <div className="bg-[#ffffff] rounded-2xl border border-[#e7e6e1] p-5 space-y-4 shadow-xs">
-              <div className="flex items-center justify-between border-b border-[#e7e6e1] pb-3 text-xs font-mono">
+            <div className="bg-card rounded-[10px] border border-rule p-5 space-y-4 shadow-none">
+              <div className="flex items-center justify-between border-b border-rule pb-3 text-xs font-mono">
                 <div className="flex items-center gap-4">
                   <button
                     type="button"
                     onClick={() => setDrawerTab('qa')}
                     className={`pb-1 flex items-center gap-1.5 cursor-pointer transition-colors ${
                       drawerTab === 'qa'
-                        ? 'text-[#121212] border-b-2 border-[#121212] font-semibold'
-                        : 'text-[#7b7974] hover:text-[#121212]'
+                        ? 'text-ember border-b-2 border-ember font-bold'
+                        : 'text-muted hover:text-foreground'
                     }`}
                   >
                     <MessageSquare className="w-3.5 h-3.5" />
@@ -658,14 +658,14 @@ export function LearningWorkspace() {
                     onClick={() => setDrawerTab('notes')}
                     className={`pb-1 flex items-center gap-1.5 cursor-pointer transition-colors ${
                       drawerTab === 'notes'
-                        ? 'text-[#121212] border-b-2 border-[#121212] font-semibold'
-                        : 'text-[#7b7974] hover:text-[#121212]'
+                        ? 'text-ember border-b-2 border-ember font-bold'
+                        : 'text-muted hover:text-foreground'
                     }`}
                   >
                     <Edit3 className="w-3.5 h-3.5" />
                     <span>Private Student Scratchpad</span>
                     {notesSaved && (
-                      <span className="text-[10px] text-[#3c8254] font-mono">Auto-saved</span>
+                      <span className="text-[10px] text-[#16A34A] font-mono font-semibold">Auto-saved</span>
                     )}
                   </button>
                 </div>
@@ -674,7 +674,7 @@ export function LearningWorkspace() {
                   <button
                     type="button"
                     onClick={handleExportNotes}
-                    className="text-[11px] font-mono text-[#d97757] hover:underline flex items-center gap-1 cursor-pointer"
+                    className="text-[11px] font-mono text-ember hover:text-[#3730A3] hover:underline flex items-center gap-1 cursor-pointer font-semibold"
                   >
                     <Download className="w-3 h-3" />
                     <span>Export Notes (.md)</span>
@@ -686,18 +686,18 @@ export function LearningWorkspace() {
               {drawerTab === 'qa' ? (
                 <div className="space-y-3">
                   {qaThreads.map((thread) => (
-                    <div key={thread.id} className="p-3.5 rounded-xl bg-[#efeeeb]/60 border border-[#e7e6e1] space-y-2">
+                    <div key={thread.id} className="p-3.5 rounded-[10px] bg-canvas border border-rule space-y-2">
                       <div className="flex items-center justify-between text-xs">
                         <div className="flex items-center gap-2">
-                          <span className="font-semibold text-[#121212]">{thread.author}</span>
-                          <span className="px-2 py-0.5 rounded bg-[#ffffff] border border-[#e7e6e1] text-[#373734] font-mono text-[10px]">
+                          <span className="font-semibold text-foreground">{thread.author}</span>
+                          <span className="px-2 py-0.5 rounded-md bg-wash border border-rule text-ember font-mono text-[10px] font-semibold">
                             {thread.role}
                           </span>
-                          <span className="text-[11px] font-mono text-[#7b7974]">{thread.timestamp}</span>
+                          <span className="text-[11px] font-mono text-muted">{thread.timestamp}</span>
                         </div>
-                        <span className="text-[11px] font-mono text-[#7b7974]">{thread.timeAgo}</span>
+                        <span className="text-[11px] font-mono text-muted">{thread.timeAgo}</span>
                       </div>
-                      <p className="text-xs text-[#373734] font-body leading-relaxed">
+                      <p className="text-xs text-muted font-sans leading-relaxed">
                         "{thread.content}"
                       </p>
                     </div>
@@ -710,11 +710,11 @@ export function LearningWorkspace() {
                       value={newQuestion}
                       onChange={(e) => setNewQuestion(e.target.value)}
                       placeholder="Ask faculty or peer researchers a question about this module..."
-                      className="flex-1 bg-[#f8f8f6] border border-[#e7e6e1] rounded-xl px-4 py-2 text-xs text-[#121212] placeholder-[#7b7974] focus:outline-none focus:border-[#121212] font-body"
+                      className="flex-1 bg-canvas border border-rule rounded-[10px] px-4 py-2 text-xs text-foreground placeholder-[#64748B] focus:outline-none focus:border-ember font-sans"
                     />
                     <button
                       type="submit"
-                      className="px-4 py-2 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium font-mono flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
+                      className="px-4 py-2 rounded-[10px] bg-ember hover:bg-ember/90 text-white text-xs font-semibold font-mono flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
                     >
                       <Send className="w-3 h-3" />
                       <span>Post</span>
@@ -728,15 +728,15 @@ export function LearningWorkspace() {
                     value={notes}
                     onChange={(e) => handleNotesChange(e.target.value)}
                     rows={6}
-                    className="w-full bg-[#f8f8f6] border border-[#e7e6e1] rounded-xl p-3.5 text-xs font-mono text-[#121212] focus:outline-none focus:border-[#121212] resize-y placeholder:text-[#9c9a92]"
+                    className="w-full bg-canvas border border-rule rounded-[10px] p-3.5 text-xs font-mono text-foreground focus:outline-none focus:border-ember resize-y placeholder:text-muted"
                     placeholder="# Markdown study notes for this course..."
                   />
-                  <div className="flex items-center justify-between text-[11px] font-mono text-[#7b7974]">
+                  <div className="flex items-center justify-between text-[11px] font-mono text-muted">
                     <span>Markdown formatted · Preserved in browser local storage</span>
                     <button
                       type="button"
                       onClick={handleExportNotes}
-                      className="px-3 py-1.5 rounded-lg bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] text-xs font-mono transition-colors cursor-pointer flex items-center gap-1.5"
+                      className="px-3 py-1.5 rounded-lg bg-ember hover:bg-ember/90 text-white text-xs font-mono transition-colors cursor-pointer flex items-center gap-1.5 font-medium"
                     >
                       <Download className="w-3 h-3" />
                       <span>Export Course Notes (.md)</span>
@@ -748,15 +748,15 @@ export function LearningWorkspace() {
 
           </div>
 
-          {/* ── CURRICULUM SIDEBAR (25% / 3 cols - Right Side) ── */}
-          <div className={`${zenMode ? 'hidden' : 'lg:col-span-3'} bg-[#ffffff] rounded-2xl border border-[#e7e6e1] p-4 space-y-4 shadow-xs transition-all duration-300 w-full lg:sticky lg:top-32`}>
+          {/* ── CURRICULUM SIDEBAR (Expanded to Left: 4 cols / 33.3% - Right Side) ── */}
+          <div className={`${zenMode ? 'hidden' : 'lg:col-span-4'} bg-card rounded-[10px] border border-rule p-4 space-y-4 shadow-none transition-all duration-300 w-full lg:sticky lg:top-24`}>
             
             {/* Sidebar Header */}
-            <div className="flex items-center justify-between border-b border-[#e7e6e1] pb-3">
-              <h3 className="text-xs font-semibold text-[#121212] uppercase tracking-wider font-mono">
+            <div className="flex items-center justify-between border-b border-rule pb-3">
+              <h3 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono">
                 Curriculum Syllabus
               </h3>
-              <span className="text-[11px] font-mono text-[#d97757] font-medium">
+              <span className="text-[11px] font-mono text-ember font-semibold">
                 {completedCount} / {totalLessons} Done
               </span>
             </div>
@@ -768,14 +768,14 @@ export function LearningWorkspace() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Filter lectures, readings, or quizzes..."
-                className="w-full bg-[#efeeeb] border border-[#e7e6e1] rounded-lg pl-8 pr-3 py-1.5 text-xs text-[#121212] placeholder-[#7b7974] focus:outline-none focus:border-[#121212] font-sans"
+                className="w-full bg-canvas border border-rule rounded-lg pl-8 pr-3 py-1.5 text-xs text-foreground placeholder-[#64748B] focus:outline-none focus:border-ember font-sans"
               />
-              <Search className="w-3.5 h-3.5 text-[#7b7974] absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              <Search className="w-3.5 h-3.5 text-muted absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-[#7b7974] hover:text-[#121212] cursor-pointer"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-muted hover:text-foreground cursor-pointer"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -792,15 +792,15 @@ export function LearningWorkspace() {
                   onLessonClick={handleLessonClick}
                 />
               ) : (
-                <div className="p-4 text-center text-xs font-mono text-[#7b7974]">
+                <div className="p-4 text-center text-xs font-mono text-muted">
                   No lessons matching "{searchQuery}"
                 </div>
               )}
             </div>
 
             {/* Accreditation Footer Card */}
-            <div className="pt-3 border-t border-[#e7e6e1] flex items-center justify-between text-[11px] font-mono text-[#7b7974]">
-              <span className="flex items-center gap-1 text-[#3c8254]">
+            <div className="pt-3 border-t border-rule flex items-center justify-between text-[11px] font-mono text-muted">
+              <span className="flex items-center gap-1 text-[#16A34A] font-semibold">
                 <ShieldCheck className="w-3.5 h-3.5" />
                 Verified Course Track
               </span>
@@ -814,51 +814,51 @@ export function LearningWorkspace() {
 
       {/* ── Shortcuts Modal Helper ── */}
       {showShortcuts && (
-        <div className="fixed inset-0 z-50 bg-[#121212]/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-[#ffffff] rounded-2xl border border-[#e7e6e1] p-6 max-w-md w-full shadow-lg space-y-4 font-sans">
-            <div className="flex items-center justify-between border-b border-[#e7e6e1] pb-3">
+        <div className="fixed inset-0 z-50 bg-[#0F172A]/40 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-card rounded-[10px] border border-rule p-6 max-w-md w-full shadow-none space-y-4 font-sans">
+            <div className="flex items-center justify-between border-b border-rule pb-3">
               <div className="flex items-center gap-2">
-                <HelpCircle className="w-4 h-4 text-[#d97757]" />
-                <h3 className="font-heading text-base font-semibold text-[#121212]">
+                <HelpCircle className="w-4 h-4 text-ember" />
+                <h3 className="font-sans text-base font-bold text-foreground">
                   Workspace Quick Guide
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowShortcuts(false)}
-                className="text-[#7b7974] hover:text-[#121212] cursor-pointer"
+                className="text-muted hover:text-foreground cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="space-y-2 text-xs font-mono text-[#373734]">
-              <div className="flex items-center justify-between p-2 rounded-lg bg-[#efeeeb]">
+            <div className="space-y-2 text-xs font-mono text-foreground">
+              <div className="flex items-center justify-between p-2 rounded-lg bg-canvas border border-rule">
                 <span>Toggle Zen Full-Width Mode</span>
-                <kbd className="px-1.5 py-0.5 rounded bg-[#ffffff] border border-[#e7e6e1]">Click Zen Mode</kbd>
+                <kbd className="px-1.5 py-0.5 rounded bg-white border border-rule">Click Zen Mode</kbd>
               </div>
-              <div className="flex items-center justify-between p-2 rounded-lg bg-[#efeeeb]">
+              <div className="flex items-center justify-between p-2 rounded-lg bg-canvas border border-rule">
                 <span>Switch to Graded Quiz</span>
-                <kbd className="px-1.5 py-0.5 rounded bg-[#ffffff] border border-[#e7e6e1]">Click Quiz Tab</kbd>
+                <kbd className="px-1.5 py-0.5 rounded bg-white border border-rule">Click Quiz Tab</kbd>
               </div>
-              <div className="flex items-center justify-between p-2 rounded-lg bg-[#efeeeb]">
+              <div className="flex items-center justify-between p-2 rounded-lg bg-canvas border border-rule">
                 <span>Save Scratchpad Notes</span>
-                <kbd className="px-1.5 py-0.5 rounded bg-[#ffffff] border border-[#e7e6e1]">Auto-saved</kbd>
+                <kbd className="px-1.5 py-0.5 rounded bg-white border border-rule">Auto-saved</kbd>
               </div>
-              <div className="flex items-center justify-between p-2 rounded-lg bg-[#efeeeb]">
+              <div className="flex items-center justify-between p-2 rounded-lg bg-canvas border border-rule">
                 <span>Filter Curriculum Modules</span>
-                <kbd className="px-1.5 py-0.5 rounded bg-[#ffffff] border border-[#e7e6e1]">Search bar</kbd>
+                <kbd className="px-1.5 py-0.5 rounded bg-white border border-rule">Search bar</kbd>
               </div>
-              <div className="flex items-center justify-between p-2 rounded-lg bg-[#efeeeb]">
+              <div className="flex items-center justify-between p-2 rounded-lg bg-canvas border border-rule">
                 <span>Mark Progress &amp; Next</span>
-                <kbd className="px-1.5 py-0.5 rounded bg-[#ffffff] border border-[#e7e6e1]">Next button</kbd>
+                <kbd className="px-1.5 py-0.5 rounded bg-white border border-rule">Next button</kbd>
               </div>
             </div>
 
             <button
               type="button"
               onClick={() => setShowShortcuts(false)}
-              className="w-full py-2 rounded-xl bg-[#121212] text-[#f8f8f6] text-xs font-mono font-medium hover:bg-[#000000] cursor-pointer"
+              className="w-full py-2.5 rounded-[10px] bg-ember text-white text-xs font-mono font-semibold hover:bg-ember/90 transition-colors cursor-pointer"
             >
               Got it
             </button>
