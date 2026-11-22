@@ -39,19 +39,19 @@ export function LearningBenefits() {
   ];
 
   return (
-    <section className="py-16 lg:py-24 border-b border-[#e7e6e1] w-full" id="outcomes">
+    <section className="py-16 lg:py-24 border-b border-rule w-full" id="outcomes">
       <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="max-w-[720px] mb-12 text-left">
-          <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-[#7b7974] mb-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#d97757]"></span>
+          <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-muted mb-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-ember"></span>
             <span>Outcome Framework</span>
           </div>
-          <h2 className="font-heading text-2xl sm:text-3xl text-[#121212] leading-tight font-semibold">
+          <h2 className="font-sans text-2xl sm:text-3xl text-foreground leading-tight font-semibold">
             Achieve your specific academic &amp; career ambitions
           </h2>
-          <p className="font-body text-[#373734] text-sm sm:text-base mt-2 leading-relaxed">
+          <p className="font-body text-muted text-sm sm:text-base mt-2 leading-relaxed">
             Whether preparing for a Staff Engineer promotion, pivoting to AI research, or earning an accredited university degree while working full-time.
           </p>
         </div>
@@ -63,33 +63,33 @@ export function LearningBenefits() {
             return (
               <div 
                 key={idx}
-                className="bg-[#ffffff] rounded-[20px] p-7 border border-[#e7e6e1] shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between hover:border-[#b7b7b5] transition-all"
+                className="bg-card rounded-[10px] p-7 border border-rule shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between hover:border-[#b7b7b5] transition-all"
               >
                 <div>
-                  <div className="w-12 h-12 rounded-xl bg-[#efeeeb] flex items-center justify-center text-[#121212] mb-5">
-                    <Icon className="w-6 h-6 text-[#121212]" />
+                  <div className="w-12 h-12 rounded-[10px] bg-wash flex items-center justify-center text-foreground mb-5">
+                    <Icon className="w-6 h-6 text-foreground" />
                   </div>
-                  <h3 className="font-heading text-[22px] text-[#121212] mb-2 leading-snug">
+                  <h3 className="font-sans text-[22px] text-foreground mb-2 leading-snug">
                     {pillar.title}
                   </h3>
-                  <p className="text-[13.5px] text-[#373734] leading-relaxed mb-5">
+                  <p className="text-[13.5px] text-muted leading-relaxed mb-5">
                     {pillar.description}
                   </p>
-                  <ul className="text-[12.5px] text-[#373734] space-y-2 mb-6">
+                  <ul className="text-[12.5px] text-muted space-y-2 mb-6">
                     {pillar.bullets.map((bullet, bIdx) => (
                       <li key={bIdx} className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-[#d97757] shrink-0" />
+                        <CheckCircle2 className="w-4 h-4 text-ember shrink-0" />
                         <span>{bullet}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="pt-5 border-t border-[#e7e6e1]">
+                <div className="pt-5 border-t border-rule">
                   {pillar.linkHref.startsWith('#') ? (
                     <a 
                       href={pillar.linkHref}
-                      className="text-[13px] font-medium text-[#121212] hover:text-[#d97757] inline-flex items-center gap-1 transition-colors"
+                      className="text-[13px] font-medium text-foreground hover:text-ember inline-flex items-center gap-1 transition-colors"
                     >
                       <span>{pillar.linkText}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -97,7 +97,7 @@ export function LearningBenefits() {
                   ) : (
                     <Link 
                       to={pillar.linkHref}
-                      className="text-[13px] font-medium text-[#121212] hover:text-[#d97757] inline-flex items-center gap-1 transition-colors"
+                      className="text-[13px] font-medium text-foreground hover:text-ember inline-flex items-center gap-1 transition-colors"
                     >
                       <span>{pillar.linkText}</span>
                       <ArrowRight className="w-3.5 h-3.5" />

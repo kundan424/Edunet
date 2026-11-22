@@ -1,25 +1,29 @@
 import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 
 export function FaqSection() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const faqs = [
     {
-      question: 'How do courses and certificate tracks work on Lumina?',
-      answer: 'Courses provide structured video lectures, downloadable resources, interactive quizzes, and assignments. Upon completing all required modules, you earn a verifiable course completion certificate.'
+      question: 'How do live Linux microVM sandboxes work on Edunet?',
+      answer: 'Every module launches an isolated Firecracker microVM instance with dedicated hardware virtual memory. You receive direct terminal access with pre-configured compilers (LLVM, GCC, Rust), debuggers, and test suites that execute in real time with zero shared state.'
     },
     {
-      question: 'Can I preview courses before enrolling?',
-      answer: 'Yes. All course overviews, syllabi, learning objectives, and initial lecture previews are completely open so you can explore the curriculum before enrolling.'
+      question: 'How do course credits transfer to partner universities?',
+      answer: 'Courses designated as Degree Pathways are developed directly with accredited faculty. Upon completing all milestones, you receive cryptographically signed transcripts eligible for direct ECTS (European Credit Transfer and Accumulation System) and US university graduate degree transfer.'
     },
     {
-      question: 'Are courses self-paced and do I get lifetime access?',
-      answer: 'Yes. Enrolled students enjoy flexible self-paced learning and lifetime access to course videos, quizzes, assignments, and curriculum updates so you can study on your own schedule.'
+      question: 'Can enterprise teams deploy custom private curriculums?',
+      answer: 'Yes. Edunet for Enterprise enables organizations to create private cohorts with custom repository test harnesses, SSO authentication, dedicated cloud GPU clusters, and unified developer skill analytics.'
     },
     {
-      question: 'What are the technical requirements to participate?',
-      answer: 'All you need is a modern web browser and a stable internet connection. All interactive quizzes, assignments, and video lectures work seamlessly across desktop and mobile devices.'
+      question: 'What are the hardware and network prerequisites?',
+      answer: 'Because all compilation and execution occurs inside our low-latency cloud sandboxes, all you need is a modern web browser. WebSockets deliver low-latency terminal interactions (< 20ms) across desktop and tablet devices.'
+    },
+    {
+      question: 'What happens if I fail a concept quiz or milestone checkpoint?',
+      answer: 'You have unlimited retries for retention quizzes with instant randomized question variations and comprehensive code explanations so you can master the underlying mechanics before advancing.'
     }
   ];
 
@@ -28,48 +32,60 @@ export function FaqSection() {
   };
 
   return (
-    <section className="py-16 lg:py-20 border-b border-[#e7e6e1] w-full" id="faq">
-      <div className="max-w-[760px] mx-auto px-4 sm:px-6 w-full text-left">
+    <section className="w-full bg-canvas py-24 lg:py-32 border-b border-rule transition-colors duration-150" id="faq">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
         
-        {/* Header */}
-        <div className="mb-10 text-center">
-          <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-[#7b7974] mb-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#d97757]"></span>
-            <span>Curriculum Inquiries</span>
+        {/* Split FAQ: 1:1.5 ratio with 80px gap */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+          
+          {/* Left Column: Heading */}
+          <div className="lg:col-span-5">
+            <div className="superset-eyebrow mb-3">
+              <span className="w-1.5 h-1.5 rounded-none bg-ember" />
+              <span>QUESTIONS &amp; ANSWERS</span>
+            </div>
+            <h2 className="font-sans text-3xl sm:text-[40px] leading-[1.1] tracking-[-0.025em] text-foreground font-medium mb-4">
+              Frequently addressed questions.
+            </h2>
+            <p className="font-sans text-[16px] text-muted leading-relaxed max-w-sm">
+              Answers regarding our sandbox isolation, academic credit transfer policies, and enterprise team deployments.
+            </p>
           </div>
-          <h2 className="font-heading text-2xl sm:text-3xl text-[#121212] font-semibold">
-            Frequently Addressed Questions
-          </h2>
-        </div>
 
-        {/* FAQ List */}
-        <div className="flex flex-col divide-y divide-[#e7e6e1]">
-          {faqs.map((faq, idx) => {
-            const isOpen = openIndex === idx;
-            return (
-              <div key={idx} className="py-4.5">
-                <button
-                  type="button"
-                  onClick={() => toggleIndex(idx)}
-                  className="w-full flex items-center justify-between text-left font-body text-[15.5px] text-[#121212] font-medium select-none cursor-pointer group"
-                >
-                  <span className="group-hover:text-[#000000] transition-colors pr-4">
-                    {faq.question}
-                  </span>
-                  <ChevronDown 
-                    className={`w-4 h-4 text-[#7b7974] shrink-0 transition-transform duration-200 ${
-                      isOpen ? 'rotate-180 text-[#121212]' : ''
-                    }`} 
-                  />
-                </button>
-                {isOpen && (
-                  <p className="text-[13.5px] text-[#373734] mt-3 leading-relaxed animate-in fade-in duration-200">
-                    {faq.answer}
-                  </p>
-                )}
-              </div>
-            );
-          })}
+          {/* Right Column: Wider question list with 24px padding and plus/minus glyphs */}
+          <div className="lg:col-span-7 w-full flex flex-col border-t border-rule">
+            {faqs.map((faq, idx) => {
+              const isOpen = openIndex === idx;
+              return (
+                <div key={idx} className="border-b border-rule py-6">
+                  <button
+                    type="button"
+                    onClick={() => toggleIndex(idx)}
+                    className="w-full flex items-center justify-between text-left cursor-pointer group focus:outline-none"
+                    aria-expanded={isOpen}
+                  >
+                    {/* Question text: Inter 500 · 18px/28px */}
+                    <span className="font-sans text-[18px] leading-[28px] font-medium text-foreground group-hover:text-ember transition-colors pr-6">
+                      {faq.question}
+                    </span>
+                    <div className="w-6 h-6 border border-rule flex items-center justify-center text-muted group-hover:text-ember group-hover:border-ember transition-colors shrink-0">
+                      {isOpen ? (
+                        <Minus className="w-3.5 h-3.5" />
+                      ) : (
+                        <Plus className="w-3.5 h-3.5" />
+                      )}
+                    </div>
+                  </button>
+                  {isOpen && (
+                    <p className="font-sans text-[16px] leading-[26px] text-muted mt-3.5 animate-in fade-in duration-150">
+                      {faq.answer}
+                    </p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
         </div>
 
       </div>

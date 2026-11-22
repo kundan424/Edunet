@@ -1,38 +1,46 @@
 import { HomeHero } from '../components/home/HomeHero';
 import { PartnerMarquee } from '../components/home/PartnerMarquee';
 import { FeaturedCourses } from '../components/home/FeaturedCourses';
-import { LearningBenefits } from '../components/home/LearningBenefits';
-import { TestimonialsSection } from '../components/home/TestimonialsSection';
-import { EnterpriseSection } from '../components/home/EnterpriseSection';
+import { CapabilityChapters } from '../components/home/CapabilityChapters';
+import { CapabilitySelector } from '../components/home/CapabilitySelector';
+import { ProofStoriesSection } from '../components/home/ProofStoriesSection';
+import { OpenTestimonialSection } from '../components/home/OpenTestimonialSection';
+import { SecurityAssuranceSection } from '../components/home/SecurityAssuranceSection';
 import { FaqSection } from '../components/home/FaqSection';
-import { FinalCtaSection } from '../components/home/FinalCtaSection';
+import { AtmosphericClosingSection } from '../components/home/AtmosphericClosingSection';
 
 export function Home() {
   return (
-    <div className="flex flex-col items-center w-full bg-bone-parchment">
-      {/* 2. Hero Section (Coursera + Lumina Warm Editorial) */}
+    <div className="flex flex-col items-center w-full bg-canvas text-foreground transition-colors duration-150">
+      {/* 1. First Screen: Rail-lit product opening with stage lighting & dark window mockup */}
       <HomeHero />
 
-      {/* 3. Institutional Partner Marquee */}
+      {/* 2. Monochrome Logo Grid: Institutional Alliances */}
       <PartnerMarquee />
 
-      {/* 4. Degree & Professional Certificate Catalog Pathways */}
+      {/* 3. Featured Courses Catalog: 10px cards, mono tags, burnt orange badges */}
       <FeaturedCourses />
 
-      {/* 5. Goal-Oriented Learning Tracks (Outcome Framework) */}
-      <LearningBenefits />
+      {/* 4. Alternating Capability Stages: 64px split, 500px measure, 128px spacing */}
+      <CapabilityChapters />
 
-      {/* 6. Learner Testimonials & Alumni Stories */}
-      <TestimonialsSection />
+      {/* 5. Platform Workflows: Terminal Sandbox, Assessment & Studio */}
+      <CapabilitySelector />
 
-      {/* 7. Enterprise & Academic Standards Band */}
-      <EnterpriseSection />
+      {/* 6. Voices Wall: 3 columns, 16px gap, 0px radius masonry-style proof */}
+      <ProofStoriesSection />
 
-      {/* 8. Frequently Addressed Questions Accordion */}
+      {/* 7. People Editorial: 28px quotation chapter */}
+      <OpenTestimonialSection />
+
+      {/* 8. Reassurance Chapter: 3 tiles, 2px radius, technical seal */}
+      <SecurityAssuranceSection />
+
+      {/* 9. Split Questions: 1:1.5 ratio, 80px gap, clean ruled rows */}
       <FaqSection />
 
-      {/* 9. Final Dispatch CTA Card */}
-      <FinalCtaSection />
+      {/* 10. Practical Closing Call: 48px statement & 576px Utility Panel with tabs */}
+      <AtmosphericClosingSection />
     </div>
   );
 }
