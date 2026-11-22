@@ -11,12 +11,13 @@ import {
   ShieldCheck, 
   Terminal, 
   Cpu, 
-  Network, 
   Layers, 
   Share2, 
-  Bookmark,
-  Sparkles,
-  ArrowRight
+  Bookmark, 
+  ArrowRight,
+  Play,
+  Check,
+  CheckCircle
 } from 'lucide-react';
 import { api } from '../../lib/api';
 import { useAuth } from '../../auth/AuthProvider';
@@ -93,19 +94,19 @@ export function CourseDetail() {
     setTimeout(() => setCopiedLink(false), 2000);
   };
 
-  if (isLoading) return <LoadingState message="Loading course syllabus..." />;
+  if (isLoading) return <LoadingState message="Loading course syllabus & academic curriculum..." />;
   if (error || !backendCourse) {
     return (
-      <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6">
+      <div className="max-w-4xl mx-auto py-16 px-4 sm:px-6 bg-canvas text-foreground">
         <ErrorState 
-          title="Course not found" 
+          title="Course Not Found" 
           message="We couldn't locate this course in the catalog. It may not exist or has not been published yet." 
           onRetry={() => window.location.reload()} 
         />
-        <div className="mt-6 text-center">
+        <div className="mt-8 text-center">
           <Link 
             to="/courses" 
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#121212] text-[#f8f8f6] text-xs font-medium hover:bg-black/80 transition-colors"
+            className="btn-superset-primary"
           >
             ← Back to Course Catalog
           </Link>
@@ -115,492 +116,562 @@ export function CourseDetail() {
   }
 
   const course = backendCourse;
-
-  const isFree = course.price === 0;
+  const isFree = course.price === 0 || course.price === null;
 
   const keySkills = [
     {
       icon: Cpu,
-      title: 'Speculative Decoding & MCTS Heuristics',
-      description: 'Implement Monte Carlo Tree Search across generation horizons to prune low-probability reasoning branches with verifiable invariants.'
+      step: '01',
+      title: 'Foundational Theory & Core Concepts',
+      description: 'Master core principles through detailed video lectures, structured lecture notes, and downloadable study materials.'
     },
     {
       icon: Terminal,
-      title: 'Isolated Firecracker MicroVM Sandboxing',
-      description: 'Execute agent-generated code safely inside sub-5ms microVMs using Linux seccomp profiles, cgroups v2, and eBPF syscall observers.'
-    },
-    {
-      icon: Network,
-      title: 'Multi-Agent Consensus & Raft Protocols',
-      description: 'Orchestrate swarm communication via gossip protocols, handle node failure mitigation, and resolve Byzantine agent disagreements.'
+      step: '02',
+      title: 'Interactive Hands-on Practice',
+      description: 'Apply concepts in real-world scenarios with project-based assignments, code exercises, and practical problem sets.'
     },
     {
       icon: Layers,
-      title: 'Production CI & SWE-bench Verification',
-      description: 'Benchmark autonomous problem-solving against SWE-bench Verified and GAIA harnesses with regression monitoring and drift detection.'
+      step: '03',
+      title: 'Knowledge Checks & Quizzes',
+      description: 'Test your retention with modular quizzes, instant feedback on answers, and detailed explanations for every checkpoint.'
+    },
+    {
+      icon: Award,
+      step: '04',
+      title: 'Verified Certificate of Completion',
+      description: 'Earn a verified digital credential upon passing all assessments to showcase on your LinkedIn profile and resume.'
     }
   ];
 
   const relatedPathways = [
     {
       id: 'path-1',
-      title: 'Large Language Model Systems, Alignment & Reasoning Engines',
-      faculty: 'Stanford AI Lab',
+      title: 'Applied Machine Learning & Neural Networks',
+      faculty: 'Edunet Faculty',
       badge: 'Specialization',
-      badgeColor: 'text-[#d97757] bg-[#efeeeb]',
-      description: 'Transformer mathematics, speculative decoding, RLHF/DPO algorithms, and distributed inference orchestration on raw GPU clusters.',
-      tags: ['PyTorch', 'vLLM', 'TRL & DPO', 'MCTS'],
+      description: 'Deep learning foundations, transformer models, feature engineering, and model deployment pipelines.',
+      tags: ['Python', 'PyTorch', 'Data Science'],
       rating: 4.90,
-      enrolled: '18,400',
-      duration: '3 months · 6 hrs/wk',
+      enrolled: '14,200',
+      duration: '8 weeks · 6 hrs/wk',
       credits: '100% Online · Certificate',
       link: '/courses?category=Artificial+Intelligence'
     },
     {
       id: 'path-2',
-      title: 'Distributed Consensus, eBPF & Fault-Tolerant Microkernels',
-      faculty: 'Cambridge Systems Group',
-      badge: 'Degree Credit Eligible',
-      badgeColor: 'text-[#121212] bg-[#e2dfdb]',
-      description: 'Build a production Raft consensus engine in Rust, instrument Linux kernel tracepoints, and audit distributed crash recovery protocols.',
-      tags: ['Rust', 'eBPF / Linux', 'Raft Consensus', 'Jepsen Tests'],
-      rating: 4.95,
-      enrolled: '9,120',
-      duration: '4 months · 8 hrs/wk',
+      title: 'Full-Stack Modern Web Engineering',
+      faculty: 'Edunet Faculty',
+      badge: 'Popular',
+      description: 'Production-ready full-stack architectures, TypeScript, state management, RESTful APIs, and secure deployment.',
+      tags: ['TypeScript', 'React', 'Node.js', 'PostgreSQL'],
+      rating: 4.92,
+      enrolled: '19,100',
+      duration: '10 weeks · 8 hrs/wk',
       credits: '100% Online · Certificate',
-      link: '/courses?category=Distributed+Systems'
+      link: '/courses?category=Software+Engineering'
     },
     {
       id: 'path-3',
-      title: 'Applied Category Theory, Type Systems & Compiler Frontends',
-      faculty: 'University of Oxford',
-      badge: 'MasterTrack™ Certificate',
-      badgeColor: 'text-[#d97757] bg-[#efeeeb]',
-      description: 'Monadic effects, dependent types, Hindley-Milner inference engines, and formally verified intermediate representations via LLVM.',
-      tags: ['Haskell', 'Type Theory', 'LLVM IR', 'Compilers'],
-      rating: 4.92,
-      enrolled: '7,650',
-      duration: '3 months · 5 hrs/wk',
+      title: 'Data Structures, Algorithms & System Design',
+      faculty: 'Edunet Faculty',
+      badge: 'Foundations',
+      description: 'Master computational complexity, tree traversal, dynamic programming, and scalable architecture fundamentals.',
+      tags: ['Algorithms', 'Data Structures', 'System Design'],
+      rating: 4.95,
+      enrolled: '22,400',
+      duration: '6 weeks · 5 hrs/wk',
       credits: '100% Online · Certificate',
       link: '/courses?category=Computer+Science'
     }
   ];
 
   return (
-    <div className="flex flex-col gap-10 pb-16 max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="w-full flex flex-col gap-12 sm:gap-16 pb-24 text-foreground bg-canvas transition-colors duration-150">
       
-      {/* 1. Course Hero Section */}
-      <section className="bg-[#ffffff] rounded-2xl p-6 sm:p-8 border border-[#e7e6e1] shadow-[0_4px_20px_rgba(0,0,0,0.02)] flex flex-col gap-4">
-        
-        {/* Breadcrumb Navigation */}
-        <nav className="flex items-center gap-2 text-xs font-mono text-[#7b7974]" aria-label="Breadcrumb">
-          <Link to="/" className="hover:text-[#121212] transition-colors">Lumina Catalog</Link>
-          <ChevronRight className="w-3.5 h-3.5 text-[#9c9a92]" />
-          <Link to="/courses" className="hover:text-[#121212] transition-colors">Courses</Link>
-          <ChevronRight className="w-3.5 h-3.5 text-[#9c9a92]" />
-          <span className="text-[#121212] font-medium truncate max-w-xs">{course.title}</span>
-        </nav>
+      {/* ===================================================================== */}
+      {/* 1. EDITORIAL COURSE HERO STAGE                                         */}
+      {/* ===================================================================== */}
+      <section className="w-full bg-card border-b border-rule pt-6 pb-12 sm:pb-16 shadow-none">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-8 flex flex-col gap-6">
+          
+          {/* Breadcrumb Navigation */}
+          <nav className="flex items-center gap-2 text-xs font-mono text-muted" aria-label="Breadcrumb">
+            <Link to="/" className="hover:text-foreground transition-colors">Edunet</Link>
+            <ChevronRight className="w-3.5 h-3.5 text-muted" />
+            <Link to="/courses" className="hover:text-foreground transition-colors">Courses</Link>
+            <ChevronRight className="w-3.5 h-3.5 text-muted" />
+            <span className="text-foreground font-medium truncate max-w-sm">{course.title}</span>
+          </nav>
 
-        {/* Badges Row */}
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#efeeeb] text-[#d97757] font-mono text-[11px] uppercase tracking-wider font-semibold border border-[#e7e6e1]">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#d97757] animate-pulse"></span>
-            <span>Online Course</span>
-          </span>
-          <span className="px-2.5 py-0.5 rounded-full bg-[#efeeeb] text-[#373734] font-mono text-[11px] uppercase tracking-wider border border-[#e7e6e1]">
-            Certificate of Completion
-          </span>
-          <span className="px-2.5 py-0.5 rounded-full bg-[#efeeeb] text-[#373734] font-mono text-[11px] uppercase tracking-wider border border-[#e7e6e1]">
-            {course.difficulty}
-          </span>
-        </div>
-
-        {/* Title */}
-        <h1 className="font-heading text-2xl sm:text-3xl lg:text-[38px] text-[#121212] leading-[1.2] tracking-tight font-semibold">
-          {course.title}
-        </h1>
-
-        {/* Description */}
-        <p className="font-body text-[#373734] text-sm sm:text-base leading-relaxed max-w-3xl">
-          {course.description}
-        </p>
-
-        {/* Academic Meta Details Row */}
-        <div className="pt-4 border-t border-[#e7e6e1] flex flex-wrap items-center gap-5 sm:gap-8 text-xs text-[#7b7974]">
-          <div className="flex items-center gap-1.5">
-            <span className="flex items-center gap-1 font-mono text-[#121212] font-semibold">
-              <Star className="w-3.5 h-3.5 fill-[#d97757] text-[#d97757]" />
-              <span>{course.rating ? course.rating.toFixed(2) : '4.94'}</span>
+          {/* Badges Row */}
+          <div className="flex flex-wrap items-center gap-2.5 pt-1">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-none bg-wash text-ember text-xs font-mono uppercase tracking-wider border border-rule">
+              <span>{course.category || 'Academic Program'}</span>
             </span>
-            <span>({course.studentCount ? course.studentCount.toLocaleString() : '14,280'} enrolled)</span>
+            <span className="px-2.5 py-0.5 rounded-none bg-wash text-foreground text-xs font-mono uppercase tracking-wider border border-rule">
+              {course.difficulty} Level
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-none bg-wash text-emerald-400 text-xs font-mono uppercase tracking-wider border border-rule">
+              <CheckCircle className="w-3 h-3 text-emerald-400" />
+              <span>Verified Certificate</span>
+            </span>
           </div>
 
-          <div className="flex items-center gap-1.5">
-            <Clock className="w-3.5 h-3.5 text-[#7b7974]" />
-            <span>8 Weeks · 6-8 hrs/week</span>
+          {/* Course Title Headline: Inter 500 */}
+          <h1 className="font-sans text-3xl sm:text-4xl lg:text-[44px] text-foreground leading-[1.15] tracking-[-0.025em] font-medium max-w-3xl">
+            {course.title}
+          </h1>
+
+          {/* Course Overview Support */}
+          <p className="font-sans text-[16px] sm:text-[18px] text-muted leading-[1.5] max-w-3xl font-normal">
+            {course.description}
+          </p>
+
+          {/* Academic Meta Details Row */}
+          <div className="pt-6 border-t border-rule flex flex-wrap items-center gap-6 sm:gap-10 text-xs sm:text-sm text-muted font-sans">
+            <div className="flex items-center gap-2">
+              <span className="flex items-center gap-1 font-sans text-foreground font-medium tracking-tight">
+                <Star className="w-4 h-4 fill-ember text-ember" />
+                <span>{course.rating ? course.rating.toFixed(2) : '4.95'}</span>
+              </span>
+              <span className="font-mono text-muted">({course.studentCount ? course.studentCount.toLocaleString() : '14,280'} enrolled)</span>
+            </div>
+
+            <div className="flex items-center gap-2 text-muted font-mono text-xs">
+              <Clock className="w-4 h-4 text-muted" />
+              <span>8 Weeks · 6–8 hrs/week</span>
+            </div>
+
+            <div className="flex items-center gap-2 text-muted font-mono text-xs">
+              <Globe className="w-4 h-4 text-muted" />
+              <span>100% Online · Self-Paced Labs</span>
+            </div>
+
+            <div className="flex items-center gap-2 text-foreground font-medium">
+              <Award className="w-4 h-4 text-ember" />
+              <span>Accredited Certificate Included</span>
+            </div>
           </div>
 
-          <div className="flex items-center gap-1.5">
-            <Globe className="w-3.5 h-3.5 text-[#7b7974]" />
-            <span>100% Online · Self-Paced Labs</span>
-          </div>
-
-          <div className="flex items-center gap-1.5">
-            <Award className="w-3.5 h-3.5 text-[#d97757]" />
-            <span className="text-[#121212] font-medium">Verified MasterTrack™ Certificate</span>
-          </div>
         </div>
-
       </section>
 
-      {/* 2. Main 2-Column Content Layout (Details on Left, Sticky Enrollment Card on Right) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
-        
-        {/* Left Column: Syllabus, Competencies, Faculty & Peer Feedback */}
-        <div className="lg:col-span-8 flex flex-col gap-8 w-full">
+      {/* ===================================================================== */}
+      {/* 2. MAIN 2-COLUMN STAGE: SYLLABUS (LEFT) + STICKY ENROLLMENT (RIGHT)    */}
+      {/* ===================================================================== */}
+      <section className="max-w-[1280px] mx-auto px-4 sm:px-8 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start w-full">
           
-          {/* Key Competencies / Skills You Will Master */}
-          <section className="bg-[#ffffff] rounded-2xl p-5 sm:p-6 border border-[#e7e6e1] shadow-[0_4px_16px_rgba(0,0,0,0.02)]">
-            <div className="mb-4">
-              <div className="text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold mb-1">
-                Learning Objectives
-              </div>
-              <h2 className="font-heading text-xl sm:text-2xl text-[#121212] font-semibold">
-                What you will build &amp; master
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {keySkills.map((skill, idx) => {
-                const Icon = skill.icon;
-                return (
-                  <div key={idx} className="p-3.5 rounded-xl bg-[#efeeeb]/60 border border-[#e7e6e1] flex flex-col gap-1.5">
-                    <div className="w-7 h-7 rounded-lg bg-[#ffffff] border border-[#e7e6e1] flex items-center justify-center text-[#121212]">
-                      <Icon className="w-3.5 h-3.5 text-[#d97757]" />
-                    </div>
-                    <h3 className="font-heading text-sm font-semibold text-[#121212]">
-                      {skill.title}
-                    </h3>
-                    <p className="font-body text-xs text-[#7b7974] leading-relaxed">
-                      {skill.description}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-
-          {/* Curriculum Section */}
-          <section className="bg-[#ffffff] rounded-2xl p-5 sm:p-6 border border-[#e7e6e1] shadow-[0_4px_16px_rgba(0,0,0,0.02)] flex flex-col gap-5">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 pb-3 border-b border-[#e7e6e1]">
-              <div>
-                <div className="text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold mb-1">
-                  Syllabus Breakdown
-                </div>
-                <h2 className="font-heading text-xl sm:text-2xl text-[#121212] font-semibold">
-                  Curriculum &amp; Interactive Labs
-                </h2>
-              </div>
-              <span className="font-mono text-xs text-[#7b7974]">
-                {course.sections?.length || 4} Modules · Audited Invariants
-              </span>
-            </div>
-
-            {course.sections && course.sections.length > 0 ? (
-              <Curriculum sections={course.sections} />
-            ) : (
-              <p className="text-xs text-[#7b7974] italic">
-                Curriculum syllabus is currently being initialized by the academic board.
-              </p>
-            )}
-          </section>
-
-          {/* About the Instructor */}
-          <section className="bg-[#ffffff] rounded-2xl p-5 sm:p-6 border border-[#e7e6e1] shadow-[0_4px_16px_rgba(0,0,0,0.02)] flex flex-col gap-5">
-            <div className="pb-3 border-b border-[#e7e6e1]">
-              <div className="text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold mb-1">
-                Faculty &amp; Research Leadership
-              </div>
-              <h2 className="font-heading text-xl sm:text-2xl text-[#121212] font-semibold">
-                Meet your instructor
-              </h2>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-start gap-5">
-              <img 
-                src="/images/elena.jpg"
-                alt={course.instructorName || 'Lead Professor'}
-                className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl object-cover border border-[#e7e6e1] shrink-0"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=140&auto=format&fit=crop&q=80';
-                }}
-              />
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-center gap-2">
-                  <h3 className="font-heading text-lg font-semibold text-[#121212]">
-                    {course.instructorName || 'Prof. Elena Rostova, PhD'}
-                  </h3>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#efeeeb] text-[#373734] border border-[#e7e6e1]">
-                    Verified Faculty
-                  </span>
-                </div>
-                <div className="text-xs font-mono text-[#d97757]">
-                  Stanford AI Institute · Autonomous Systems Group
-                </div>
-                <p className="font-body text-xs sm:text-sm text-[#373734] leading-relaxed mt-0.5">
-                  {course.instructorBio || 'Distinguished Fellow at Stanford AI Institute and Director of Distributed Autonomous Systems Lab. Former Principal Research Scientist at Google DeepMind with 40+ peer-reviewed papers on agentic consensus and speculative inference.'}
-                </p>
-                <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
-                  {(course.instructorExpertise || ['Multi-Agent Swarms', 'Monte Carlo Tree Search', 'Zero-Trust Sandboxes']).map((tag) => (
-                    <span key={tag} className="px-2 py-0.5 rounded bg-[#efeeeb] text-[10px] font-mono text-[#373734] border border-[#e7e6e1]">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Peer Feedback & Verified Invariants Section */}
-          {/* 7. Student Reviews Section */}
-          <section className="bg-[#ffffff] rounded-2xl p-5 sm:p-6 border border-[#e7e6e1] shadow-[0_4px_16px_rgba(0,0,0,0.02)] flex flex-col gap-5">
-            <div className="pb-3 border-b border-[#e7e6e1]">
-              <div className="text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold mb-1">
-                Student Feedback
-              </div>
-              <h2 className="font-heading text-xl sm:text-2xl text-[#121212] font-semibold">
-                Student Reviews &amp; Ratings
-              </h2>
-              <p className="font-body text-xs text-[#7b7974] mt-0.5 leading-relaxed">
-                Reviews and ratings from learners enrolled in this course.
-              </p>
-            </div>
-            <ReviewList courseId={course.id} isEnrolled={!!isEnrolled} />
-          </section>
-
-        </div>
-
-        {/* Right Column: Sleek, Compact Enrollment Card */}
-        <aside className="lg:col-span-4 w-full sticky top-24">
-          <div className="bg-[#ffffff] rounded-2xl p-5 border border-[#e7e6e1] shadow-[0_6px_24px_rgba(0,0,0,0.05)] flex flex-col gap-4">
+          {/* ── LEFT COLUMN: CURRICULUM, LEARNING PILLARS & REVIEWS (8 COLS) ── */}
+          <div className="lg:col-span-8 flex flex-col gap-12 sm:gap-16 w-full">
             
-            {/* Accreditation Header Pill */}
-            <div className="flex items-center justify-between pb-3 border-b border-[#e7e6e1]">
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-full bg-[#efeeeb] flex items-center justify-center font-serif text-[11px] font-bold text-[#121212] border border-[#e7e6e1]">
-                  {(course.category || 'PROG').slice(0, 3).toUpperCase()}
+            {/* ── PILLAR 1: What You Will Build & Master ── */}
+            <div className="flex flex-col gap-6 pb-12 border-b border-rule">
+              <div className="flex flex-col gap-1.5">
+                <div className="superset-eyebrow">
+                  <span className="w-1.5 h-1.5 rounded-none bg-ember" />
+                  <span>LEARNING OBJECTIVES // CORE COMPETENCIES</span>
                 </div>
+                <h2 className="font-sans text-2xl sm:text-3xl text-foreground font-medium tracking-[-0.025em] leading-[1.25]">
+                  What you will build &amp; master
+                </h2>
+                <p className="font-sans text-sm sm:text-[15px] text-muted leading-relaxed max-w-2xl">
+                  A structured four-pillar curriculum moving from theoretical depth into production-grade project execution and verifiable credentials.
+                </p>
+              </div>
+
+              {/* 4 Cards Grid - 10px radius per Superset specs */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {keySkills.map((skill, idx) => {
+                  const Icon = skill.icon;
+                  return (
+                    <div 
+                      key={idx} 
+                      className="group bg-card rounded-[10px] p-6 border border-rule hover:border-ember/50 shadow-none transition-colors duration-150 flex flex-col justify-between gap-5 relative"
+                    >
+                      {/* Top Header with Receptacle Icon & Step Index */}
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="w-10 h-10 rounded-none bg-wash border border-rule flex items-center justify-center text-ember group-hover:border-ember transition-colors duration-150">
+                          <Icon className="w-5 h-5" />
+                        </div>
+                        <span className="font-mono text-xs font-semibold text-muted tracking-wider">
+                          {skill.step}
+                        </span>
+                      </div>
+
+                      {/* Content Section */}
+                      <div className="flex flex-col gap-2">
+                        <h3 className="font-sans text-base sm:text-[17px] font-medium text-foreground group-hover:text-ember transition-colors leading-[1.3]">
+                          {skill.title}
+                        </h3>
+                        <p className="font-sans text-[13.5px] text-muted leading-[1.55] font-normal">
+                          {skill.description}
+                        </p>
+                      </div>
+
+                      {/* Clean Minimal Hairline Indicator */}
+                      <div className="h-0.5 w-full bg-rule group-hover:bg-ember transition-colors duration-150" />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* ── PILLAR 2: Curriculum & Modular Syllabus Breakdown ── */}
+            <div id="syllabus" className="flex flex-col gap-6 scroll-mt-28 pb-12 border-b border-rule">
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 pb-4 border-b border-rule">
                 <div>
-                  <div className="text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold">
-                    {course.category || 'Academic Program'}
+                  <div className="superset-eyebrow mb-1">
+                    <span className="w-1.5 h-1.5 rounded-none bg-ember" />
+                    <span>SYLLABUS BREAKDOWN</span>
                   </div>
-                  <div className="text-xs font-medium text-[#121212]">
-                    {course.difficulty ? `${course.difficulty.charAt(0) + course.difficulty.slice(1).toLowerCase()} Track` : 'Course Pathway'}
-                  </div>
+                  <h2 className="font-sans text-2xl sm:text-3xl text-foreground font-medium tracking-[-0.025em] leading-[1.25]">
+                    Curriculum &amp; Interactive Labs
+                  </h2>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono text-muted bg-wash px-3 py-1 rounded-none border border-rule">
+                    {course.sections?.length || 4} Modules · Fully Self-Paced
+                  </span>
                 </div>
               </div>
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#efeeeb] text-[#373734] border border-[#e7e6e1] font-semibold">
-                Verified
-              </span>
-            </div>
 
-            {/* Tuition Block */}
-            <div className="flex items-baseline justify-between">
-              <div className="flex items-baseline gap-2">
-                <span className="font-heading text-3xl font-bold text-[#121212]">
-                  {course.price !== null && course.price !== undefined ? (isFree ? 'Free' : `$${course.price.toFixed(2)}`) : 'Free'}
-                </span>
-                {isFree && (
-                  <span className="text-xs text-[#9c9a92] line-through font-mono">
-                    $1,450
-                  </span>
-                )}
-                <span className="text-[11px] text-[#7b7974] font-mono">
-                  {isFree ? 'Free Audit' : 'Full Track'}
-                </span>
-              </div>
-              <span className="text-[11px] text-[#3c8254] font-medium flex items-center gap-1 font-mono">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#3c8254]" />
-                <span>Aid Eligible</span>
-              </span>
-            </div>
-
-            {/* Compact Cohort Status Bar */}
-            <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-[#efeeeb]/70 border border-[#e7e6e1] text-[11px] font-mono">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-[#d97757] animate-pulse"></span>
-                <span className="text-[#121212] font-semibold">Spring 2026 Cohort</span>
-              </div>
-              <span className="text-[#7b7974]">Starts Monday</span>
-            </div>
-
-            {/* Primary Action Button */}
-            <div className="flex flex-col gap-2">
-              {!isAuthenticated ? (
-                <button
-                  type="button"
-                  onClick={() => navigate('/login')}
-                  className="w-full py-3 px-4 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] font-medium text-xs sm:text-sm transition-colors shadow-sm cursor-pointer flex items-center justify-center gap-2"
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-[#d97757]" />
-                  <span>Sign in to Enroll (Free)</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </button>
-              ) : user?.role === 'INSTRUCTOR' || user?.role === 'ADMIN' ? (
-                <div className="p-3 bg-[#efeeeb] rounded-xl text-center text-xs text-[#373734] border border-[#e7e6e1]">
-                  Course auditing and grading is active for student accounts.
+              {course.sections && course.sections.length > 0 ? (
+                <div className="max-h-[560px] overflow-y-auto pr-2 custom-scrollbar">
+                  <Curriculum sections={course.sections} />
                 </div>
               ) : (
-                <>
+                <div className="p-8 rounded-[10px] bg-card border border-rule text-center text-sm text-muted font-sans font-normal shadow-none">
+                  The curriculum syllabus is currently being finalized by the academic faculty.
+                </div>
+              )}
+            </div>
+
+            {/* ── PILLAR 3: Faculty & Lead Instructor Profile ── */}
+            <div className="flex flex-col gap-6 pb-12 border-b border-rule">
+              <div className="pb-4 border-b border-rule">
+                <div className="superset-eyebrow mb-1">
+                  <span className="w-1.5 h-1.5 rounded-none bg-ember" />
+                  <span>FACULTY &amp; MENTORSHIP</span>
+                </div>
+                <h2 className="font-sans text-2xl sm:text-3xl text-foreground font-medium tracking-[-0.025em] leading-[1.25]">
+                  Meet your lead instructor
+                </h2>
+              </div>
+
+              <div className="p-6 sm:p-7 rounded-[10px] bg-card border border-rule shadow-none flex flex-col sm:flex-row items-start gap-6">
+                <img 
+                  src="/images/elena.jpg"
+                  alt={course.instructorName || 'Lead Professor'}
+                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-[10px] object-cover border border-rule shrink-0"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80';
+                  }}
+                />
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <h3 className="font-sans text-xl font-medium text-foreground leading-[1.3]">
+                      {course.instructorName || 'Prof. Elena Rostova, PhD'}
+                    </h3>
+                    <span className="px-2.5 py-0.5 rounded-none text-xs font-mono uppercase bg-wash text-ember border border-rule">
+                      Verified Faculty
+                    </span>
+                  </div>
+                  
+                  <div className="text-xs font-mono text-muted">
+                    Lead Instructor · Edunet Faculty
+                  </div>
+                  
+                  <p className="font-sans text-sm text-muted leading-relaxed mt-1 font-normal">
+                    {course.instructorBio || 'Senior educational instructor and curriculum architect with extensive industry experience teaching and mentoring thousands of engineers worldwide.'}
+                  </p>
+                  
+                  <div className="flex items-center gap-2 mt-2 flex-wrap font-mono text-xs">
+                    {(course.instructorExpertise || ['Curriculum Design', 'Practical Projects', 'Student Mentorship']).map((tag) => (
+                      <span key={tag} className="px-2.5 py-1 rounded-none bg-wash text-muted border border-rule">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ── PILLAR 4: Verified Student Reviews & Ratings ── */}
+            <div className="flex flex-col gap-6 pb-12 border-b border-rule">
+              <div className="pb-4 border-b border-rule">
+                <div className="superset-eyebrow mb-1">
+                  <span className="w-1.5 h-1.5 rounded-none bg-ember" />
+                  <span>PEER FEEDBACK</span>
+                </div>
+                <h2 className="font-sans text-2xl sm:text-3xl text-foreground font-medium tracking-[-0.025em] leading-[1.25]">
+                  Student Reviews &amp; Ratings
+                </h2>
+                <p className="font-sans text-sm text-muted mt-1 leading-relaxed font-normal">
+                  Authentic ratings submitted directly by enrolled students who completed this coursework.
+                </p>
+              </div>
+
+              <ReviewList courseId={course.id} isEnrolled={!!isEnrolled} />
+            </div>
+
+            {/* ── PILLAR 5: Related Academic Pathways ── */}
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
+                <div>
+                  <div className="superset-eyebrow mb-1">
+                    <span className="w-1.5 h-1.5 rounded-none bg-ember" />
+                    <span>CONTINUING SPECIALIZATIONS</span>
+                  </div>
+                  <h2 className="font-sans text-2xl sm:text-3xl text-foreground font-medium tracking-[-0.025em] leading-[1.25]">
+                    Related Academic Pathways
+                  </h2>
+                </div>
+                <p className="font-sans text-xs sm:text-sm text-muted max-w-sm font-normal">
+                  Recommended programs designed to complement this master track.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {relatedPathways.map((path) => (
+                  <div
+                    key={path.id}
+                    className="bg-card rounded-[10px] p-5 border border-rule shadow-none hover:border-ember/50 flex flex-col justify-between transition-colors duration-150"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-2 mb-2.5">
+                        <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded-none bg-wash text-ember border border-rule">
+                          {path.badge}
+                        </span>
+                        <span className="text-xs font-mono text-muted">{path.faculty}</span>
+                      </div>
+
+                      <h3 className="font-sans text-base font-medium text-foreground leading-[1.35] mb-2">
+                        {path.title}
+                      </h3>
+
+                      <p className="font-sans text-xs text-muted leading-relaxed line-clamp-2 mb-3">
+                        {path.description}
+                      </p>
+
+                      <div className="flex flex-wrap gap-1.5 mb-3 font-mono text-[10px]">
+                        {path.tags.map(t => (
+                          <span key={t} className="px-2 py-0.5 rounded-none bg-wash text-muted border border-rule">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="pt-3 border-t border-rule space-y-2">
+                      <div className="flex items-center justify-between text-xs text-muted">
+                        <span className="flex items-center gap-1 font-medium text-foreground">
+                          <Star className="w-3.5 h-3.5 fill-ember text-ember" />
+                          <span>{path.rating.toFixed(2)}</span>
+                          <span className="text-muted font-mono font-normal">({path.enrolled})</span>
+                        </span>
+                        <span className="text-xs font-mono text-muted">{path.duration}</span>
+                      </div>
+
+                      <div className="flex items-center justify-between pt-1">
+                        <span className="text-xs font-mono text-muted">{path.credits}</span>
+                        <Link
+                          to={path.link}
+                          className="inline-flex items-center gap-1 text-xs font-mono uppercase text-foreground hover:text-ember transition-colors"
+                        >
+                          <span>Explore Track</span>
+                          <ArrowRight className="w-3 h-3" />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+
+          {/* ── RIGHT COLUMN: SLEEK STICKY ENROLLMENT DOCK (4 COLS) ── */}
+          <aside className="lg:col-span-4 w-full sticky top-20 z-20">
+            {/* Plan Card surface per Superset: 10px radius, 1px rule border */}
+            <div className="bg-card rounded-[10px] p-6 border border-rule shadow-none flex flex-col gap-4">
+              
+              {/* Thumbnail / Video Teaser Preview */}
+              <div className="relative aspect-video rounded-[6px] bg-muted-surface border border-rule overflow-hidden group">
+                <img 
+                  src={course.thumbnailUrl || '/images/courses/web-dev.jpg'}
+                  alt={course.title}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/images/courses/web-dev.jpg';
+                  }}
+                />
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center transition-opacity group-hover:bg-black/25">
+                  <div className="w-10 h-10 rounded-none bg-foreground text-canvas flex items-center justify-center transition-transform group-hover:scale-110">
+                    <Play className="w-4 h-4 ml-0.5 fill-current" />
+                  </div>
+                </div>
+                <div className="absolute bottom-2.5 left-2.5 px-2 py-0.5 rounded-none bg-black/85 backdrop-blur-md text-[10px] font-mono text-white">
+                  Preview // 3 min
+                </div>
+              </div>
+
+              {/* Program Accreditation Pill */}
+              <div className="flex items-center justify-between pb-3 border-b border-rule">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-none bg-muted-surface flex items-center justify-center font-mono text-xs font-bold text-foreground border border-rule">
+                    {(course.category || 'CS').slice(0, 2).toUpperCase()}
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-mono text-ember uppercase tracking-wider leading-tight">
+                      {course.category || 'Specialization'}
+                    </div>
+                    <div className="text-[13px] font-sans font-medium text-foreground leading-tight">
+                      {course.difficulty ? `${course.difficulty.charAt(0) + course.difficulty.slice(1).toLowerCase()} Track` : 'Accredited Pathway'}
+                    </div>
+                  </div>
+                </div>
+                <span className="px-2 py-0.5 rounded-none text-[10px] font-mono uppercase bg-wash text-foreground border border-rule">
+                  Verified
+                </span>
+              </div>
+
+              {/* Tuition & Pricing Block */}
+              <div className="flex items-baseline justify-between pt-0.5">
+                <div className="flex items-baseline gap-2">
+                  <span className="font-sans text-3xl font-medium text-foreground leading-none tracking-[-0.025em]">
+                    {course.price !== null && course.price !== undefined ? (isFree ? 'Free' : `$${course.price.toFixed(2)}`) : 'Free'}
+                  </span>
+                  {isFree && (
+                    <span className="text-xs text-muted line-through font-mono">
+                      $1,450
+                    </span>
+                  )}
+                  <span className="text-xs text-muted font-mono">
+                    {isFree ? 'Free Audit' : 'Complete Track'}
+                  </span>
+                </div>
+                <span className="text-xs text-emerald-400 font-mono flex items-center gap-1">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <span>Aid Eligible</span>
+                </span>
+              </div>
+
+              {/* Cohort Status Indicator */}
+              <div className="flex items-center justify-between px-3.5 py-2 rounded-none bg-wash border border-rule text-xs font-mono">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-none bg-ember" />
+                  <span className="text-foreground">Spring 2026 Cohort</span>
+                </div>
+                <span className="text-ember">Instant Access</span>
+              </div>
+
+              {/* Primary Enrollment Action (Superset Flat Button) */}
+              <div className="flex flex-col gap-2.5 pt-1">
+                {!isAuthenticated ? (
                   <button
                     type="button"
-                    onClick={handleAction}
-                    disabled={enrollMutation.isPending || checkoutMutation.isPending}
-                    className="w-full py-3 px-4 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] font-medium text-xs sm:text-sm transition-colors shadow-sm cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50"
+                    onClick={() => navigate('/login')}
+                    className="btn-superset-primary w-full"
                   >
-                    <span>
-                      {isEnrolled ? 'Go to Learning Workspace' :
-                       enrollMutation.isPending || checkoutMutation.isPending ? 'Processing...' :
-                       isFree ? 'Enroll in MasterTrack (Free)' : `Enroll Now — $${course.price?.toFixed(2)}`}
-                    </span>
-                    <ChevronRight className="w-3.5 h-3.5" />
+                    <span>Sign In to Enroll (Free)</span>
+                    <ArrowRight className="w-4 h-4" />
                   </button>
-                  {enrollMutation.isError && (
-                    <div className="text-[#ba1a1a] text-xs text-center font-medium">
-                      Failed to complete enrollment. Please try again.
-                    </div>
-                  )}
-                  {checkoutMutation.isError && (
-                    <div className="text-[#ba1a1a] text-xs text-center font-medium">
-                      Checkout initiation failed. Please try again.
-                    </div>
-                  )}
-                </>
-              )}
+                ) : user?.role === 'INSTRUCTOR' || user?.role === 'ADMIN' ? (
+                  <div className="p-3 bg-wash rounded-none text-center text-xs text-foreground border border-rule font-mono">
+                    Faculty &amp; Admin accounts have catalog auditing rights.
+                  </div>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      onClick={handleAction}
+                      disabled={enrollMutation.isPending || checkoutMutation.isPending}
+                      className="btn-superset-primary w-full"
+                    >
+                      <span>
+                        {isEnrolled ? 'Go to Learning Workspace' :
+                         enrollMutation.isPending || checkoutMutation.isPending ? 'Processing...' :
+                         isFree ? 'Enroll in MasterTrack (Free)' : `Enroll Now — $${course.price?.toFixed(2)}`}
+                      </span>
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                    {enrollMutation.isError && (
+                      <div className="text-red-500 text-xs text-center font-mono">
+                        Failed to complete enrollment. Please try again.
+                      </div>
+                    )}
+                    {checkoutMutation.isError && (
+                      <div className="text-red-500 text-xs text-center font-mono">
+                        Checkout initiation failed. Please try again.
+                      </div>
+                    )}
+                  </>
+                )}
 
-              {/* Secondary Actions */}
-              <div className="flex items-center gap-2 pt-0.5">
-                <button
-                  type="button"
-                  onClick={() => setIsBookmarked(!isBookmarked)}
-                  className={`flex-1 py-2 px-2.5 rounded-lg border text-xs font-medium transition-colors flex items-center justify-center gap-1.5 cursor-pointer ${
-                    isBookmarked 
-                      ? 'border-[#121212] bg-[#efeeeb] text-[#121212]' 
-                      : 'border-[#e7e6e1] hover:bg-[#efeeeb] text-[#373734]'
-                  }`}
-                >
-                  <Bookmark className={`w-3.5 h-3.5 ${isBookmarked ? 'fill-current text-[#d97757]' : ''}`} />
-                  <span>{isBookmarked ? 'Saved' : 'Save'}</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleShare}
-                  className="py-2 px-3 rounded-lg border border-[#e7e6e1] hover:bg-[#efeeeb] text-[#373734] text-xs font-medium transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
-                  title="Copy syllabus link"
-                >
-                  <Share2 className="w-3.5 h-3.5" />
-                  <span>{copiedLink ? 'Copied' : 'Share'}</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Key Inclusions (Streamlined) */}
-            <div className="pt-3 border-t border-[#e7e6e1] flex flex-col gap-2">
-              <div className="text-[10px] font-mono uppercase tracking-wider text-[#7b7974] font-medium">
-                Included with Enrollment
-              </div>
-              <ul className="text-xs text-[#373734] space-y-1.5">
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#d97757] shrink-0" />
-                  <span>Full access to all course lessons and materials</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#d97757] shrink-0" />
-                  <span>Hands-on quizzes and practical assignments</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#d97757] shrink-0" />
-                  <span>Shareable Certificate of Completion</span>
-                </li>
-              </ul>
-            </div>
-
-          </div>
-        </aside>
-
-      </div>
-
-      {/* 3. Related Technical Pathways Section */}
-      <section className="pt-6 border-t border-[#e7e6e1] flex flex-col gap-6 w-full" id="pathways">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-3">
-          <div>
-            <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-[#7b7974] mb-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#d97757]"></span>
-              <span>Continuing Specializations</span>
-            </div>
-            <h2 className="font-heading text-xl sm:text-2xl lg:text-3xl text-[#121212] font-semibold">
-              Related Technical Pathways
-            </h2>
-          </div>
-          <p className="font-body text-[#7b7974] text-xs max-w-md">
-            Accredited computing masterclasses and professional certificates designed to follow or complement this program.
-          </p>
-        </div>
-
-        {/* 3-Card Responsive Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {relatedPathways.map((path) => (
-            <div
-              key={path.id}
-              className="bg-[#ffffff] rounded-2xl p-5 shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-[#e7e6e1] flex flex-col justify-between hover:-translate-y-0.5 hover:shadow-md transition-all duration-200"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className={`text-[10px] font-mono uppercase tracking-wider font-semibold px-2 py-0.5 rounded ${path.badgeColor}`}>
-                    {path.badge}
-                  </span>
-                  <span className="text-[10px] font-mono text-[#7b7974]">{path.faculty}</span>
-                </div>
-
-                <h3 className="font-heading text-base sm:text-lg text-[#121212] leading-snug mb-1.5 font-semibold">
-                  {path.title}
-                </h3>
-
-                <p className="text-xs text-[#7b7974] leading-relaxed mb-3">
-                  {path.description}
-                </p>
-
-                <div className="flex flex-wrap gap-1.5 mb-5">
-                  {path.tags.map(t => (
-                    <span key={t} className="px-2 py-0.5 rounded bg-[#efeeeb] text-[#373734] text-[10px] font-mono">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="pt-3 border-t border-[#e7e6e1] space-y-2">
-                <div className="flex items-center justify-between text-xs text-[#7b7974]">
-                  <span className="flex items-center gap-1 font-mono text-[#121212] font-semibold text-[11px]">
-                    <span className="text-[#d97757]">★ {path.rating.toFixed(2)}</span> ({path.enrolled})
-                  </span>
-                  <span className="text-[11px] font-mono">{path.duration}</span>
-                </div>
-
-                <div className="flex items-center justify-between pt-0.5">
-                  <span className="text-[10px] text-[#7b7974] font-mono">{path.credits}</span>
-                  <Link
-                    to={path.link}
-                    className="inline-flex items-center gap-1 text-xs font-semibold text-[#121212] hover:text-[#d97757] transition-colors"
+                {/* Secondary Actions: Bookmark & Share */}
+                <div className="flex items-center gap-2.5 pt-0.5">
+                  <button
+                    type="button"
+                    onClick={() => setIsBookmarked(!isBookmarked)}
+                    className={`flex-1 h-9 rounded-none border text-xs font-mono uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer ${
+                      isBookmarked 
+                        ? 'border-ember bg-wash text-ember' 
+                        : 'border-rule bg-card hover:bg-wash text-foreground'
+                    }`}
                   >
-                    <span>Explore Track</span>
-                    <ArrowRight className="w-3 h-3" />
-                  </Link>
+                    <Bookmark className={`w-3.5 h-3.5 ${isBookmarked ? 'fill-current text-ember' : ''}`} />
+                    <span>{isBookmarked ? 'Saved' : 'Save'}</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleShare}
+                    className="h-9 px-4 rounded-none border border-rule bg-card hover:bg-wash text-foreground text-xs font-mono uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                    title="Copy syllabus link"
+                  >
+                    {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5" />}
+                    <span>{copiedLink ? 'Copied' : 'Share'}</span>
+                  </button>
                 </div>
               </div>
+
+              {/* Key Inclusions */}
+              <div className="pt-3 border-t border-rule flex flex-col gap-2">
+                <div className="text-xs font-medium text-foreground">
+                  Included with enrollment
+                </div>
+                <ul className="text-xs text-muted space-y-2 font-sans font-normal">
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-ember shrink-0" />
+                    <span>Full access to video lectures &amp; lesson transcripts</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-ember shrink-0" />
+                    <span>Interactive concept retention quizzes &amp; exercises</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-ember shrink-0" />
+                    <span>Verified digital Certificate of Completion</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-ember shrink-0" />
+                    <span>Cross-device progress syncing &amp; lifetime access</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Quality Guarantee Seal */}
+              <div className="pt-1 flex items-center justify-center gap-1.5 text-xs text-muted font-mono">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <span>256-bit Encrypted Checkout · Academic Guarantee</span>
+              </div>
+
             </div>
-          ))}
+          </aside>
+
         </div>
       </section>
 

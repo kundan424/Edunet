@@ -118,183 +118,130 @@ export function Courses() {
 
   // Academic Faculties definitions
   const academicFaculties = [
-    { id: '', label: 'All Faculties', count: 450 },
-    { id: 'Systems', label: 'Computer Science & Systems', count: 84 },
-    { id: 'AI', label: 'Data Science & Foundational AI', count: 62 },
-    { id: 'Distributed', label: 'Distributed Systems & Runtimes', count: 45 },
-    { id: 'Security', label: 'Formal Verification & Security', count: 31 },
-    { id: 'Cryptography', label: 'Applied Mathematics & Crypto', count: 38 },
+    { id: '', label: 'All Fields', count: 450 },
+    { id: 'Development', label: 'Web & Software Engineering', count: 94 },
+    { id: 'AI', label: 'Artificial Intelligence & ML', count: 68 },
+    { id: 'Systems', label: 'Computer Science & Architecture', count: 82 },
+    { id: 'Distributed', label: 'Distributed Systems & Cloud', count: 54 },
+    { id: 'Security', label: 'Cybersecurity & Verification', count: 36 },
   ];
 
   // Credential Tiers definitions
   const credentialTiers = [
     { id: '', label: 'All Program Types', icon: BookOpen },
-    { id: 'Specialization', label: 'Specializations', icon: Award },
-    { id: 'Degree', label: 'University Degrees', icon: GraduationCap },
-    { id: 'Certificate', label: 'Professional Certificates', icon: Award },
-    { id: 'MasterTrack', label: 'MasterTrack™ Credentials', icon: BookOpen },
+    { id: 'Certificate', label: 'Verified Certificates', icon: Award },
+    { id: 'Specialization', label: 'Specialization Tracks', icon: Award },
+    { id: 'Degree', label: 'University Degree Pathways', icon: GraduationCap },
   ];
 
   // Difficulty levels definitions
   const difficultyLevels = [
-    { id: '', label: 'All Levels' },
+    { id: '', label: 'All Skill Levels' },
     { id: 'BEGINNER', label: 'Foundational (Introductory)' },
     { id: 'INTERMEDIATE', label: 'Intermediate' },
-    { id: 'ADVANCED', label: 'Advanced Research' },
+    { id: 'ADVANCED', label: 'Advanced Masterclasses' },
   ];
 
-  // Curated Lumina catalog programs directly from Stitch design specification
+  // Curated fallback catalog courses when backend is unpopulated
   const curatedCatalog = [
     {
+      id: 'fullstack-web-bootcamp',
+      title: 'Full-Stack Web Architecture with React & Spring Boot',
+      description: 'Design production-grade web systems with modular React components, Spring Boot microservices, database transactions, and Docker.',
+      difficulty: 'INTERMEDIATE',
+      price: 0,
+      instructorName: 'Dr. Sarah Lin',
+      rating: 4.92,
+      studentCount: 14200,
+      duration: '8 weeks · Self-paced',
+      credentialType: 'Professional Certificate',
+      tags: ['React', 'Spring Boot', 'PostgreSQL', 'Docker'],
+      category: 'Development'
+    },
+    {
       id: 'stanford-llm',
-      title: 'Large Language Model Systems, Alignment & Reasoning Engines',
-      description: 'Transformer math, speculative decoding, RLHF/DPO algorithms, and distributed inference orchestration on raw GPUs.',
+      title: 'Large Language Models, Transformer Systems & Alignment',
+      description: 'Transformer mechanics, tokenization, fine-tuning, prompt orchestration, and distributed model evaluation on real datasets.',
       difficulty: 'ADVANCED',
       price: 0,
       instructorName: 'Prof. Christopher Manning',
-      rating: 4.9,
+      rating: 4.95,
       studentCount: 18400,
-      institution: 'Stanford AI Lab',
-      duration: '3 months · 6 hrs/wk',
-      credentialType: 'Specialization',
-      tags: ['PyTorch', 'vLLM', 'TRL & DPO', 'MCTS'],
+      duration: '10 weeks · Masterclass',
+      credentialType: 'Specialization Track',
+      tags: ['PyTorch', 'LLMs', 'Transformers', 'Fine-Tuning'],
       category: 'AI'
     },
     {
       id: 'cambridge-consensus',
-      title: 'Distributed Consensus, eBPF & Fault-Tolerant Microkernels',
-      description: 'Build a production Raft consensus engine, instrument Linux kernel tracepoints, and audit distributed crash recovery.',
+      title: 'Distributed Consensus, Raft Protocols & Microservices',
+      description: 'Implement distributed state machines, leader election, log replication, partition tolerance, and service discovery.',
       difficulty: 'ADVANCED',
       price: 0,
       instructorName: 'Prof. Elena Rostova, PhD',
-      rating: 4.95,
+      rating: 4.96,
       studentCount: 9120,
-      institution: 'Univ. of Cambridge',
-      duration: '4 months · 8 hrs/wk',
-      credentialType: 'Degree Credit Eligible',
-      tags: ['Rust', 'eBPF / Linux', 'Raft Consensus', 'Jepsen Tests'],
+      duration: '12 weeks · Masterclass',
+      credentialType: 'Degree Pathway',
+      tags: ['Rust', 'Distributed Systems', 'Raft Consensus'],
       category: 'Distributed'
     },
     {
-      id: 'mit-formal-methods',
-      title: 'Formal Methods, TLA+ Verification & Cryptographic Protocols',
-      description: 'Rigorous specification of concurrent software architectures, state-space model checking, and zero-knowledge proof primitives.',
-      difficulty: 'ADVANCED',
-      price: 0,
-      instructorName: 'MIT CSAIL Research Faculty',
-      rating: 4.92,
-      studentCount: 7650,
-      institution: 'MIT CSAIL',
-      duration: '3 months · 6 hrs/wk',
-      credentialType: 'Professional Certificate',
-      tags: ['TLA+ / PlusCal', 'Coq Proofs', 'ZK-SNARKs', 'Protocol Security'],
-      category: 'Security'
+      id: 'mit-algorithms',
+      title: 'Foundations of Computer Science, Data Structures & Complexity',
+      description: 'Rigorous algorithmic analysis, graph traversal, dynamic programming, tree balancing, and computational complexity theory.',
+      difficulty: 'BEGINNER',
+      price: 49.00,
+      instructorName: 'Prof. David Thorne',
+      rating: 4.93,
+      studentCount: 22100,
+      duration: '6 weeks · 4 hrs/wk',
+      credentialType: 'Verified Certificate',
+      tags: ['Algorithms', 'Data Structures', 'Python', 'Big-O'],
+      category: 'Systems'
     },
     {
-      id: 'cmu-msc-ai',
-      title: 'Master of Science in Software Systems & Autonomous Intelligence',
-      description: 'The identical diploma awarded on campus in Pittsburgh. Comprehensive curriculum spanning compiler engineering, distributed clusters, and embodied AI.',
-      difficulty: 'ADVANCED',
-      price: 1200,
-      instructorName: 'Carnegie Mellon SCS Faculty',
-      rating: 4.98,
-      studentCount: 120,
-      institution: 'Carnegie Mellon SCS',
-      duration: '18-24 months · Flexible',
-      credentialType: 'Full Master\'s Degree',
-      tags: ['Accredited MSc', 'Compilers', 'HPC Systems', 'Thesis Option'],
-      category: 'Degree'
-    },
-    {
-      id: 'eth-quantum',
-      title: 'Quantum Computing Primitives, Qiskit & Quantum Information',
-      description: 'Linear algebraic foundations, quantum circuits, Grover and Shor algorithms, and simulated noisy intermediate-scale quantum devices.',
+      id: 'cloud-devops-k8s',
+      title: 'Cloud Infrastructure, Kubernetes Orchestration & CI/CD',
+      description: 'Build enterprise deployment pipelines with containerization, Terraform infrastructure as code, service meshes, and observability.',
       difficulty: 'INTERMEDIATE',
       price: 0,
-      instructorName: 'ETH Zürich D-INFK Faculty',
+      instructorName: 'Marcus Vance',
       rating: 4.88,
-      studentCount: 6410,
-      institution: 'ETH Zürich D-INFK',
-      duration: '2 months · 5 hrs/wk',
-      credentialType: 'Specialization',
-      tags: ['Qiskit', 'Quantum Algorithms', 'Error Mitigation'],
-      category: 'Quantum'
-    },
-    {
-      id: 'oxford-type-theory',
-      title: 'Applied Category Theory, Type Systems & Compiler Frontends',
-      description: 'Monadic effects, dependent types, Hindley-Milner inference engines, and formally verified intermediate representations.',
-      difficulty: 'ADVANCED',
-      price: 0,
-      instructorName: 'Oxford Dept. of Computing',
-      rating: 4.97,
-      studentCount: 5320,
-      institution: 'University of Oxford',
-      duration: '3 months · 7 hrs/wk',
-      credentialType: 'MasterTrack™ Certificate',
-      tags: ['Haskell', 'Type Theory', 'LLVM IR', 'Compilers'],
-      category: 'Systems'
-    },
-    {
-      id: 'berkeley-compilers',
-      title: 'Compiler Construction, Program Analysis & LLVM Code Generation',
-      description: 'Control flow graphs, SSA conversion, register allocation, instruction scheduling, and JIT runtime architectures.',
-      difficulty: 'ADVANCED',
-      price: 0,
-      instructorName: 'UC Berkeley EECS Faculty',
-      rating: 4.94,
-      studentCount: 4210,
-      institution: 'UC Berkeley EECS',
-      duration: '3 months · 6 hrs/wk',
+      studentCount: 8430,
+      duration: '6 weeks · Self-paced',
       credentialType: 'Professional Certificate',
-      tags: ['C++', 'LLVM', 'SSA Form', 'Optimizations'],
-      category: 'Systems'
+      tags: ['Kubernetes', 'Docker', 'Terraform', 'CI/CD'],
+      category: 'Development'
     },
     {
-      id: 'mit-zero-knowledge',
-      title: 'Applied Cryptography, Zero-Knowledge Proofs & Protocol Security',
-      description: 'Elliptic curve pairings, Plonk and Groth16 proof systems, polynomial commitments, and cryptographic circuit design.',
-      difficulty: 'ADVANCED',
-      price: 0,
-      instructorName: 'MIT CSAIL Crypto Group',
-      rating: 4.96,
-      studentCount: 3890,
-      institution: 'MIT CSAIL',
-      duration: '3 months · 6 hrs/wk',
-      credentialType: 'Specialization',
-      tags: ['Circom', 'ZK-Rollups', 'Elliptic Curves', 'Halo2'],
-      category: 'Cryptography'
-    },
-    {
-      id: 'stanford-embodied-ai',
-      title: 'Embodied Intelligence, Diffusion Policies & Sim-to-Real Robotics',
-      description: 'Spatial representations, imitation learning, vision-language-action policies, and deployment on robotic manipulators.',
+      id: 'applied-cybersecurity',
+      title: 'Applied Application Security, Cryptography & Penetration Testing',
+      description: 'Modern application vulnerability auditing, zero-trust network protocols, cryptographic signing, and threat modeling.',
       difficulty: 'INTERMEDIATE',
-      price: 0,
-      instructorName: 'Stanford Robotics Lab',
+      price: 69.00,
+      instructorName: 'Amina Chen',
       rating: 4.91,
-      studentCount: 5120,
-      institution: 'Stanford AI Institute',
-      duration: '2.5 months · 5 hrs/wk',
-      credentialType: 'MasterTrack™ Certificate',
-      tags: ['Robotics', 'Isaac Gym', 'Diffusion Policy', 'PyBullet'],
-      category: 'AI'
+      studentCount: 6540,
+      duration: '8 weeks · 5 hrs/wk',
+      credentialType: 'Verified Certificate',
+      tags: ['AppSec', 'Cryptography', 'Zero-Trust', 'Auditing'],
+      category: 'Security'
     }
   ];
 
-  const hasBackendCourses = !isLoading && !error && data?.content && data.content.length > 0;
+  const hasBackendCourses = !isLoading && !error && data && data.content && data.content.length > 0;
 
-  // Filter curated programs
+  // Filter fallback curated programs
   const filteredCurated = curatedCatalog.filter(p => {
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
-      const match = p.title.toLowerCase().includes(q) || 
-                    p.description.toLowerCase().includes(q) || 
-                    p.institution.toLowerCase().includes(q) ||
-                    p.tags.some(t => t.toLowerCase().includes(q));
-      if (!match) return false;
+      const matchTitle = p.title.toLowerCase().includes(q);
+      const matchDesc = p.description.toLowerCase().includes(q);
+      const matchTag = p.tags.some(t => t.toLowerCase().includes(q));
+      if (!matchTitle && !matchDesc && !matchTag) return false;
     }
-    if (category && p.category.toLowerCase() !== category.toLowerCase()) {
+    if (category && p.category !== category) {
       return false;
     }
     if (difficulty && p.difficulty !== difficulty) {
@@ -310,40 +257,41 @@ export function Courses() {
 
   const popularQuickFilters = [
     'All Programs',
+    'Full-Stack',
     'Distributed Systems',
-    'Applied LLMs',
+    'AI & Machine Learning',
+    'Algorithms',
     'Rust',
-    'Formal Methods',
-    'Quantum',
-    'Compilers'
+    'Kubernetes'
   ];
 
   return (
-    <div className="w-full flex flex-col gap-8">
+    <div className="w-full flex flex-col gap-10 bg-canvas text-foreground transition-colors duration-150">
       
-      {/* 1. Header Banner */}
-      <div className="flex flex-col gap-2.5 pb-6 border-b border-[#e7e6e1]">
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-xs font-mono text-[#7b7974] mb-1">
-          <Link to="/" className="hover:text-[#121212] transition-colors">Home</Link>
-          <ChevronRight className="w-3 h-3 text-[#9c9a92]" />
-          <span className="text-[#121212] font-medium">Browse Courses</span>
+      {/* 1. Header Chapter */}
+      <div className="flex flex-col gap-3 pb-8 border-b border-rule">
+        
+        {/* Breadcrumb Navigation */}
+        <nav className="flex items-center gap-2 text-xs font-mono text-muted mb-1">
+          <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+          <ChevronRight className="w-3 h-3 text-muted" />
+          <span className="text-foreground font-medium">Course Catalog</span>
         </nav>
 
-        {/* Tagline Badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#efeeeb] text-[#7b7974] font-body text-xs tracking-wider uppercase self-start border border-[#e7e6e1]/80">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#d97757] inline-block animate-pulse"></span>
-          <span className="font-medium text-[#373734]">Academic Catalog · Fall 2026 Curriculum</span>
+        {/* Category Eyebrow with Burnt Orange Accent */}
+        <div className="superset-eyebrow">
+          <span className="w-1.5 h-1.5 rounded-none bg-ember" />
+          <span>CURRICULUM PATHWAYS &amp; CERTIFICATIONS</span>
         </div>
 
-        {/* Headline */}
-        <h1 className="font-heading text-2xl sm:text-3xl lg:text-[36px] text-[#121212] tracking-tight font-semibold">
-          Browse Programs &amp; Masterclasses
+        {/* Main Display Heading */}
+        <h1 className="font-sans text-3xl sm:text-4xl lg:text-[42px] text-foreground tracking-[-0.025em] font-medium leading-tight">
+          Explore all accredited courses and specializations.
         </h1>
         
-        {/* Description */}
-        <p className="font-body text-[#373734] text-base sm:text-[17px] max-w-3xl leading-relaxed">
-          Explore university-accredited degrees, faculty specializations, and verified computing masterclasses from world-class research laboratories.
+        {/* Support Paragraph */}
+        <p className="font-sans text-muted text-base sm:text-[17px] max-w-3xl leading-relaxed">
+          Search over 450+ courses, modular video lessons, and verified completion certificates taught by leading university faculty and software practitioners.
         </p>
       </div>
 
@@ -352,9 +300,9 @@ export function Courses() {
         <button
           type="button"
           onClick={() => setIsMobileFilterOpen(!isMobileFilterOpen)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#ffffff] border border-[#e7e6e1] text-[#121212] text-sm font-medium shadow-xs"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-none bg-card border border-rule text-foreground text-xs font-mono uppercase tracking-wider"
         >
-          <Filter className="w-4 h-4 text-[#d97757]" />
+          <Filter className="w-4 h-4 text-ember" />
           <span>Filters {activeFiltersCount > 0 && `(${activeFiltersCount})`}</span>
         </button>
 
@@ -362,29 +310,29 @@ export function Courses() {
           <button
             type="button"
             onClick={clearAllFilters}
-            className="text-xs text-[#d97757] font-medium hover:underline"
+            className="text-xs font-mono uppercase tracking-wider text-ember hover:underline"
           >
-            Clear all
+            Reset all
           </button>
         )}
       </div>
 
-      {/* 2. Main 2-Column Layout (Vertical Filters Sidebar on Left, Content on Right) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
+      {/* 2. Main 2-Column Catalog Layout: Filter Sidebar Left, Course Grid Right */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start w-full">
         
-        {/* Left Column: Vertical Filter Sidebar */}
-        <aside className={`lg:col-span-3 w-full ${isMobileFilterOpen ? 'block' : 'hidden lg:block'} sticky top-24`}>
-          <div className="bg-[#ffffff] rounded-[20px] p-5 sm:p-6 border border-[#e7e6e1] shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col gap-6">
+        {/* Left Column: Filter Sidebar */}
+        <aside className={`lg:col-span-3 w-full ${isMobileFilterOpen ? 'block' : 'hidden lg:block'} sticky top-20`}>
+          <div className="bg-card rounded-[10px] p-5 sm:p-6 border border-rule flex flex-col gap-6 shadow-none">
             
             {/* Sidebar Header */}
-            <div className="flex items-center justify-between pb-4 border-b border-[#e7e6e1]">
+            <div className="flex items-center justify-between pb-3.5 border-b border-rule">
               <div className="flex items-center gap-2">
-                <Filter className="w-4 h-4 text-[#d97757]" />
-                <h3 className="font-heading text-lg text-[#121212] font-semibold">
-                  Filters
+                <Filter className="w-4 h-4 text-ember" />
+                <h3 className="font-sans text-base text-foreground font-medium">
+                  Catalog Filters
                 </h3>
                 {activeFiltersCount > 0 && (
-                  <span className="w-5 h-5 rounded-full bg-[#121212] text-[#f8f8f6] font-mono text-[10px] flex items-center justify-center">
+                  <span className="w-5 h-5 rounded-none bg-muted-surface text-ember font-mono text-[10px] font-bold border border-rule flex items-center justify-center">
                     {activeFiltersCount}
                   </span>
                 )}
@@ -393,19 +341,19 @@ export function Courses() {
                 <button
                   type="button"
                   onClick={clearAllFilters}
-                  className="text-xs text-[#d97757] font-medium hover:underline cursor-pointer"
+                  className="text-xs font-mono uppercase tracking-wider text-ember hover:underline cursor-pointer"
                 >
                   Clear all
                 </button>
               )}
             </div>
 
-            {/* Vertical Filter Group 1: Academic Faculties */}
-            <div className="flex flex-col gap-3">
-              <h4 className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                Academic Faculties
+            {/* Filter Group 1: Fields / Faculties */}
+            <div className="flex flex-col gap-2.5">
+              <h4 className="font-mono text-[11px] uppercase tracking-[0.1em] text-ember font-normal">
+                Fields of Study
               </h4>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-1">
                 {academicFaculties.map((fac) => {
                   const isSelected = category === fac.id;
                   return (
@@ -413,21 +361,21 @@ export function Courses() {
                       key={fac.id || 'all'}
                       type="button"
                       onClick={() => handleCategorySelect(fac.id)}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-left text-xs transition-colors cursor-pointer ${
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-none text-left text-xs transition-colors cursor-pointer border ${
                         isSelected 
-                          ? 'bg-[#121212] text-[#f8f8f6] font-medium' 
-                          : 'text-[#373734] hover:bg-[#efeeeb] hover:text-[#121212]'
+                          ? 'bg-action-bg text-action-text border-action-border font-medium' 
+                          : 'text-foreground border-transparent hover:bg-wash hover:border-rule'
                       }`}
                     >
                       <div className="flex items-center gap-2 truncate">
-                        <span className={`w-3.5 h-3.5 rounded flex items-center justify-center border text-[10px] ${
-                          isSelected ? 'border-[#f8f8f6] bg-[#f8f8f6] text-[#121212]' : 'border-[#b7b7b5]'
+                        <span className={`w-3.5 h-3.5 rounded-none flex items-center justify-center border text-[10px] ${
+                          isSelected ? 'border-action-text bg-action-text text-action-bg' : 'border-rule'
                         }`}>
-                          {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
+                          {isSelected && <Check className="w-2.5 h-2.5 stroke-[3]" />}
                         </span>
                         <span className="truncate">{fac.label}</span>
                       </div>
-                      <span className={`text-[10px] font-mono shrink-0 ml-2 ${isSelected ? 'text-[#e7e6e1]' : 'text-[#7b7974]'}`}>
+                      <span className={`text-[10px] font-mono shrink-0 ml-2 ${isSelected ? 'opacity-80' : 'text-muted'}`}>
                         {fac.count}
                       </span>
                     </button>
@@ -436,12 +384,12 @@ export function Courses() {
               </div>
             </div>
 
-            {/* Vertical Filter Group 2: Credential Tier */}
-            <div className="flex flex-col gap-3 pt-4 border-t border-[#e7e6e1]">
-              <h4 className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                Program Tier
+            {/* Filter Group 2: Program Tier */}
+            <div className="flex flex-col gap-2.5 pt-4 border-t border-rule">
+              <h4 className="font-mono text-[11px] uppercase tracking-[0.1em] text-ember font-normal">
+                Credential Type
               </h4>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-1">
                 {credentialTiers.map((tier) => {
                   const isSelected = credentialType === tier.id;
                   const Icon = tier.icon;
@@ -450,29 +398,29 @@ export function Courses() {
                       key={tier.id || 'all'}
                       type="button"
                       onClick={() => handleCredentialSelect(tier.id)}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-left text-xs transition-colors cursor-pointer ${
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-none text-left text-xs transition-colors cursor-pointer border ${
                         isSelected 
-                          ? 'bg-[#121212] text-[#f8f8f6] font-medium' 
-                          : 'text-[#373734] hover:bg-[#efeeeb] hover:text-[#121212]'
+                          ? 'bg-action-bg text-action-text border-action-border font-medium' 
+                          : 'text-foreground border-transparent hover:bg-wash hover:border-rule'
                       }`}
                     >
                       <div className="flex items-center gap-2 truncate">
-                        <Icon className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-[#d97757]' : 'text-[#7b7974]'}`} />
+                        <Icon className={`w-3.5 h-3.5 shrink-0 ${isSelected ? 'text-ember' : 'text-muted'}`} />
                         <span className="truncate">{tier.label}</span>
                       </div>
-                      {isSelected && <Check className="w-3 h-3 shrink-0 ml-1 text-[#f8f8f6]" />}
+                      {isSelected && <Check className="w-3 h-3 shrink-0 ml-1 text-action-text" />}
                     </button>
                   );
                 })}
               </div>
             </div>
 
-            {/* Vertical Filter Group 3: Difficulty Level */}
-            <div className="flex flex-col gap-3 pt-4 border-t border-[#e7e6e1]">
-              <h4 className="font-mono text-[11px] uppercase tracking-wider text-[#7b7974] font-semibold">
-                Difficulty Level
+            {/* Filter Group 3: Difficulty Level */}
+            <div className="flex flex-col gap-2.5 pt-4 border-t border-rule">
+              <h4 className="font-mono text-[11px] uppercase tracking-[0.1em] text-ember font-normal">
+                Skill Level
               </h4>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-1">
                 {difficultyLevels.map((lvl) => {
                   const isSelected = difficulty === lvl.id;
                   return (
@@ -480,27 +428,27 @@ export function Courses() {
                       key={lvl.id || 'all'}
                       type="button"
                       onClick={() => handleDifficultySelect(lvl.id)}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-left text-xs transition-colors cursor-pointer ${
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-none text-left text-xs transition-colors cursor-pointer border ${
                         isSelected 
-                          ? 'bg-[#121212] text-[#f8f8f6] font-medium' 
-                          : 'text-[#373734] hover:bg-[#efeeeb] hover:text-[#121212]'
+                          ? 'bg-action-bg text-action-text border-action-border font-medium' 
+                          : 'text-foreground border-transparent hover:bg-wash hover:border-rule'
                       }`}
                     >
                       <span className="truncate">{lvl.label}</span>
-                      {isSelected && <Check className="w-3 h-3 shrink-0 ml-1 text-[#f8f8f6]" />}
+                      {isSelected && <Check className="w-3 h-3 shrink-0 ml-1 text-action-text" />}
                     </button>
                   );
                 })}
               </div>
             </div>
 
-            {/* Learning Notice */}
-            <div className="p-3.5 rounded-xl bg-[#efeeeb]/70 border border-[#e7e6e1] text-xs text-[#373734] space-y-1.5 mt-2">
-              <div className="font-semibold text-[#121212] text-[11px] font-mono uppercase tracking-wider">
-                Course Standards
+            {/* Educational Assurance Notice: 2px radius */}
+            <div className="p-3.5 rounded-[2px] bg-wash border border-rule text-xs text-foreground space-y-1 mt-2">
+              <div className="font-medium text-ember text-[11px] font-mono uppercase tracking-wider">
+                Verifiable Quality
               </div>
-              <p className="text-[11.5px] leading-relaxed text-[#7b7974]">
-                All courses include self-paced learning, interactive quizzes, community discussions, and certificates upon completion.
+              <p className="text-[11px] leading-relaxed text-muted">
+                All courses include lifetime video access, interactive knowledge check quizzes, and authenticated completion certificates.
               </p>
             </div>
 
@@ -511,22 +459,22 @@ export function Courses() {
         <main className="lg:col-span-9 w-full flex flex-col gap-6">
           
           {/* Top Search Input & Action Bar */}
-          <div className="bg-[#ffffff] rounded-2xl p-4 sm:p-5 border border-[#e7e6e1] shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col gap-4">
+          <div className="bg-card rounded-[10px] p-4 sm:p-5 border border-rule shadow-none flex flex-col gap-4">
             <form onSubmit={handleSearchSubmit} className="flex gap-2.5 items-center">
               <div className="relative flex-grow">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#7b7974]" />
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
                 <input 
                   type="text" 
-                  placeholder="Search 450+ programs (e.g. Raft, PyTorch, Formal Invariants, eBPF)..." 
+                  placeholder="Search courses, instructors, or topics (e.g. React, Distributed Systems, Python)..." 
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
-                  className="w-full bg-[#efeeeb]/70 hover:bg-[#efeeeb] focus:bg-[#ffffff] text-[#121212] font-body text-sm pl-10 pr-10 py-2.5 rounded-xl border border-[#e7e6e1] focus:border-[#121212] outline-none transition-all placeholder:text-[#9c9a92]"
+                  className="w-full bg-wash text-foreground font-sans text-sm pl-10 pr-10 py-2.5 rounded-none border border-rule focus:border-ember outline-none transition-colors placeholder:text-muted"
                 />
                 {searchInput && (
                   <button 
                     type="button" 
                     onClick={clearAllFilters} 
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#7b7974] hover:text-[#121212] p-1 transition-colors cursor-pointer"
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted hover:text-foreground p-1 transition-colors cursor-pointer"
                     title="Clear search"
                   >
                     <X className="w-3.5 h-3.5" />
@@ -536,16 +484,16 @@ export function Courses() {
 
               <button 
                 type="submit" 
-                className="shrink-0 px-5 py-2.5 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] font-body text-sm font-medium transition-colors shadow-xs cursor-pointer flex items-center gap-1.5"
+                className="shrink-0 h-[42px] px-5 rounded-none bg-action-bg hover:bg-ember text-action-text hover:text-white font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1.5"
               >
                 <span>Search</span>
               </button>
             </form>
 
             {/* Quick Filter Tag Pills */}
-            <div className="flex items-center flex-wrap gap-2 pt-2 border-t border-[#e7e6e1]/80 text-xs">
-              <span className="text-[#7b7974] font-medium flex items-center gap-1">
-                <SlidersHorizontal className="w-3.5 h-3.5 text-[#d97757]" />
+            <div className="flex items-center flex-wrap gap-2 pt-2 border-t border-rule text-xs">
+              <span className="text-muted font-mono text-[11px] uppercase tracking-wider flex items-center gap-1">
+                <SlidersHorizontal className="w-3 h-3 text-ember" />
                 <span>Trending:</span>
               </span>
               {popularQuickFilters.map((tag) => {
@@ -558,10 +506,10 @@ export function Courses() {
                       if (tag === 'All Programs') clearAllFilters();
                       else handleQuickTagClick(tag);
                     }}
-                    className={`px-3 py-1 rounded-full text-xs font-medium transition-colors cursor-pointer border ${
+                    className={`px-3 py-1 rounded-none text-xs font-mono transition-colors cursor-pointer border ${
                       isTagActive
-                        ? 'bg-[#121212] text-[#f8f8f6] border-[#121212]'
-                        : 'bg-[#efeeeb] hover:bg-[#e7e6e1] text-[#373734] hover:text-[#121212] border-[#e7e6e1]'
+                        ? 'bg-action-bg text-action-text border-action-border font-medium'
+                        : 'bg-wash hover:bg-muted-surface text-foreground border-rule hover:border-ember'
                     }`}
                   >
                     {tag}
@@ -572,37 +520,37 @@ export function Courses() {
           </div>
 
           {/* Results Summary & Active Pills */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs sm:text-sm text-[#7b7974]">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs sm:text-sm text-muted">
             <div className="flex flex-wrap items-center gap-2">
               {hasBackendCourses ? (
-                <span>Showing <strong className="text-[#121212]">{data.totalElements}</strong> accredited programs</span>
+                <span>Showing <strong className="text-foreground font-medium">{data.totalElements}</strong> programs</span>
               ) : (
-                <span>Showing <strong className="text-[#121212]">{filteredCurated.length}</strong> academic curriculum pathways</span>
+                <span>Showing <strong className="text-foreground font-medium">{filteredCurated.length}</strong> academic curriculums</span>
               )}
 
               {/* Active Filter Badges */}
               {category && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-[#efeeeb] text-[#121212] text-xs font-medium border border-[#e7e6e1]">
-                  <span>Faculty: {category}</span>
-                  <button type="button" onClick={() => handleCategorySelect('')} className="hover:text-[#d97757] cursor-pointer">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-none bg-wash text-ember text-xs font-mono uppercase tracking-wider border border-rule">
+                  <span>Field: {category}</span>
+                  <button type="button" onClick={() => handleCategorySelect('')} className="hover:text-foreground cursor-pointer">
                     <X className="w-3 h-3" />
                   </button>
                 </span>
               )}
 
               {credentialType && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-[#efeeeb] text-[#121212] text-xs font-medium border border-[#e7e6e1]">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-none bg-wash text-ember text-xs font-mono uppercase tracking-wider border border-rule">
                   <span>Tier: {credentialType}</span>
-                  <button type="button" onClick={() => handleCredentialSelect('')} className="hover:text-[#d97757] cursor-pointer">
+                  <button type="button" onClick={() => handleCredentialSelect('')} className="hover:text-foreground cursor-pointer">
                     <X className="w-3 h-3" />
                   </button>
                 </span>
               )}
 
               {difficulty && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-[#efeeeb] text-[#121212] text-xs font-medium border border-[#e7e6e1]">
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-none bg-wash text-ember text-xs font-mono uppercase tracking-wider border border-rule">
                   <span>Level: {difficulty}</span>
-                  <button type="button" onClick={() => handleDifficultySelect('')} className="hover:text-[#d97757] cursor-pointer">
+                  <button type="button" onClick={() => handleDifficultySelect('')} className="hover:text-foreground cursor-pointer">
                     <X className="w-3 h-3" />
                   </button>
                 </span>
@@ -612,7 +560,7 @@ export function Courses() {
                 <button 
                   type="button" 
                   onClick={clearAllFilters} 
-                  className="text-[#d97757] font-medium hover:underline text-xs ml-1 cursor-pointer"
+                  className="text-ember font-mono uppercase tracking-wider hover:underline text-xs ml-1 cursor-pointer"
                 >
                   Reset all
                 </button>
@@ -621,31 +569,31 @@ export function Courses() {
 
             {/* Sort selector */}
             <div className="flex items-center gap-2 shrink-0">
-              <ArrowUpDown className="w-3.5 h-3.5 text-[#7b7974]" />
-              <span className="text-xs">Sort:</span>
+              <ArrowUpDown className="w-3.5 h-3.5 text-muted" />
+              <span className="text-xs font-mono uppercase tracking-wider">Sort:</span>
               <select
                 value={sortBy}
                 onChange={(e) => { setSortBy(e.target.value); setPage(0); }}
-                className="bg-transparent text-[#121212] font-medium text-xs border-b border-[#b7b7b5] pb-0.5 outline-none cursor-pointer"
+                className="bg-transparent text-foreground font-medium text-xs border-b border-rule pb-0.5 outline-none cursor-pointer"
               >
-                <option value="newest">Recently Published</option>
-                <option value="rating">Highest Rated</option>
+                <option value="newest" className="bg-card text-foreground">Recently Published</option>
+                <option value="rating" className="bg-card text-foreground">Highest Rated</option>
               </select>
             </div>
           </div>
 
           {/* Course Cards Grid */}
           {isLoading ? (
-            <LoadingState message="Loading catalog curriculum..." />
+            <LoadingState message="Loading catalog programs..." />
           ) : error ? (
             <ErrorState 
-              title="Failed to connect to catalog database" 
-              message="Displaying offline academic curriculum pathways. You can still review syllabi and program specifications." 
+              title="Unable to connect to course database" 
+              message="Displaying offline accredited curriculum pathways. You can still explore syllabi and course specifications." 
               onRetry={() => refetch()} 
             />
           ) : hasBackendCourses ? (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-stretch">
                 {data.content.map(course => (
                   <CourseCard 
                     key={course.id}
@@ -654,6 +602,7 @@ export function Courses() {
                     description={course.description}
                     difficulty={course.difficulty}
                     price={course.price}
+                    thumbnailUrl={course.thumbnailUrl}
                     instructorName={course.instructorName}
                     rating={course.rating}
                     studentCount={course.studentCount}
@@ -663,33 +612,33 @@ export function Courses() {
 
               {/* Pagination */}
               {data.totalPages > 1 && (
-                <div className="flex justify-center mt-6 pt-8 border-t border-[#e7e6e1]">
+                <div className="flex justify-center mt-6 pt-8 border-t border-rule">
                   <div className="flex items-center gap-3">
                     <button 
                       type="button"
                       onClick={() => setPage(p => Math.max(0, p - 1))}
                       disabled={data.first}
-                      className="px-4 py-2 rounded-lg border border-[#e7e6e1] bg-[#ffffff] hover:bg-[#efeeeb] text-[#121212] text-sm font-medium transition-colors disabled:opacity-40 disabled:hover:bg-[#ffffff] cursor-pointer"
+                      className="px-4 py-2 rounded-none border border-rule bg-card hover:bg-wash text-foreground text-xs font-mono uppercase tracking-wider transition-colors disabled:opacity-40 cursor-pointer shadow-none"
                     >
-                      Previous
+                      ← Previous
                     </button>
-                    <span className="font-mono text-xs text-[#7b7974] px-2">
+                    <span className="font-mono text-xs text-muted px-2">
                       Page {data.number + 1} of {data.totalPages}
                     </span>
                     <button 
                       type="button"
                       onClick={() => setPage(p => Math.min(data.totalPages - 1, p + 1))}
                       disabled={data.last}
-                      className="px-4 py-2 rounded-lg border border-[#e7e6e1] bg-[#ffffff] hover:bg-[#efeeeb] text-[#121212] text-sm font-medium transition-colors disabled:opacity-40 disabled:hover:bg-[#ffffff] cursor-pointer"
+                      className="px-4 py-2 rounded-none border border-rule bg-card hover:bg-wash text-foreground text-xs font-mono uppercase tracking-wider transition-colors disabled:opacity-40 cursor-pointer shadow-none"
                     >
-                      Next
+                      Next →
                     </button>
                   </div>
                 </div>
               )}
             </>
           ) : filteredCurated.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 items-stretch">
               {filteredCurated.map(program => (
                 <CourseCard 
                   key={program.id}
@@ -701,7 +650,6 @@ export function Courses() {
                   instructorName={program.instructorName}
                   rating={program.rating}
                   studentCount={program.studentCount}
-                  institution={program.institution}
                   duration={program.duration}
                   credentialType={program.credentialType}
                   tags={program.tags}
@@ -709,20 +657,20 @@ export function Courses() {
               ))}
             </div>
           ) : (
-            <div className="p-12 sm:p-16 border border-[#e7e6e1] rounded-2xl bg-[#ffffff] text-center flex flex-col items-center gap-4 shadow-sm">
-              <div className="w-12 h-12 rounded-full bg-[#efeeeb] flex items-center justify-center text-[#7b7974]">
+            <div className="p-12 sm:p-16 border border-rule rounded-[10px] bg-card text-center flex flex-col items-center gap-4 shadow-none">
+              <div className="w-12 h-12 rounded-none bg-wash border border-rule flex items-center justify-center text-ember">
                 <Search className="w-6 h-6" />
               </div>
-              <h3 className="font-heading text-2xl text-[#121212]">
+              <h3 className="font-sans text-xl text-foreground font-medium">
                 No matching programs found
               </h3>
-              <p className="text-[#373734] text-sm max-w-md">
+              <p className="text-muted text-xs sm:text-sm max-w-md font-sans leading-relaxed">
                 We couldn't find any courses matching your active filter criteria. Try adjusting your query or resetting all filters.
               </p>
               <button
                 type="button"
                 onClick={clearAllFilters}
-                className="mt-2 px-5 py-2.5 rounded-lg bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] font-medium text-xs transition-colors cursor-pointer"
+                className="btn-superset-primary mt-2"
               >
                 Clear All Filters
               </button>
@@ -736,3 +684,4 @@ export function Courses() {
     </div>
   );
 }
+
