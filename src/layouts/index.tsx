@@ -6,9 +6,9 @@ export function PublicLayout() {
   const isHomePage = location.pathname === '/';
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f8f6] text-[#121212] font-['Inter',sans-serif]">
+    <div className="min-h-screen flex flex-col bg-canvas text-foreground font-sans antialiased selection:bg-ember selection:text-white transition-colors duration-150">
       <Header />
-      <main className={`flex-grow w-full ${isHomePage ? '' : 'max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12'}`}>
+      <main className={`flex-grow w-full ${isHomePage ? '' : 'max-w-[1280px] mx-auto px-4 sm:px-8 pt-8 sm:pt-10 pb-20'}`}>
         <Outlet />
       </main>
       <Footer />
@@ -18,9 +18,9 @@ export function PublicLayout() {
 
 export function AuthenticatedLayout() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f8f6] text-[#121212] font-['Inter',sans-serif]">
+    <div className="min-h-screen flex flex-col bg-canvas text-foreground font-sans antialiased selection:bg-ember selection:text-white transition-colors duration-150">
       <Header />
-      <main className="flex-grow w-full max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+      <main className="flex-grow w-full max-w-[1280px] mx-auto px-4 sm:px-8 pt-8 sm:pt-10 pb-20">
         <Outlet />
       </main>
       <Footer />

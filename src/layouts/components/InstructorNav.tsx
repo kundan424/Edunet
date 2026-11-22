@@ -8,17 +8,17 @@ export const InstructorNav = () => {
   ];
 
   return (
-    <nav className="flex items-center gap-4 border-b border-midnight-ink mb-8 overflow-x-auto pb-[-1px]">
+    <nav className="flex items-center gap-2 border-b border-rule mb-8 overflow-x-auto text-xs font-mono">
       {links.map((link) => (
         <NavLink
           key={link.to}
           to={link.to}
           end={link.end}
           className={({ isActive }) => clsx(
-            'px-4 py-3 font-bold text-sm transition-colors border-b-4 whitespace-nowrap',
+            'px-4 py-2.5 transition-colors border-b-2 whitespace-nowrap cursor-pointer',
             isActive 
-              ? 'border-signal-blue text-signal-blue' 
-              : 'border-transparent hover:text-signal-blue'
+              ? 'border-ember text-ember font-medium' 
+              : 'border-transparent text-muted hover:text-foreground'
           )}
         >
           {link.label}

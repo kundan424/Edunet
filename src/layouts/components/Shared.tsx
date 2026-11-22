@@ -10,29 +10,20 @@ import {
   LogOut,
   User as UserIcon,
   LayoutDashboard,
-  ShieldAlert
+  ShieldAlert,
+  Terminal,
+  Globe,
+  Share2
 } from 'lucide-react';
+
 import { useUnreadNotifications } from '../../features/notifications/queries';
+import { ThemeSwitcher } from '../../components/ui/ThemeSwitcher';
 
 /**
- * Anthropic 4-spoke radial-spike mark defined in DESIGN.md
- */
-export function ClaudeSpikeMark({ className = "w-4 h-4 text-[#121212]" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M12 0C11.2 6.5 6.5 11.2 0 12C6.5 12.8 11.2 17.5 12 24C12.8 17.5 17.5 12.8 24 12C17.5 11.2 12.8 6.5 12 0Z" />
-    </svg>
-  );
-}
-
-/**
- * Top Navigation implementing Lumina Warm Editorial design:
- * - Canvas background: Bone Parchment (#f8f8f6)
- * - Hairline bottom border: Chalk (#e7e6e1)
- * - Brand: Monogram L + Lumina Learning Platform
- * - Catalog dropdown with academic faculties
- * - Navigation links: Degrees, Certificates, Enterprise
- * - Auth controls: Log in, Join for Free, User account menu
+ * Superset 65px Sticky Navigation
+ * - 65px height, backdrop blur (8px), 1px translucent hairline border
+ * - Compact wordmark, Inter 13px links, IBM Plex Mono conversion action
+ * - Integrated Theme Switcher (Dark / Light)
  */
 export function Header() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -73,73 +64,108 @@ export function Header() {
   }, []);
 
   const isCurrent = (path: string) => location.pathname === path;
+  const isCourses = isCurrent('/courses') && !location.search.includes('Certificate') && !location.search.includes('Degree');
+  const isCertificates = location.search.includes('Certificate');
 
   return (
-    <header className="sticky top-0 z-50 bg-[#f8f8f6]/95 backdrop-blur-md border-b border-[#e7e6e1]">
-      <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-50 w-full h-[65px] bg-canvas/85 backdrop-blur-md border-b border-rule transition-colors duration-150">
+      <div className="max-w-[1280px] mx-auto h-full px-4 sm:px-8 flex items-center justify-between">
         
-        {/* Brand & Catalog Dropdown */}
-        <div className="flex items-center gap-4 lg:gap-6 shrink-0">
+        {/* Brand Mark & Name */}
+        <div className="flex items-center gap-8 shrink-0">
           <Link 
             to="/" 
-            className="flex items-center gap-2.5 group"
-            aria-label="Lumina Home"
+            className="flex items-center gap-2.5 group focus:outline-none"
+            aria-label="Edunet Home"
           >
-            <div className="w-8 h-8 rounded-full bg-[#121212] text-[#f8f8f6] flex items-center justify-center font-heading text-lg font-semibold group-hover:bg-[#000000] transition-colors">
-              L
+            <div className="w-7 h-7 bg-foreground text-canvas flex items-center justify-center font-mono text-xs font-bold transition-transform duration-150 group-hover:scale-105">
+              <span>E</span>
             </div>
-            <div className="flex flex-col">
-              <span className="font-heading text-[22px] text-[#121212] tracking-tight leading-none">
-                Lumina
-              </span>
-              <span className="text-[9px] font-mono tracking-widest text-[#7b7974] uppercase mt-0.5">
-                Learning Platform
-              </span>
-            </div>
+            <span className="font-sans text-[17px] font-medium text-foreground tracking-[-0.025em]">
+              Edunet
+            </span>
           </Link>
 
-          {/* Explore Catalog Dropdown */}
-          
-        </div>
-
-        {/* Top Links & Auth CTAs */}
-        <div className="flex items-center gap-3 sm:gap-5 shrink-0">
-          <nav className="hidden lg:flex items-center gap-4 text-[13.5px]">
-            <Link 
-              to="/courses?search=Certificate" 
-              className="text-[#373734] hover:text-[#121212] font-medium transition-colors"
-            >
-              Certificates
-            </Link>
-            <a 
-              href="/#enterprise-section" 
-              className="text-[#373734] hover:text-[#121212] font-medium transition-colors"
-            >
-              For Enterprise
-            </a>
-            <Link 
-              to="/courses" 
-              className={`font-medium transition-colors ${isCurrent('/courses') ? 'text-[#121212]' : 'text-[#373734] hover:text-[#121212]'}`}
+          {/* Desktop Navigation Links (Inter 400 · 13px · tracking 0.01em) */}
+          <nav className="hidden lg:flex items-center gap-1 text-[13px] tracking-[0.01em]">
+            <Link
+              to="/courses"
+              className={`px-3 py-1.5 transition-colors ${
+                isCourses 
+                  ? 'text-foreground font-medium' 
+                  : 'text-muted hover:text-foreground'
+              }`}
             >
               All Courses
             </Link>
+            <Link
+              to="/courses?search=Certificate"
+              className={`px-3 py-1.5 transition-colors ${
+                isCertificates 
+                  ? 'text-foreground font-medium' 
+                  : 'text-muted hover:text-foreground'
+              }`}
+            >
+              Certificates
+            </Link>
+            <a
+              href="/#capabilities"
+              className="px-3 py-1.5 text-muted hover:text-foreground transition-colors"
+            >
+              Capabilities
+            </a>
+            <a
+              href="/#voices"
+              className="px-3 py-1.5 text-muted hover:text-foreground transition-colors"
+            >
+              Voices
+            </a>
+            <a
+              href="/#reassurance"
+              className="px-3 py-1.5 text-muted hover:text-foreground transition-colors"
+            >
+              Standards
+            </a>
+            <a
+              href="/#faq"
+              className="px-3 py-1.5 text-muted hover:text-foreground transition-colors"
+            >
+              FAQ
+            </a>
+            {isAuthenticated && (
+              <Link
+                to="/dashboard"
+                className={`px-3 py-1.5 transition-colors ${
+                  isCurrent('/dashboard')
+                    ? 'text-foreground font-medium'
+                    : 'text-muted hover:text-foreground'
+                }`}
+              >
+                Dashboard
+              </Link>
+            )}
           </nav>
+        </div>
 
-          <div className="h-4 w-px bg-[#e7e6e1] hidden lg:block"></div>
+        {/* Right Section: Theme Switcher & Actions */}
+        <div className="flex items-center gap-3 shrink-0">
+          
+          {/* Theme Switcher Toggle */}
+          <ThemeSwitcher />
 
           {!isAuthenticated ? (
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
               <Link 
                 to="/login"
-                className="text-[#373734] hover:text-[#121212] font-medium text-[13.5px] px-2 py-1 transition-colors"
+                className="text-muted hover:text-foreground text-[13px] font-sans px-3 py-1.5 transition-colors"
               >
-                Log In
+                Sign In
               </Link>
               <Link 
                 to="/register"
-                className="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-[#121212] text-[#f8f8f6] font-medium text-[13.5px] hover:bg-[#000000] transition-colors shadow-sm"
+                className="btn-superset-compact"
               >
-                Join for Free
+                Get Started
               </Link>
             </div>
           ) : (
@@ -147,38 +173,38 @@ export function Header() {
               {/* Notifications */}
               <Link
                 to="/notifications"
-                className="relative p-2 text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] rounded-lg transition-colors"
+                className="relative p-2 text-muted hover:text-foreground border border-transparent hover:border-rule transition-colors"
                 aria-label="Notifications"
               >
-                <Bell className="w-4.5 h-4.5" />
+                <Bell className="w-4 h-4" />
                 {unreadCount > 0 && (
-                  <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-[#d97757]"></span>
+                  <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-ember" />
                 )}
               </Link>
 
-              {/* User Dropdown */}
+              {/* Account Dropdown */}
               <div className="relative" ref={accountMenuRef}>
                 <button
                   type="button"
                   onClick={() => setIsAccountMenuOpen(!isAccountMenuOpen)}
-                  className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-[#efeeeb] transition-colors cursor-pointer"
+                  className="flex items-center gap-2 p-1.5 border border-rule hover:border-foreground/30 transition-colors cursor-pointer"
                   aria-expanded={isAccountMenuOpen}
                 >
-                  <div className="w-8 h-8 rounded-full bg-[#efeeeb] border border-[#e7e6e1] text-[#121212] text-xs font-semibold flex items-center justify-center">
+                  <div className="w-6 h-6 bg-muted-surface text-foreground text-xs font-mono font-medium flex items-center justify-center">
                     {user?.name?.charAt(0).toUpperCase() || 'U'}
                   </div>
-                  <span className="hidden sm:inline text-sm font-medium text-[#121212] max-w-[120px] truncate">
+                  <span className="hidden sm:inline text-[13px] text-foreground max-w-[120px] truncate">
                     {user?.name}
                   </span>
-                  <ChevronDown className={`w-3.5 h-3.5 text-[#7b7974] transition-transform ${isAccountMenuOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-3.5 h-3.5 text-muted transition-transform ${isAccountMenuOpen ? 'rotate-180' : ''}`} />
                 </button>
 
                 {isAccountMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-56 bg-[#ffffff] border border-[#e7e6e1] rounded-xl shadow-xl py-2 z-50 animate-in fade-in duration-150">
-                    <div className="px-3.5 py-2 border-b border-[#e7e6e1]">
-                      <p className="text-xs text-[#7b7974]">Signed in as</p>
-                      <p className="text-sm font-medium text-[#121212] truncate mt-0.5">{user?.name}</p>
-                      <span className="inline-block mt-1 text-[11px] font-mono uppercase px-2 py-0.5 rounded bg-[#efeeeb] text-[#373734]">
+                  <div className="absolute right-0 mt-2 w-60 bg-card border border-rule py-1 z-50 shadow-2xl">
+                    <div className="px-4 py-3 border-b border-rule">
+                      <p className="font-mono text-[10px] uppercase text-muted tracking-wider">Signed in as</p>
+                      <p className="text-sm font-medium text-foreground truncate mt-0.5">{user?.name}</p>
+                      <span className="inline-block mt-1 font-mono text-[10px] uppercase px-1.5 py-0.5 bg-muted-surface text-ember border border-rule">
                         {user?.role}
                       </span>
                     </div>
@@ -189,18 +215,18 @@ export function Header() {
                           <Link
                             to="/dashboard"
                             onClick={() => setIsAccountMenuOpen(false)}
-                            className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
+                            className="flex items-center gap-2 px-4 py-2 text-xs text-foreground hover:bg-muted-surface transition-colors"
                           >
-                            <LayoutDashboard className="w-4 h-4 text-[#7b7974]" />
-                            <span>Student Dashboard</span>
+                            <LayoutDashboard className="w-3.5 h-3.5 text-muted" />
+                            <span>Dashboard</span>
                           </Link>
                           <Link
                             to="/learn"
                             onClick={() => setIsAccountMenuOpen(false)}
-                            className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
+                            className="flex items-center gap-2 px-4 py-2 text-xs text-foreground hover:bg-muted-surface transition-colors"
                           >
-                            <BookOpen className="w-4 h-4 text-[#7b7974]" />
-                            <span>My Learning</span>
+                            <BookOpen className="w-3.5 h-3.5 text-muted" />
+                            <span>My Learning Workspace</span>
                           </Link>
                         </>
                       )}
@@ -210,18 +236,18 @@ export function Header() {
                           <Link
                             to="/dashboard"
                             onClick={() => setIsAccountMenuOpen(false)}
-                            className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
+                            className="flex items-center gap-2 px-4 py-2 text-xs text-foreground hover:bg-muted-surface transition-colors"
                           >
-                            <LayoutDashboard className="w-4 h-4 text-[#7b7974]" />
+                            <LayoutDashboard className="w-3.5 h-3.5 text-muted" />
                             <span>Instructor Dashboard</span>
                           </Link>
                           <Link
                             to="/instructor/courses"
                             onClick={() => setIsAccountMenuOpen(false)}
-                            className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
+                            className="flex items-center gap-2 px-4 py-2 text-xs text-foreground hover:bg-muted-surface transition-colors"
                           >
-                            <BookOpen className="w-4 h-4 text-[#7b7974]" />
-                            <span>My Courses</span>
+                            <BookOpen className="w-3.5 h-3.5 text-muted" />
+                            <span>Manage Courses</span>
                           </Link>
                         </>
                       )}
@@ -231,25 +257,25 @@ export function Header() {
                           <Link
                             to="/dashboard"
                             onClick={() => setIsAccountMenuOpen(false)}
-                            className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
+                            className="flex items-center gap-2 px-4 py-2 text-xs text-foreground hover:bg-muted-surface transition-colors"
                           >
-                            <LayoutDashboard className="w-4 h-4 text-[#7b7974]" />
-                            <span>Admin Dashboard</span>
+                            <LayoutDashboard className="w-3.5 h-3.5 text-muted" />
+                            <span>Admin Overview</span>
                           </Link>
                           <Link
                             to="/admin/courses"
                             onClick={() => setIsAccountMenuOpen(false)}
-                            className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
+                            className="flex items-center gap-2 px-4 py-2 text-xs text-foreground hover:bg-muted-surface transition-colors"
                           >
-                            <BookOpen className="w-4 h-4 text-[#7b7974]" />
+                            <BookOpen className="w-3.5 h-3.5 text-muted" />
                             <span>Course Moderation</span>
                           </Link>
                           <Link
                             to="/admin/instructors"
                             onClick={() => setIsAccountMenuOpen(false)}
-                            className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
+                            className="flex items-center gap-2 px-4 py-2 text-xs text-foreground hover:bg-muted-surface transition-colors"
                           >
-                            <ShieldAlert className="w-4 h-4 text-[#7b7974]" />
+                            <ShieldAlert className="w-3.5 h-3.5 text-muted" />
                             <span>Instructor Applications</span>
                           </Link>
                         </>
@@ -258,23 +284,23 @@ export function Header() {
                       <Link
                         to="/profile"
                         onClick={() => setIsAccountMenuOpen(false)}
-                        className="flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 text-xs text-foreground hover:bg-muted-surface transition-colors"
                       >
-                        <UserIcon className="w-4 h-4 text-[#7b7974]" />
+                        <UserIcon className="w-3.5 h-3.5 text-muted" />
                         <span>Profile Settings</span>
                       </Link>
                     </div>
 
-                    <div className="pt-1 border-t border-[#e7e6e1]">
+                    <div className="pt-1 border-t border-rule">
                       <button
                         type="button"
                         onClick={() => {
                           logout();
                           setIsAccountMenuOpen(false);
                         }}
-                        className="w-full flex items-center gap-2.5 px-3.5 py-2 text-sm text-[#c24141] hover:bg-[#efeeeb] transition-colors cursor-pointer text-left"
+                        className="w-full flex items-center gap-2 px-4 py-2 text-xs text-red-500 hover:bg-red-500/10 transition-colors cursor-pointer text-left"
                       >
-                        <LogOut className="w-4 h-4" />
+                        <LogOut className="w-3.5 h-3.5" />
                         <span>Sign Out</span>
                       </button>
                     </div>
@@ -284,105 +310,48 @@ export function Header() {
             </div>
           )}
 
-          {/* Mobile Menu Toggle */}
+          {/* Mobile Menu Button */}
           <button
             type="button"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 text-[#121212] hover:bg-[#efeeeb] rounded-lg transition-colors cursor-pointer"
+            className="lg:hidden p-2 text-foreground border border-rule hover:border-foreground/30 transition-colors"
             aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
-            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {isMobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </button>
         </div>
 
       </div>
 
-      {/* Mobile Menu Panel */}
+      {/* Mobile Drawer */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden bg-[#ffffff] border-b border-[#e7e6e1] p-5 shadow-lg flex flex-col gap-4 animate-in fade-in duration-150">
-          <nav className="flex flex-col gap-1 text-sm font-medium">
-            <Link
-              to="/courses"
-              className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
-            >
-              All Courses
-            </Link>
-            <Link
-              to="/courses?search=Degree"
-              className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
-            >
-              Degrees &amp; MicroMasters
-            </Link>
-            <Link
-              to="/courses?search=Certificate"
-              className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
-            >
-              Professional Certificates
-            </Link>
-            <a
-              href="/#enterprise-section"
-              className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb] transition-colors"
-            >
-              Lumina for Enterprise
-            </a>
-
-            {isAuthenticated && user?.role === 'STUDENT' && (
-              <>
-                <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
-                  Scholar Dashboard
-                </Link>
-                <Link to="/learn" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
-                  My Learning
-                </Link>
-              </>
-            )}
-
-            {isAuthenticated && user?.role === 'INSTRUCTOR' && (
-              <>
-                <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
-                  Instructor Dashboard
-                </Link>
-                <Link to="/instructor/courses" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
-                  My Courses
-                </Link>
-              </>
-            )}
-
-            {isAuthenticated && user?.role === 'ADMIN' && (
-              <>
-                <Link to="/dashboard" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
-                  Admin Dashboard
-                </Link>
-                <Link to="/admin/courses" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
-                  Course Moderation
-                </Link>
-                <Link to="/admin/instructors" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
-                  Instructor Applications
-                </Link>
-              </>
-            )}
-
-            {isAuthenticated && (
-              <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className="px-3 py-2 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#efeeeb]">
-                Profile Settings
-              </Link>
-            )}
-          </nav>
-
-          <div className="pt-3 border-t border-[#e7e6e1] flex flex-col gap-2.5">
+        <div className="lg:hidden border-t border-rule bg-canvas px-4 py-4 flex flex-col gap-2">
+          <Link to="/courses" className="text-sm py-2 px-3 text-foreground hover:bg-wash">
+            All Courses
+          </Link>
+          <Link to="/courses?search=Certificate" className="text-sm py-2 px-3 text-foreground hover:bg-wash">
+            Certificates
+          </Link>
+          <a href="/#capabilities" className="text-sm py-2 px-3 text-muted hover:text-foreground">
+            Capabilities
+          </a>
+          <a href="/#voices" className="text-sm py-2 px-3 text-muted hover:text-foreground">
+            Voices
+          </a>
+          <a href="/#reassurance" className="text-sm py-2 px-3 text-muted hover:text-foreground">
+            Standards
+          </a>
+          <a href="/#faq" className="text-sm py-2 px-3 text-muted hover:text-foreground">
+            FAQ
+          </a>
+          <div className="pt-3 border-t border-rule flex flex-col gap-2">
             {!isAuthenticated ? (
               <>
-                <Link
-                  to="/login"
-                  className="w-full h-10 border border-[#e7e6e1] bg-[#f8f8f6] hover:bg-[#efeeeb] text-[#121212] text-sm font-medium rounded-lg flex items-center justify-center transition-colors"
-                >
-                  Log In
+                <Link to="/login" className="w-full py-2.5 text-center text-xs font-mono uppercase tracking-wider border border-rule text-foreground hover:bg-wash">
+                  Sign In
                 </Link>
-                <Link
-                  to="/register"
-                  className="w-full h-10 bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] text-sm font-medium rounded-lg flex items-center justify-center transition-colors shadow-sm"
-                >
-                  Join for Free
+                <Link to="/register" className="w-full py-2.5 text-center text-xs font-mono uppercase tracking-wider bg-action-bg text-action-text hover:bg-ember hover:text-white transition-colors">
+                  Get Started
                 </Link>
               </>
             ) : (
@@ -392,7 +361,7 @@ export function Header() {
                   logout();
                   setIsMobileMenuOpen(false);
                 }}
-                className="w-full h-10 bg-[#efeeeb] text-[#c24141] hover:bg-[#e7e6e1] text-sm font-medium rounded-lg flex items-center justify-center transition-colors cursor-pointer"
+                className="w-full py-2 text-center text-xs text-red-500 hover:bg-red-500/10"
               >
                 Sign Out
               </button>
@@ -405,155 +374,200 @@ export function Header() {
 }
 
 /**
- * 10. Comprehensive Academic Footer (5-column directory style from Stitch DESIGN.md)
- * - Canvas: Obsidian (#000000)
- * - Text: Bone Parchment (#f8f8f6) and Ashen (#7b7974)
+ * Superset Directory Footer:
+ * - 80px vertical padding, border-top hairline
+ * - Asymmetric brand block + 4 directory link columns with 64px gaps
+ * - IBM Plex Mono status indicator and circular trust mark
  */
 export function Footer() {
   return (
-    <footer className="w-full bg-[#000000] text-[#f8f8f6] pt-14 pb-10 border-t border-[#121212]">
-      <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="w-full bg-canvas text-foreground border-t border-rule py-20 transition-colors duration-150">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
         
-        {/* Clean 4-Column Directory Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-[#373734]/40">
+        {/* Main Directory Split */}
+        <div className="flex flex-col lg:flex-row justify-between gap-12 lg:gap-16 pb-16 border-b border-rule">
           
-          {/* Col 1: Brand & Mission */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-7 h-7 rounded-md bg-[#1c1b1b] border border-[#373734] flex items-center justify-center font-heading text-sm font-semibold text-[#f8f8f6]">
-                L
+          {/* Left Brand Area */}
+          <div className="max-w-[360px] space-y-5 shrink-0">
+            <Link to="/" className="inline-flex items-center gap-2.5 group">
+              <div className="w-7 h-7 bg-foreground text-canvas flex items-center justify-center font-mono text-xs font-bold">
+                <span>E</span>
               </div>
-              <span className="font-medium tracking-tight text-sm text-[#f8f8f6]">
-                LUMINA <span className="text-[10px] font-mono text-[#9c9a92] px-1.5 py-0.5 rounded bg-[#1c1b1b] border border-[#373734]">LEARNING</span>
+              <span className="font-sans text-[18px] font-medium tracking-[-0.025em] text-foreground">
+                Edunet
               </span>
-            </div>
-            <p className="text-[13px] text-[#7b7974] leading-relaxed">
-              An academic-grade online learning environment designed for deep technical mastery, practical problem-solving, and continuous learning.
+            </Link>
+            
+            <p className="text-[14px] text-muted leading-relaxed font-sans">
+              Developer-minded e-learning platform with stage lighting and interactive worktrees. Master full-stack software development, distributed systems, and AI through real working sandbox states.
             </p>
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#1c1b1b] border border-[#373734] text-[11px] font-mono text-[#9c9a92]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#3c8254]"></span>
-              <span>Platform Operational</span>
+
+            <div className="inline-flex items-center gap-2.5 px-3 py-1.5 border border-rule bg-wash text-[12px] font-mono text-muted">
+              <span className="w-1.5 h-1.5 bg-ember" />
+              <span>STAGE RUNTIME: ACTIVE // ZERO RUNTIME ERRORS</span>
             </div>
+
+            {/* Social & Utility Links */}
+            <div className="flex items-center gap-3 pt-2">
+              <a href="https://github.com" target="_blank" rel="noreferrer" className="w-8 h-8 border border-rule flex items-center justify-center text-muted hover:text-foreground hover:border-ember transition-colors" aria-label="GitHub">
+                <Globe className="w-4 h-4" />
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noreferrer" className="w-8 h-8 border border-rule flex items-center justify-center text-muted hover:text-foreground hover:border-ember transition-colors" aria-label="Twitter">
+                <Share2 className="w-4 h-4" />
+              </a>
+              <a href="/courses" className="w-8 h-8 border border-rule flex items-center justify-center text-muted hover:text-foreground hover:border-ember transition-colors" aria-label="Terminal">
+                <Terminal className="w-4 h-4" />
+              </a>
+            </div>
+
           </div>
 
-          {/* Col 2: Explore Catalog */}
-          <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-wider text-[#9c9a92] mb-4">
-              Explore Courses
-            </h4>
-            <ul className="space-y-2.5 text-[13px] text-[#7b7974]">
-              <li>
-                <Link to="/courses" className="hover:text-[#f8f8f6] transition-colors">
-                  All Courses Catalog
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses?search=Computer" className="hover:text-[#f8f8f6] transition-colors">
-                  Computer Science &amp; Systems
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses?search=AI" className="hover:text-[#f8f8f6] transition-colors">
-                  Artificial Intelligence &amp; ML
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses?search=Architecture" className="hover:text-[#f8f8f6] transition-colors">
-                  Distributed System Architecture
-                </Link>
-              </li>
-              <li>
-                <Link to="/courses?search=Development" className="hover:text-[#f8f8f6] transition-colors">
-                  Full-Stack &amp; Cloud Engineering
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Right: Four Directory Columns (64px gaps) */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-16">
+            
+            <div>
+              <h4 className="font-sans font-medium text-[14px] text-foreground mb-4">
+                Curriculums
+              </h4>
+              <ul className="space-y-3 text-[14px]">
+                <li>
+                  <Link to="/courses" className="text-muted hover:text-foreground transition-colors">
+                    All Courses
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/courses?search=Development" className="text-muted hover:text-foreground transition-colors">
+                    Full-Stack Systems
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/courses?search=AI" className="text-muted hover:text-foreground transition-colors">
+                    Artificial Intelligence
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/courses?search=Distributed" className="text-muted hover:text-foreground transition-colors">
+                    Distributed Consensus
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/courses?search=Certificate" className="text-muted hover:text-foreground transition-colors">
+                    Verified Certificates
+                  </Link>
+                </li>
+              </ul>
+            </div>
 
-          {/* Col 3: Student & Instructor Hub */}
-          <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-wider text-[#9c9a92] mb-4">
-              Learning Hub
-            </h4>
-            <ul className="space-y-2.5 text-[13px] text-[#7b7974]">
-              <li>
-                <Link to="/learn" className="hover:text-[#f8f8f6] transition-colors">
-                  Student Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link to="/profile" className="hover:text-[#f8f8f6] transition-colors">
-                  Account &amp; Learning Profile
-                </Link>
-              </li>
-              <li>
-                <Link to="/instructor/courses" className="hover:text-[#f8f8f6] transition-colors">
-                  Instructor Studio
-                </Link>
-              </li>
-              <li>
-                <a href="/#enterprise-section" className="hover:text-[#f8f8f6] transition-colors">
-                  Curriculum Syllabus Guide
-                </a>
-              </li>
-              <li>
-                <Link to="/about" className="hover:text-[#f8f8f6] transition-colors">
-                  Accreditation &amp; Standards
-                </Link>
-              </li>
-            </ul>
-          </div>
+            <div>
+              <h4 className="font-sans font-medium text-[14px] text-foreground mb-4">
+                Workspace
+              </h4>
+              <ul className="space-y-3 text-[14px]">
+                <li>
+                  <Link to="/learn" className="text-muted hover:text-foreground transition-colors">
+                    Terminal Sandbox
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/dashboard" className="text-muted hover:text-foreground transition-colors">
+                    Progress Matrix
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/instructor/courses" className="text-muted hover:text-foreground transition-colors">
+                    Instructor Studio
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/profile" className="text-muted hover:text-foreground transition-colors">
+                    Account Profile
+                  </Link>
+                </li>
+                <li>
+                  <a href="/#faq" className="text-muted hover:text-foreground transition-colors">
+                    Documentation
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-          {/* Col 4: Platform & Support */}
-          <div>
-            <h4 className="font-mono text-[11px] uppercase tracking-wider text-[#9c9a92] mb-4">
-              Platform &amp; Legal
-            </h4>
-            <ul className="space-y-2.5 text-[13px] text-[#7b7974]">
-              <li>
-                <Link to="/about" className="hover:text-[#f8f8f6] transition-colors">
-                  About Lumina Platform
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacy" className="hover:text-[#f8f8f6] transition-colors">
-                  Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/terms" className="hover:text-[#f8f8f6] transition-colors">
-                  Terms of Service &amp; Honor Code
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="hover:text-[#f8f8f6] transition-colors">
-                  Contact &amp; Student Inquiries
-                </Link>
-              </li>
-              <li>
-                <a href="/#faq" className="hover:text-[#f8f8f6] transition-colors">
-                  Curriculum FAQ
-                </a>
-              </li>
-            </ul>
+            <div>
+              <h4 className="font-sans font-medium text-[14px] text-foreground mb-4">
+                Architecture
+              </h4>
+              <ul className="space-y-3 text-[14px]">
+                <li>
+                  <a href="/#capabilities" className="text-muted hover:text-foreground transition-colors">
+                    Worktree Isolation
+                  </a>
+                </li>
+                <li>
+                  <a href="/#capabilities" className="text-muted hover:text-foreground transition-colors">
+                    Automated Quizzes
+                  </a>
+                </li>
+                <li>
+                  <a href="/#reassurance" className="text-muted hover:text-foreground transition-colors">
+                    Verifiable Credentials
+                  </a>
+                </li>
+                <li>
+                  <a href="/#voices" className="text-muted hover:text-foreground transition-colors">
+                    Voices &amp; Reviews
+                  </a>
+                </li>
+                <li>
+                  <Link to="/about" className="text-muted hover:text-foreground transition-colors">
+                    Faculty Standards
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-sans font-medium text-[14px] text-foreground mb-4">
+                Organization
+              </h4>
+              <ul className="space-y-3 text-[14px]">
+                <li>
+                  <Link to="/about" className="text-muted hover:text-foreground transition-colors">
+                    About Edunet
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/privacy" className="text-muted hover:text-foreground transition-colors">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/terms" className="text-muted hover:text-foreground transition-colors">
+                    Terms &amp; Security
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/contact" className="text-muted hover:text-foreground transition-colors">
+                    System Status &amp; Help
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
           </div>
 
         </div>
 
-        {/* Bottom Attribution & Legal */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[#7b7974] text-[12px]">
+        {/* Lower Row: Inter 400 · 14px/20px */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-[14px] text-muted">
           <div className="flex items-center gap-3">
-            <div className="w-5 h-5 rounded-full bg-[#f8f8f6] text-[#121212] flex items-center justify-center font-heading text-[10px] font-bold">
-              L
-            </div>
-            <span>© 2026 Lumina Learning Platform Inc. All rights reserved.</span>
+            <span className="font-mono text-xs text-ember font-medium">SYS-2026</span>
+            <span>© 2026 Edunet Technologies Inc. All rights reserved.</span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-5">
-            <Link to="/privacy" className="hover:text-[#f8f8f6] transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="hover:text-[#f8f8f6] transition-colors">Terms of Service</Link>
-            <Link to="/about" className="hover:text-[#f8f8f6] transition-colors">About</Link>
-            <Link to="/contact" className="hover:text-[#f8f8f6] transition-colors">Support</Link>
+          <div className="flex flex-wrap items-center gap-6">
+            <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
+            <Link to="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
+            <Link to="/about" className="hover:text-foreground transition-colors">Accreditation</Link>
+            <Link to="/contact" className="hover:text-foreground transition-colors">Support</Link>
           </div>
         </div>
 
