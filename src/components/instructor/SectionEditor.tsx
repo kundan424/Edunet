@@ -104,15 +104,15 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
   const totalMinutes = Math.round(totalDurationSecs / 60) || (lessons.length * 15);
 
   return (
-    <article className="bg-[#ffffff] rounded-2xl shadow-xs border border-[#e7e6e1] overflow-hidden transition-all">
+    <article className="bg-card rounded-[10px] shadow-xs border border-rule overflow-hidden transition-all">
       {/* ── Section Header ── */}
-      <div className="p-4 sm:px-6 flex items-center justify-between gap-4 bg-[#ffffff]">
+      <div className="p-4 sm:px-6 flex items-center justify-between gap-4 bg-card">
         <div className="flex items-center gap-3 flex-1 min-w-0">
-          <span className="material-symbols-outlined text-[#9c9a92] cursor-grab hover:text-[#121212] select-none" title="Drag to reorder section">
+          <span className="material-symbols-outlined text-muted cursor-grab hover:text-foreground select-none" title="Drag to reorder section">
             <GripVertical className="w-4 h-4" />
           </span>
 
-          <div className="w-7 h-7 rounded-full bg-[#efeeeb] text-[#373734] flex items-center justify-center font-mono text-xs font-semibold shrink-0">
+          <div className="w-7 h-7 rounded-full bg-wash text-muted flex items-center justify-center font-mono text-xs font-semibold shrink-0">
             {index + 1}
           </div>
 
@@ -124,34 +124,34 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
                   required
                   value={editTitle}
                   onChange={e => setEditTitle(e.target.value)}
-                  className="px-2.5 py-1 text-sm font-body border border-[#121212] rounded bg-[#f8f8f6] focus:outline-none w-full"
+                  className="px-2.5 py-1 text-sm font-body border border-rule rounded bg-wash focus:outline-none w-full"
                   autoFocus
                 />
                 <button 
                   type="submit" 
                   disabled={updateSection.isPending}
-                  className="p-1 rounded bg-[#121212] text-[#f8f8f6] hover:bg-black"
+                  className="p-1 rounded bg-card text-[#f8f8f6] hover:bg-black"
                 >
                   <Check className="w-3.5 h-3.5" />
                 </button>
                 <button 
                   type="button" 
                   onClick={() => { setIsEditing(false); setEditTitle(section.title); }}
-                  className="p-1 rounded bg-[#efeeeb] text-[#7b7974] hover:text-[#121212]"
+                  className="p-1 rounded bg-wash text-muted hover:text-foreground"
                 >
                   <X className="w-3.5 h-3.5" />
                 </button>
               </form>
             ) : (
               <div className="flex items-center gap-2">
-                <h2 className="font-heading text-lg sm:text-xl text-[#121212] truncate font-normal">
+                <h2 className="font-sans text-lg sm:text-xl text-foreground truncate font-normal">
                   {section.title}
                 </h2>
                 {isEditable && (
                   <button
                     type="button"
                     onClick={() => setIsEditing(true)}
-                    className="text-[#9c9a92] hover:text-[#121212] p-1 rounded transition-colors"
+                    className="text-muted hover:text-foreground p-1 rounded transition-colors"
                     title="Edit section title"
                   >
                     <Edit2 className="w-3 h-3" />
@@ -160,12 +160,12 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
               </div>
             )}
 
-            <div className="flex items-center gap-2 font-mono text-[11px] text-[#7b7974] pt-0.5">
+            <div className="flex items-center gap-2 font-mono text-[11px] text-muted pt-0.5">
               <span>{lessons.length} {lessons.length === 1 ? 'Lesson' : 'Lessons'}</span>
               <span>•</span>
               <span>~{totalMinutes} min</span>
               <span>•</span>
-              <span className="text-[#9c9a92]">Section {index + 1}</span>
+              <span className="text-muted">Section {index + 1}</span>
             </div>
           </div>
         </div>
@@ -177,7 +177,7 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
               type="button"
               onClick={handleDelete}
               disabled={deleteSection.isPending}
-              className="text-[#9c9a92] hover:text-[#ba1a1a] p-2 rounded-lg hover:bg-[#ffdad6]/40 transition-colors cursor-pointer"
+              className="text-muted hover:text-[#ba1a1a] p-2 rounded-lg hover:bg-[#ffdad6]/40 transition-colors cursor-pointer"
               title="Delete section"
             >
               <Trash2 className="w-4 h-4" />
@@ -187,7 +187,7 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
           <button
             type="button"
             onClick={() => setIsExpanded(!isExpanded)}
-            className="p-2 rounded-lg bg-[#efeeeb] text-[#121212] hover:bg-[#e7e6e1] transition-colors cursor-pointer"
+            className="p-2 rounded-lg bg-wash text-foreground hover:bg-[#e7e6e1] transition-colors cursor-pointer"
             title={isExpanded ? 'Collapse section' : 'Expand section'}
           >
             {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -199,13 +199,13 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
       {isExpanded && (
         <div className="px-4 sm:px-6 pb-6 flex flex-col gap-3">
           {lessons.length === 0 && !isAddingLesson && (
-            <div className="p-6 rounded-xl border border-dashed border-[#e7e6e1] text-center flex flex-col items-center justify-center gap-2 bg-[#f8f8f6]">
-              <span className="font-body text-xs text-[#7b7974]">No lessons added to this module yet.</span>
+            <div className="p-6 rounded-[10px] border border-dashed border-rule text-center flex flex-col items-center justify-center gap-2 bg-wash">
+              <span className="font-body text-xs text-muted">No lessons added to this module yet.</span>
               {isEditable && (
                 <button
                   type="button"
                   onClick={() => setIsAddingLesson(true)}
-                  className="px-3 py-1.5 rounded-lg bg-[#121212] text-[#f8f8f6] hover:bg-black font-body text-xs font-medium shadow-xs transition-all cursor-pointer"
+                  className="px-3 py-1.5 rounded-lg bg-card text-[#f8f8f6] hover:bg-black font-body text-xs font-medium shadow-xs transition-all cursor-pointer"
                 >
                   + Add First Lesson
                 </button>
@@ -226,12 +226,12 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
 
           {/* ── Inline "Add Lesson to Section" Form ── */}
           {isAddingLesson && isEditable ? (
-            <div className="mt-2 bg-[#f8f8f6] rounded-xl p-4 sm:p-5 border border-[#e7e6e1] flex flex-col gap-4">
+            <div className="mt-2 bg-wash rounded-[10px] p-4 sm:p-5 border border-rule flex flex-col gap-4">
               <div className="flex items-center justify-between">
-                <span className="font-heading text-base sm:text-lg text-[#121212] font-normal">
+                <span className="font-sans text-base sm:text-lg text-foreground font-normal">
                   Add Lesson to Section {index + 1}
                 </span>
-                <span className="font-mono text-[11px] text-[#9c9a92]">
+                <span className="font-mono text-[11px] text-muted">
                   Position {lessons.length + 1}
                 </span>
               </div>
@@ -239,7 +239,7 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
               <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5">
                 {/* Title Input */}
                 <div className="md:col-span-8 flex flex-col gap-1.5">
-                  <label className="text-[11px] font-mono uppercase tracking-wider text-[#373734] font-semibold">
+                  <label className="text-[11px] font-mono uppercase tracking-wider text-muted font-semibold">
                     Lesson Title *
                   </label>
                   <input
@@ -248,14 +248,14 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
                     value={newLessonTitle}
                     onChange={e => setNewLessonTitle(e.target.value)}
                     placeholder="e.g., Lesson 2.4: Benchmarking Rollout Latencies across Ray Clusters"
-                    className="w-full px-3 py-2 rounded-lg bg-[#ffffff] text-[#121212] text-xs font-body border border-[#e7e6e1] focus:outline-none focus:border-[#121212]"
+                    className="w-full px-3 py-2 rounded-lg bg-card text-foreground text-xs font-body border border-rule focus:outline-none focus:border-rule"
                     autoFocus
                   />
                 </div>
 
                 {/* Duration Estimator */}
                 <div className="md:col-span-4 flex flex-col gap-1.5">
-                  <label className="text-[11px] font-mono uppercase tracking-wider text-[#373734] font-semibold">
+                  <label className="text-[11px] font-mono uppercase tracking-wider text-muted font-semibold">
                     Estimated Duration
                   </label>
                   <input
@@ -263,13 +263,13 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
                     value={newLessonDuration}
                     onChange={e => setNewLessonDuration(e.target.value)}
                     placeholder="e.g., 25 minutes"
-                    className="w-full px-3 py-2 rounded-lg bg-[#ffffff] text-[#121212] text-xs font-body border border-[#e7e6e1] focus:outline-none focus:border-[#121212]"
+                    className="w-full px-3 py-2 rounded-lg bg-card text-foreground text-xs font-body border border-rule focus:outline-none focus:border-rule"
                   />
                 </div>
 
                 {/* Lesson Modality Selector Pills */}
                 <div className="md:col-span-12 flex flex-col gap-2 pt-1">
-                  <label className="text-[11px] font-mono uppercase tracking-wider text-[#373734] font-semibold">
+                  <label className="text-[11px] font-mono uppercase tracking-wider text-muted font-semibold">
                     Lesson Modality
                   </label>
                   <div className="flex items-center gap-2 flex-wrap">
@@ -278,8 +278,8 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
                       onClick={() => setNewLessonType('VIDEO')}
                       className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all ${
                         newLessonType === 'VIDEO'
-                          ? 'bg-[#121212] text-[#f8f8f6] shadow-xs'
-                          : 'bg-[#ffffff] hover:bg-[#efeeeb] text-[#373734] border border-[#e7e6e1]'
+                          ? 'bg-card text-[#f8f8f6] shadow-xs'
+                          : 'bg-card hover:bg-wash text-muted border border-rule'
                       }`}
                     >
                       <Play className="w-3.5 h-3.5" />
@@ -291,8 +291,8 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
                       onClick={() => setNewLessonType('TEXT')}
                       className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all ${
                         newLessonType === 'TEXT'
-                          ? 'bg-[#121212] text-[#f8f8f6] shadow-xs'
-                          : 'bg-[#ffffff] hover:bg-[#efeeeb] text-[#373734] border border-[#e7e6e1]'
+                          ? 'bg-card text-[#f8f8f6] shadow-xs'
+                          : 'bg-card hover:bg-wash text-muted border border-rule'
                       }`}
                     >
                       <FileText className="w-3.5 h-3.5" />
@@ -304,8 +304,8 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
                       onClick={() => setNewLessonType('QUIZ')}
                       className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all ${
                         newLessonType === 'QUIZ'
-                          ? 'bg-[#121212] text-[#f8f8f6] shadow-xs'
-                          : 'bg-[#ffffff] hover:bg-[#efeeeb] text-[#373734] border border-[#e7e6e1]'
+                          ? 'bg-card text-[#f8f8f6] shadow-xs'
+                          : 'bg-card hover:bg-wash text-muted border border-rule'
                       }`}
                     >
                       <HelpCircle className="w-3.5 h-3.5" />
@@ -317,8 +317,8 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
                       onClick={() => setNewLessonType('RESOURCE')}
                       className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all ${
                         newLessonType === 'RESOURCE'
-                          ? 'bg-[#121212] text-[#f8f8f6] shadow-xs'
-                          : 'bg-[#ffffff] hover:bg-[#efeeeb] text-[#373734] border border-[#e7e6e1]'
+                          ? 'bg-card text-[#f8f8f6] shadow-xs'
+                          : 'bg-card hover:bg-wash text-muted border border-rule'
                       }`}
                     >
                       <Paperclip className="w-3.5 h-3.5" />
@@ -330,8 +330,8 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
                       onClick={() => setNewLessonType('ASSIGNMENT')}
                       className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium cursor-pointer transition-all ${
                         newLessonType === 'ASSIGNMENT'
-                          ? 'bg-[#121212] text-[#f8f8f6] shadow-xs'
-                          : 'bg-[#ffffff] hover:bg-[#efeeeb] text-[#373734] border border-[#e7e6e1]'
+                          ? 'bg-card text-[#f8f8f6] shadow-xs'
+                          : 'bg-card hover:bg-wash text-muted border border-rule'
                       }`}
                     >
                       <Award className="w-3.5 h-3.5" />
@@ -342,11 +342,11 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
               </div>
 
               {/* Action Buttons for Adding Lesson */}
-              <div className="flex items-center justify-end gap-2 pt-2 border-t border-[#e7e6e1]">
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-rule">
                 <button
                   type="button"
                   onClick={() => setIsAddingLesson(false)}
-                  className="px-3.5 py-1.5 rounded-lg text-xs font-medium text-[#7b7974] hover:bg-[#efeeeb] transition-colors cursor-pointer"
+                  className="px-3.5 py-1.5 rounded-lg text-xs font-medium text-muted hover:bg-wash transition-colors cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -354,7 +354,7 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
                   type="button"
                   onClick={handleAddLesson}
                   disabled={createLesson.isPending || !newLessonTitle.trim()}
-                  className="px-4 py-1.5 rounded-lg bg-[#d97757] hover:bg-[#c26243] text-[#ffffff] font-body text-xs font-medium transition-all shadow-xs cursor-pointer disabled:opacity-50"
+                  className="px-4 py-1.5 rounded-lg bg-ember hover:bg-[#c26243] text-[#ffffff] font-body text-xs font-medium transition-all shadow-xs cursor-pointer disabled:opacity-50"
                 >
                   {createLesson.isPending ? 'Adding Lesson...' : `Add Lesson to Section ${index + 1}`}
                 </button>
@@ -365,7 +365,7 @@ export function SectionEditor({ courseId, sectionData, isEditable, index, forceE
               <button
                 type="button"
                 onClick={() => setIsAddingLesson(true)}
-                className="mt-1 w-full py-2.5 rounded-xl border border-dashed border-[#e7e6e1] hover:border-[#121212] hover:bg-[#f8f8f6] text-xs font-medium text-[#7b7974] hover:text-[#121212] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                className="mt-1 w-full py-2.5 rounded-[10px] border border-dashed border-rule hover:border-rule hover:bg-wash text-xs font-medium text-muted hover:text-foreground transition-all flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Add Lesson to Section {index + 1}</span>

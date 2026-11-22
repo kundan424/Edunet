@@ -115,33 +115,33 @@ export function InstructorCourses() {
   return (
     <div className="flex flex-col w-full max-w-[1200px] mx-auto pb-12">
       {/* ── 1. Sub-Navigation ── */}
-      <div className="w-full bg-[#ffffff]/70 backdrop-blur-sm rounded-xl px-4 py-1.5 mb-8 border border-[#e7e6e1] shadow-xs">
+      <div className="w-full bg-card rounded-[10px] px-4 py-1.5 mb-8 border border-rule shadow-none">
         <div className="flex items-center gap-6 overflow-x-auto">
           <Link 
             to="/instructor" 
-            className="py-2.5 text-xs sm:text-sm font-medium text-[#7b7974] hover:text-[#121212] transition-colors flex items-center gap-2 whitespace-nowrap"
+            className="py-2.5 text-xs sm:text-sm font-medium text-muted hover:text-foreground transition-colors flex items-center gap-2 whitespace-nowrap"
           >
             <LayoutDashboard className="w-4 h-4" />
             <span>Dashboard</span>
           </Link>
           <Link 
             to="/instructor/courses" 
-            className="py-2.5 text-xs sm:text-sm font-medium text-[#121212] relative flex items-center gap-2 whitespace-nowrap"
+            className="py-2.5 text-xs sm:text-sm font-medium text-ember relative flex items-center gap-2 whitespace-nowrap"
           >
-            <BookOpen className="w-4 h-4 text-[#d97757]" />
+            <BookOpen className="w-4 h-4 text-ember" />
             <span>Courses</span>
-            <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#121212] rounded-full" />
+            <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-ember rounded-full" />
           </Link>
           <Link 
             to="/instructor/profile" 
-            className="py-2.5 text-xs sm:text-sm font-medium text-[#7b7974] hover:text-[#121212] transition-colors flex items-center gap-2 whitespace-nowrap"
+            className="py-2.5 text-xs sm:text-sm font-medium text-muted hover:text-foreground transition-colors flex items-center gap-2 whitespace-nowrap"
           >
             <User className="w-4 h-4" />
             <span>Profile &amp; Bio</span>
           </Link>
-          <div className="ml-auto hidden md:flex items-center gap-2 text-xs font-mono text-[#7b7974]">
-            <span className="inline-block w-2 h-2 rounded-full bg-[#d97757]" />
-            <span>Instructor Studio • Lumina Learning</span>
+          <div className="ml-auto hidden md:flex items-center gap-2 text-xs font-mono text-muted">
+            <span className="inline-block w-2 h-2 rounded-full bg-ember" />
+            <span>Instructor Studio • Edunet</span>
           </div>
         </div>
       </div>
@@ -149,15 +149,15 @@ export function InstructorCourses() {
       {/* ── 2. Header Bar: Title, Context, CTAs ── */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
         <div className="flex flex-col gap-1.5">
-          <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-[#7b7974]">
+          <div className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-muted">
             <span>Instructor Studio</span>
             <span>/</span>
-            <span className="text-[#d97757] font-medium">Courses</span>
+            <span className="text-ember font-semibold">Courses</span>
           </div>
-          <h1 className="font-heading text-3xl sm:text-4xl text-[#121212] tracking-tight font-normal">
+          <h1 className="font-sans text-3xl sm:text-4xl text-foreground tracking-tight font-bold">
             My Courses
           </h1>
-          <p className="font-body text-xs sm:text-sm text-[#7b7974] max-w-xl leading-relaxed">
+          <p className="font-sans text-xs sm:text-sm text-muted max-w-xl leading-relaxed">
             Manage your courses, view student enrollments, and track course ratings.
           </p>
         </div>
@@ -167,32 +167,32 @@ export function InstructorCourses() {
           <button 
             type="button"
             onClick={handleExportMetrics}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-[#efeeeb] text-[#373734] hover:text-[#121212] hover:bg-[#e7e6e1] transition-all font-body text-xs sm:text-sm font-medium border border-[#e7e6e1] cursor-pointer shadow-xs"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-card text-foreground hover:bg-canvas transition-colors font-sans text-xs sm:text-sm font-medium border border-rule cursor-pointer shadow-none"
           >
-            <Download className="w-4 h-4 text-[#7b7974]" />
+            <Download className="w-4 h-4 text-muted" />
             <span>Export Metrics</span>
           </button>
           <button 
             type="button"
             onClick={() => navigate('/instructor/courses/create')}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#121212] text-[#f8f8f6] hover:bg-black transition-all shadow-sm font-body text-xs sm:text-sm font-medium cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-ember text-white hover:bg-ember/90 transition-colors shadow-none font-sans text-xs sm:text-sm font-medium cursor-pointer"
           >
-            <Plus className="w-4 h-4 text-[#d97757]" />
+            <Plus className="w-4 h-4 text-white" />
             <span>Create Course</span>
           </button>
         </div>
       </div>
 
       {/* ── 3. Filter & Sorting Bar ── */}
-      <div className="bg-[#ffffff] p-2 sm:p-2.5 rounded-xl mb-8 border border-[#e7e6e1] shadow-xs flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-card p-2 sm:p-2.5 rounded-[10px] mb-8 border border-rule shadow-none flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0">
           <button 
             type="button"
             onClick={() => setActiveFilter('ALL')}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer whitespace-nowrap ${
               activeFilter === 'ALL'
-                ? 'bg-[#efeeeb] text-[#121212] font-semibold'
-                : 'text-[#7b7974] hover:text-[#121212] hover:bg-[#efeeeb]/60'
+                ? 'bg-wash text-ember font-semibold'
+                : 'text-muted hover:text-foreground hover:bg-canvas'
             }`}
           >
             All Courses ({counts.all})
@@ -202,8 +202,8 @@ export function InstructorCourses() {
             onClick={() => setActiveFilter('PUBLISHED')}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer whitespace-nowrap ${
               activeFilter === 'PUBLISHED'
-                ? 'bg-[#efeeeb] text-[#121212] font-semibold'
-                : 'text-[#7b7974] hover:text-[#121212] hover:bg-[#efeeeb]/60'
+                ? 'bg-wash text-ember font-semibold'
+                : 'text-muted hover:text-foreground hover:bg-canvas'
             }`}
           >
             Published ({counts.published})
@@ -213,8 +213,8 @@ export function InstructorCourses() {
             onClick={() => setActiveFilter('DRAFT')}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer whitespace-nowrap ${
               activeFilter === 'DRAFT'
-                ? 'bg-[#efeeeb] text-[#121212] font-semibold'
-                : 'text-[#7b7974] hover:text-[#121212] hover:bg-[#efeeeb]/60'
+                ? 'bg-wash text-ember font-semibold'
+                : 'text-muted hover:text-foreground hover:bg-canvas'
             }`}
           >
             Drafts ({counts.draft})
@@ -224,8 +224,8 @@ export function InstructorCourses() {
             onClick={() => setActiveFilter('PENDING_APPROVAL')}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer whitespace-nowrap ${
               activeFilter === 'PENDING_APPROVAL'
-                ? 'bg-[#efeeeb] text-[#121212] font-semibold'
-                : 'text-[#7b7974] hover:text-[#121212] hover:bg-[#efeeeb]/60'
+                ? 'bg-wash text-ember font-semibold'
+                : 'text-muted hover:text-foreground hover:bg-canvas'
             }`}
           >
             Pending Review ({counts.pending})
@@ -235,8 +235,8 @@ export function InstructorCourses() {
             onClick={() => setActiveFilter('ARCHIVED')}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer whitespace-nowrap ${
               activeFilter === 'ARCHIVED'
-                ? 'bg-[#efeeeb] text-[#121212] font-semibold'
-                : 'text-[#7b7974] hover:text-[#121212] hover:bg-[#efeeeb]/60'
+                ? 'bg-wash text-ember font-semibold'
+                : 'text-muted hover:text-foreground hover:bg-canvas'
             }`}
           >
             Archived ({counts.archived})
@@ -248,15 +248,15 @@ export function InstructorCourses() {
           <button 
             type="button"
             onClick={() => setIsSortOpen(!isSortOpen)}
-            className="flex items-center gap-1.5 text-xs text-[#7b7974] hover:text-[#121212] cursor-pointer px-2 py-1"
+            className="flex items-center gap-1.5 text-xs text-muted hover:text-foreground cursor-pointer px-2 py-1"
           >
             <span className="font-mono text-[11px]">Sort:</span>
-            <span className="text-[#121212] font-medium">{sortLabels[sortBy]}</span>
+            <span className="text-foreground font-medium">{sortLabels[sortBy]}</span>
             <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isSortOpen ? 'rotate-180' : ''}`} />
           </button>
 
           {isSortOpen && (
-            <div className="absolute right-0 top-full mt-1.5 w-56 bg-[#ffffff] rounded-xl border border-[#e7e6e1] shadow-lg p-1.5 z-30 flex flex-col gap-0.5">
+            <div className="absolute right-0 top-full mt-1.5 w-56 bg-card rounded-[10px] border border-rule shadow-lg p-1.5 z-30 flex flex-col gap-0.5">
               {(Object.keys(sortLabels) as Array<keyof typeof sortLabels>).map(key => (
                 <button
                   key={key}
@@ -266,7 +266,7 @@ export function InstructorCourses() {
                     setIsSortOpen(false);
                   }}
                   className={`text-left px-3 py-2 rounded-lg text-xs transition-colors cursor-pointer ${
-                    sortBy === key ? 'bg-[#efeeeb] text-[#121212] font-semibold' : 'text-[#7b7974] hover:bg-[#efeeeb]/50 hover:text-[#121212]'
+                    sortBy === key ? 'bg-wash text-ember font-semibold' : 'text-muted hover:bg-canvas hover:text-foreground'
                   }`}
                 >
                   {sortLabels[key]}
@@ -280,45 +280,44 @@ export function InstructorCourses() {
       {/* ── 4. Main Course Grid ── */}
       {courses.length === 0 ? (
         /* Dedicated Empty State Component */
-        <div className="w-full rounded-2xl bg-[#ffffff] p-8 sm:p-14 border border-[#e7e6e1] shadow-xs flex flex-col items-center justify-center text-center relative overflow-hidden mb-8">
-          <div className="w-20 h-20 rounded-full bg-[#efeeeb] flex items-center justify-center mb-5 relative border border-[#e7e6e1]">
-            <BookOpen className="w-9 h-9 text-[#121212]" />
-            <span className="absolute -top-1 -right-1 w-3.5 h-3.5 rounded-full bg-[#d97757] ring-4 ring-[#ffffff]" />
+        <div className="w-full rounded-[10px] bg-card p-8 sm:p-14 border border-rule shadow-none flex flex-col items-center justify-center text-center relative overflow-hidden mb-8">
+          <div className="w-16 h-16 rounded-[10px] bg-wash flex items-center justify-center mb-5 relative border border-rule">
+            <BookOpen className="w-8 h-8 text-ember" />
           </div>
-          <h3 className="font-heading text-2xl text-[#121212] mb-2 font-normal">
+          <h3 className="font-sans text-2xl font-bold text-foreground mb-2">
             No courses yet
           </h3>
-          <p className="font-body text-xs sm:text-sm text-[#7b7974] max-w-md mb-6 leading-relaxed">
-            Get started by creating your first course and sharing your expertise with students. Lumina provides collaborative seminar rooms, inline TeX rendering, and automated credential issuance.
+          <p className="font-sans text-xs sm:text-sm text-muted max-w-md mb-6 leading-relaxed">
+            Get started by creating your first course and sharing your expertise with students. Edunet provides video streaming, interactive quizzes, and automated credential issuance.
           </p>
           <div className="flex flex-col sm:flex-row items-center gap-3">
             <button 
               type="button"
               onClick={() => navigate('/instructor/courses/create')}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#121212] text-[#f8f8f6] hover:bg-black transition-all shadow-sm font-body text-xs sm:text-sm font-medium cursor-pointer"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-ember text-white hover:bg-ember/90 transition-colors shadow-none font-sans text-xs sm:text-sm font-medium cursor-pointer"
             >
-              <Plus className="w-4 h-4 text-[#d97757]" />
+              <Plus className="w-4 h-4 text-white" />
               <span>+ Create Your First Course</span>
             </button>
             <Link 
               to="/about"
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-[#efeeeb] hover:bg-[#e7e6e1] text-[#373734] transition-all font-body text-xs sm:text-sm font-medium border border-[#e7e6e1]"
+              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-card hover:bg-canvas text-foreground transition-colors font-sans text-xs sm:text-sm font-medium border border-rule shadow-none"
             >
-              <FileText className="w-4 h-4" />
+              <FileText className="w-4 h-4 text-muted" />
               <span>View Course Authoring Manual</span>
             </Link>
           </div>
-          <div className="mt-8 pt-6 border-t border-[#e7e6e1] flex flex-wrap items-center justify-center gap-6 text-[11px] font-mono text-[#7b7974]">
+          <div className="mt-8 pt-6 border-t border-rule flex flex-wrap items-center justify-center gap-6 text-[11px] font-mono text-muted">
             <span className="flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-[#3c8254]" />
+              <ShieldCheck className="w-4 h-4 text-[#16A34A]" />
               <span>Full IP Ownership</span>
             </span>
             <span className="flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4 text-[#d97757]" />
+              <Sparkles className="w-4 h-4 text-ember" />
               <span>95% Author Royalty</span>
             </span>
             <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-[#121212]" />
+              <CheckCircle2 className="w-4 h-4 text-ember" />
               <span>Continuous Peer Review</span>
             </span>
           </div>
@@ -338,22 +337,22 @@ export function InstructorCourses() {
           {/* Interactive Placeholder Slot: Draft a New Curriculum */}
           <div 
             onClick={() => navigate('/instructor/courses/create')}
-            className="rounded-2xl bg-[#ffffff]/60 hover:bg-[#ffffff] border border-dashed border-[#b7b7b5] hover:border-[#121212] transition-all p-7 flex flex-col items-center justify-center text-center cursor-pointer group shadow-xs hover:shadow-md min-h-[380px] relative overflow-hidden"
+            className="rounded-[10px] bg-card hover:bg-canvas border border-dashed border-rule hover:border-ember transition-all p-7 flex flex-col items-center justify-center text-center cursor-pointer group shadow-none min-h-[360px] relative overflow-hidden"
           >
-            <div className="w-14 h-14 rounded-full bg-[#efeeeb] group-hover:bg-[#e7e6e1] transition-colors flex items-center justify-center mb-4 shadow-xs border border-[#e7e6e1]">
-              <FilePlus className="w-7 h-7 text-[#d97757] group-hover:scale-110 transition-transform" />
+            <div className="w-14 h-14 rounded-[10px] bg-wash group-hover:bg-[#E0E7FF] transition-colors flex items-center justify-center mb-4 border border-rule">
+              <FilePlus className="w-7 h-7 text-ember" />
             </div>
-            <span className="font-heading text-xl text-[#121212] mb-1 font-medium">
+            <span className="font-sans text-lg font-bold text-foreground mb-1">
               Draft a New Curriculum
             </span>
-            <p className="font-body text-xs text-[#7b7974] max-w-xs mb-6 leading-relaxed">
+            <p className="font-sans text-xs text-muted max-w-xs mb-6 leading-relaxed">
               Assemble modular reading weeks, integrate terminal notebooks, and bind peer-reviewed seminar rubrics.
             </p>
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#121212] text-[#f8f8f6] group-hover:bg-black transition-colors font-body text-xs font-medium shadow-xs">
-              <Plus className="w-4 h-4 text-[#d97757]" />
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-ember text-white group-hover:bg-ember/90 transition-colors font-sans text-xs font-medium shadow-none">
+              <Plus className="w-4 h-4 text-white" />
               <span>Initiate Syllabus</span>
             </span>
-            <span className="absolute bottom-3 text-[10px] font-mono text-[#9c9a92]">
+            <span className="absolute bottom-3 text-[10px] font-mono text-muted">
               Takes ~5 minutes to configure fundamentals
             </span>
           </div>
@@ -377,10 +376,10 @@ function CourseRegistryCard({ course, index, onEdit, onPreview }: CourseRegistry
   const isArchived = course.publishStatus === 'ARCHIVED';
 
   return (
-    <article className="bg-[#ffffff] rounded-2xl overflow-hidden border border-[#e7e6e1] shadow-xs hover:shadow-md hover:border-[#121212]/30 transition-all flex flex-col justify-between group">
+    <article className="bg-card rounded-[10px] overflow-hidden border border-rule hover:border-ember/40 shadow-none transition-all flex flex-col justify-between group">
       <div>
         {/* 16:9 Thumbnail (Image or Vector Artwork) */}
-        <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#e8e8e6]">
+        <div className="relative aspect-[16/9] w-full overflow-hidden bg-canvas">
           {course.thumbnailUrl ? (
             <img 
               src={course.thumbnailUrl} 
@@ -391,7 +390,7 @@ function CourseRegistryCard({ course, index, onEdit, onPreview }: CourseRegistry
             <CourseVectorThumbnail course={course} index={index} />
           )}
 
-          {/* Floating Status Pill */}
+          {/* Status Pill */}
           <div className="absolute top-3 right-3 z-10">
             <StatusBadge status={course.publishStatus} />
           </div>
@@ -400,37 +399,37 @@ function CourseRegistryCard({ course, index, onEdit, onPreview }: CourseRegistry
         {/* Metadata Body */}
         <div className="p-5 flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <span className="px-2 py-0.5 rounded bg-[#efeeeb] text-[#373734] text-[10px] font-mono uppercase tracking-wider font-medium">
+            <span className="px-2.5 py-0.5 rounded-full bg-wash text-ember border border-rule text-[10px] font-mono uppercase tracking-wider font-semibold">
               {course.category || 'General Curriculum'}
             </span>
-            <span className="text-[10px] font-mono text-[#7b7974] font-medium uppercase tracking-widest">
+            <span className="text-[10px] font-mono text-muted font-medium uppercase tracking-widest">
               {course.difficulty || 'All Levels'}
             </span>
           </div>
 
-          <h2 className="font-heading text-[16px] font-semibold text-[#121212] leading-snug line-clamp-2 min-h-[44px] group-hover:text-[#d97757] transition-colors">
+          <h2 className="font-sans text-base font-semibold text-foreground leading-snug line-clamp-2 min-h-[44px] group-hover:text-ember transition-colors">
             {course.title}
           </h2>
 
-          <p className="font-body text-xs text-[#7b7974] line-clamp-1">
+          <p className="font-sans text-xs text-muted line-clamp-1">
             {course.description || 'Comprehensive course with video lectures, quizzes, and practical exercises.'}
           </p>
 
           {/* Metric Divider & Row */}
-          <div className="pt-2 bg-gradient-to-r from-transparent via-[#e7e6e1] to-transparent h-[1px]" />
+          <div className="pt-2 border-t border-rule" />
           <div className="flex items-center justify-between pt-1 text-xs">
-            <div className="flex items-center gap-3 text-[#7b7974] font-mono text-[11px]">
+            <div className="flex items-center gap-3 text-muted font-mono text-[11px]">
               <span className="flex items-center gap-1">
-                <Users className="w-3.5 h-3.5 text-[#7b7974]" />
+                <Users className="w-3.5 h-3.5 text-muted" />
                 <span>{(course.studentCount || 0).toLocaleString()} learners</span>
               </span>
-              <span className="flex items-center gap-0.5 text-[#121212] font-medium">
-                <Star className="w-3 h-3 text-[#d97757] fill-[#d97757]" />
+              <span className="flex items-center gap-0.5 text-foreground font-medium">
+                <Star className="w-3 h-3 text-ember fill-[#F59E0B]" />
                 <span>{course.rating ? course.rating.toFixed(1) : '5.0'}</span>
               </span>
             </div>
 
-            <span className="font-body font-semibold text-[#121212] text-xs">
+            <span className="font-sans font-semibold text-foreground text-xs">
               {course.price !== null && course.price !== undefined ? (course.price === 0 ? 'Free' : `$${course.price.toFixed(2)}`) : 'Free'}
             </span>
           </div>
@@ -438,30 +437,30 @@ function CourseRegistryCard({ course, index, onEdit, onPreview }: CourseRegistry
       </div>
 
       {/* Action Footer */}
-      <div className="p-3 bg-[#efeeeb]/70 border-t border-[#e7e6e1] flex items-center gap-2">
+      <div className="p-3 bg-canvas border-t border-rule flex items-center gap-2">
         <button 
           type="button"
           onClick={onEdit}
-          className="flex-1 py-2 px-3 rounded-lg bg-[#ffffff] text-[#121212] hover:bg-[#f8f8f6] transition-all flex items-center justify-center gap-1.5 border border-[#e7e6e1] shadow-xs text-xs font-medium cursor-pointer"
+          className="flex-1 py-2 px-3 rounded-lg bg-ember text-white hover:bg-ember/90 transition-colors flex items-center justify-center gap-1.5 shadow-none text-xs font-medium cursor-pointer"
         >
           {isDraft ? (
             <>
-              <Edit3 className="w-3.5 h-3.5 text-[#d97757]" />
+              <Edit3 className="w-3.5 h-3.5 text-white" />
               <span>Continue Draft</span>
             </>
           ) : isPending ? (
             <>
-              <Hourglass className="w-3.5 h-3.5 text-[#d97757]" />
+              <Hourglass className="w-3.5 h-3.5 text-white" />
               <span>View Review</span>
             </>
           ) : isArchived ? (
             <>
-              <RotateCcw className="w-3.5 h-3.5 text-[#7b7974]" />
+              <RotateCcw className="w-3.5 h-3.5 text-white" />
               <span>Restore Course</span>
             </>
           ) : (
             <>
-              <Edit3 className="w-3.5 h-3.5 text-[#d97757]" />
+              <Edit3 className="w-3.5 h-3.5 text-white" />
               <span>Edit Course</span>
             </>
           )}
@@ -470,9 +469,9 @@ function CourseRegistryCard({ course, index, onEdit, onPreview }: CourseRegistry
         <button 
           type="button"
           onClick={onPreview}
-          className="flex-1 py-2 px-3 rounded-lg text-[#373734] hover:text-[#121212] hover:bg-[#ffffff]/60 transition-all flex items-center justify-center gap-1.5 text-xs font-medium cursor-pointer"
+          className="flex-1 py-2 px-3 rounded-lg bg-white border border-rule text-foreground hover:bg-canvas transition-colors flex items-center justify-center gap-1.5 text-xs font-medium cursor-pointer shadow-none"
         >
-          <Eye className="w-3.5 h-3.5" />
+          <Eye className="w-3.5 h-3.5 text-muted" />
           <span>Preview</span>
         </button>
       </div>
@@ -532,8 +531,8 @@ function CourseVectorThumbnail({ course, index }: { course: CourseResponse; inde
       </div>
 
       <div className="z-10 flex items-center gap-2">
-        <IconComp className="w-4 h-4 text-[#d97757]" />
-        <span className="font-mono text-[11px] text-[#9c9a92] truncate">
+        <IconComp className="w-4 h-4 text-ember" />
+        <span className="font-mono text-[11px] text-muted truncate">
           {theme.subtitle}
         </span>
       </div>
@@ -546,25 +545,25 @@ function StatusBadge({ status }: { status: PublishStatus }) {
   switch (status) {
     case 'PUBLISHED':
       return (
-        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 shadow-xs">
+        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-[#DCFCE7] text-[#16A34A] border border-[#BBF7D0] shadow-none">
           PUBLISHED
         </span>
       );
     case 'DRAFT':
       return (
-        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-amber-50 text-amber-800 border border-amber-200 shadow-xs">
+        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-wash text-[#D97706] border border-[#FDE68A] shadow-none">
           DRAFT
         </span>
       );
     case 'PENDING_APPROVAL':
       return (
-        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-orange-50 text-orange-800 border border-orange-200 shadow-xs">
+        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-wash text-ember border border-rule shadow-none">
           PENDING REVIEW
         </span>
       );
     case 'ARCHIVED':
       return (
-        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-gray-100 text-gray-700 border border-gray-200 shadow-xs">
+        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-wash text-muted border border-rule shadow-none">
           ARCHIVED
         </span>
       );

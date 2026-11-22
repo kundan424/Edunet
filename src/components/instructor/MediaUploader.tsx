@@ -49,17 +49,17 @@ export function MediaUploader({ courseId, lessonId, hasMedia, isResource }: Prop
 
   if (hasMedia) {
     return (
-      <div className="flex items-center justify-between p-3.5 rounded-xl border border-[#e7e6e1] bg-[#efeeeb]/70 transition-all">
+      <div className="flex items-center justify-between p-3.5 rounded-[10px] border border-rule bg-wash/70 transition-all">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-[#ffffff] border border-[#e7e6e1] flex items-center justify-center text-[#4b7a47] shrink-0 shadow-xs">
-            {isResource ? <FileText className="w-4 h-4 text-[#121212]" /> : <Video className="w-4 h-4 text-[#121212]" />}
+          <div className="w-8 h-8 rounded-lg bg-card border border-rule flex items-center justify-center text-[#4b7a47] shrink-0 shadow-xs">
+            {isResource ? <FileText className="w-4 h-4 text-foreground" /> : <Video className="w-4 h-4 text-foreground" />}
           </div>
           <div className="flex flex-col">
-            <span className="text-xs font-semibold text-[#121212] flex items-center gap-1.5">
+            <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
               <CheckCircle className="w-3.5 h-3.5 text-[#4b7a47]" />
               <span>{isResource ? 'Document / Code Attachment Ready' : 'Video Asset Attached & Transcoded'}</span>
             </span>
-            <span className="text-[11px] font-mono text-[#7b7974]">
+            <span className="text-[11px] font-mono text-muted">
               {isResource ? 'Available for learner download in studio' : '1080p adaptive bitrate ready'}
             </span>
           </div>
@@ -69,7 +69,7 @@ export function MediaUploader({ courseId, lessonId, hasMedia, isResource }: Prop
           <button 
             type="button" 
             onClick={() => fileInputRef.current?.click()} 
-            className="px-3 py-1 rounded-lg bg-[#ffffff] hover:bg-[#e7e6e1] text-[#121212] font-body text-xs font-medium border border-[#e7e6e1] shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+            className="px-3 py-1 rounded-lg bg-card hover:bg-[#e7e6e1] text-foreground font-body text-xs font-medium border border-rule shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
             disabled={uploadMedia.isPending || deleteMedia.isPending}
           >
             {uploadMedia.isPending ? (
@@ -85,7 +85,7 @@ export function MediaUploader({ courseId, lessonId, hasMedia, isResource }: Prop
             type="button" 
             onClick={handleDelete}
             disabled={deleteMedia.isPending}
-            className="p-1.5 rounded-lg text-[#9c9a92] hover:text-[#ba1a1a] hover:bg-[#ffdad6]/40 transition-colors cursor-pointer disabled:opacity-50"
+            className="p-1.5 rounded-lg text-muted hover:text-[#ba1a1a] hover:bg-[#ffdad6]/40 transition-colors cursor-pointer disabled:opacity-50"
             title="Remove file"
           >
             <Trash2 className="w-3.5 h-3.5" />
@@ -104,8 +104,8 @@ export function MediaUploader({ courseId, lessonId, hasMedia, isResource }: Prop
 
   return (
     <div 
-      className={`border-2 border-dashed rounded-xl p-5 sm:p-6 flex flex-col items-center justify-center text-center gap-2.5 transition-all
-        ${dragActive ? 'border-[#121212] bg-[#efeeeb]' : 'border-[#e7e6e1] bg-[#f8f8f6]/80 hover:bg-[#f8f8f6]'}
+      className={`border-2 border-dashed rounded-[10px] p-5 sm:p-6 flex flex-col items-center justify-center text-center gap-2.5 transition-all
+        ${dragActive ? 'border-rule bg-wash' : 'border-rule bg-wash/80 hover:bg-wash'}
       `}
       onDragOver={e => { e.preventDefault(); setDragActive(true); }}
       onDragLeave={e => { e.preventDefault(); setDragActive(false); }}
@@ -121,29 +121,29 @@ export function MediaUploader({ courseId, lessonId, hasMedia, isResource }: Prop
       
       {uploadMedia.isPending ? (
         <div className="flex flex-col items-center gap-2 py-2">
-          <div className="w-5 h-5 border-2 border-[#121212]/30 border-t-[#121212] rounded-full animate-spin" />
-          <span className="text-xs font-semibold text-[#121212]">
+          <div className="w-5 h-5 border-2 border-rule/30 border-t-[#121212] rounded-full animate-spin" />
+          <span className="text-xs font-semibold text-foreground">
             Uploading {isResource ? 'resource archive' : 'video master'}... Please wait.
           </span>
-          <span className="text-[10px] font-mono text-[#7b7974]">Transcoding &amp; hashing content</span>
+          <span className="text-[10px] font-mono text-muted">Transcoding &amp; hashing content</span>
         </div>
       ) : (
         <>
-          <div className="w-9 h-9 rounded-lg bg-[#ffffff] border border-[#e7e6e1] flex items-center justify-center text-[#7b7974] shadow-xs">
-            <UploadCloud className="w-4 h-4 text-[#121212]" />
+          <div className="w-9 h-9 rounded-lg bg-card border border-rule flex items-center justify-center text-muted shadow-xs">
+            <UploadCloud className="w-4 h-4 text-foreground" />
           </div>
           <div className="flex flex-col gap-0.5">
-            <span className="text-xs font-semibold text-[#121212]">
+            <span className="text-xs font-semibold text-foreground">
               Drag and drop {isResource ? 'lecture notes, slides, or code' : 'lecture video file'} here
             </span>
-            <span className="text-[11px] font-mono text-[#7b7974]">
+            <span className="text-[11px] font-mono text-muted">
               {isResource ? 'PDF, ZIP, RS, PY, MD up to 500MB' : 'MP4, MOV, WebM, MKV up to 2GB (1080p)'}
             </span>
           </div>
           <button 
             type="button" 
             onClick={() => fileInputRef.current?.click()} 
-            className="mt-1 px-3.5 py-1.5 rounded-lg bg-[#121212] hover:bg-black text-[#f8f8f6] font-body text-xs font-medium transition-all shadow-xs cursor-pointer"
+            className="mt-1 px-3.5 py-1.5 rounded-lg bg-card hover:bg-black text-[#f8f8f6] font-body text-xs font-medium transition-all shadow-xs cursor-pointer"
           >
             Select from Device
           </button>

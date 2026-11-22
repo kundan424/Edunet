@@ -62,9 +62,9 @@ export function CourseEditor() {
   if (isLoading) {
     return (
       <div className="w-full max-w-[1200px] mx-auto py-24 flex flex-col items-center justify-center gap-3">
-        <div className="w-8 h-8 border-2 border-[#121212]/20 border-t-[#121212] rounded-full animate-spin" />
-        <span className="font-heading text-lg text-[#121212]">Opening Course Studio...</span>
-        <span className="font-mono text-xs text-[#7b7974]">LUM-STUDIO-{courseId?.slice(0, 6).toUpperCase()}</span>
+        <div className="w-8 h-8 border-2 border-rule/20 border-t-[#121212] rounded-full animate-spin" />
+        <span className="font-sans text-lg text-foreground">Opening Course Studio...</span>
+        <span className="font-mono text-xs text-muted">LUM-STUDIO-{courseId?.slice(0, 6).toUpperCase()}</span>
       </div>
     );
   }
@@ -72,24 +72,24 @@ export function CourseEditor() {
   if (error || !curriculum) {
     return (
       <div className="w-full max-w-[1200px] mx-auto py-16 px-4">
-        <div className="bg-[#ffffff] rounded-2xl p-8 border border-[#ba1a1a]/30 shadow-xs max-w-xl mx-auto flex flex-col items-center text-center gap-3">
+        <div className="bg-card rounded-[10px] p-8 border border-[#ba1a1a]/30 shadow-xs max-w-xl mx-auto flex flex-col items-center text-center gap-3">
           <div className="w-12 h-12 rounded-full bg-[#ffdad6] flex items-center justify-center text-[#ba1a1a]">
             <AlertCircle className="w-6 h-6" />
           </div>
-          <h2 className="font-heading text-xl text-[#121212]">Failed to load course studio</h2>
-          <p className="font-body text-xs text-[#7b7974] leading-relaxed">
+          <h2 className="font-sans text-xl text-foreground">Failed to load course studio</h2>
+          <p className="font-body text-xs text-muted leading-relaxed">
             The course could not be found, or you lack authoring permission.
           </p>
           <div className="flex gap-2 pt-2">
             <Link
               to="/instructor/courses"
-              className="px-4 py-2 rounded-lg bg-[#efeeeb] hover:bg-[#e7e6e1] text-xs font-medium text-[#121212]"
+              className="px-4 py-2 rounded-lg bg-wash hover:bg-[#e7e6e1] text-xs font-medium text-foreground"
             >
               Back to My Courses
             </Link>
             <button
               onClick={() => window.location.reload()}
-              className="px-4 py-2 rounded-lg bg-[#121212] hover:bg-black text-xs font-medium text-[#f8f8f6]"
+              className="px-4 py-2 rounded-lg bg-card hover:bg-black text-xs font-medium text-[#f8f8f6]"
             >
               Retry
             </button>
@@ -167,13 +167,13 @@ export function CourseEditor() {
       case 'PENDING_APPROVAL':
         return (
           <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#fef3c7] text-[#92400e] font-mono text-[10px] font-bold tracking-wider">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#d97757]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-ember" />
             PENDING REVIEW
           </span>
         );
       case 'ARCHIVED':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#efeeeb] text-[#373734] font-mono text-[10px] font-bold tracking-wider">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-wash text-muted font-mono text-[10px] font-bold tracking-wider">
             <span className="w-1.5 h-1.5 rounded-full bg-[#7b7974]" />
             ARCHIVED
           </span>
@@ -182,7 +182,7 @@ export function CourseEditor() {
       default:
         return (
           <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#faecd8] text-[#8c501e] font-mono text-[10px] font-bold tracking-wider">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#d97757] animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-ember animate-pulse" />
             DRAFT
           </span>
         );
@@ -192,22 +192,22 @@ export function CourseEditor() {
   return (
     <div className="flex flex-col w-full pb-20">
       {/* ── Studio Breadcrumb & Context Header Bar ── */}
-      <section className="w-full bg-[#f8f8f6]/90 border-b border-[#e7e6e1] py-4">
+      <section className="w-full bg-wash/90 border-b border-rule py-4">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 flex flex-col gap-3">
           {/* Breadcrumb Row */}
-          <div className="flex items-center justify-between text-xs font-mono text-[#7b7974]">
+          <div className="flex items-center justify-between text-xs font-mono text-muted">
             <div className="flex items-center gap-2 flex-wrap">
-              <Link to="/instructor" className="hover:text-[#121212] transition-colors">Instructor Studio</Link>
+              <Link to="/instructor" className="hover:text-foreground transition-colors">Instructor Studio</Link>
               <span>/</span>
-              <Link to="/instructor/courses" className="hover:text-[#121212] transition-colors">Courses</Link>
+              <Link to="/instructor/courses" className="hover:text-foreground transition-colors">Courses</Link>
               <span>/</span>
-              <span className="text-[#373734] font-medium">{course.id.slice(0, 8)}</span>
+              <span className="text-muted font-medium">{course.id.slice(0, 8)}</span>
               <span>/</span>
-              <span className="text-[#121212] font-semibold">Course Studio</span>
+              <span className="text-foreground font-semibold">Course Studio</span>
             </div>
-            <div className="hidden sm:flex items-center gap-2 font-mono text-[11px] text-[#9c9a92]">
+            <div className="hidden sm:flex items-center gap-2 font-mono text-[11px] text-muted">
               <span>Course Ref:</span>
-              <span className="bg-[#e7e6e1] text-[#121212] px-2 py-0.5 rounded text-[10px] tracking-wide font-semibold">
+              <span className="bg-[#e7e6e1] text-foreground px-2 py-0.5 rounded text-[10px] tracking-wide font-semibold">
                 LUM-COURSE-{course.id.slice(0, 6).toUpperCase()}
               </span>
             </div>
@@ -217,21 +217,21 @@ export function CourseEditor() {
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-1">
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center gap-3 flex-wrap">
-                <h1 className="font-heading text-2xl sm:text-3xl text-[#121212] tracking-tight font-normal">
+                <h1 className="font-sans text-2xl sm:text-3xl text-foreground tracking-tight font-normal">
                   {course.title}
                 </h1>
                 {renderStatusBadge(course.publishStatus)}
               </div>
 
-              <div className="flex items-center gap-3 text-xs font-mono text-[#7b7974] flex-wrap">
+              <div className="flex items-center gap-3 text-xs font-mono text-muted flex-wrap">
                 <span>Created {new Date(course.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
                 <span>•</span>
-                <span className="flex items-center gap-1 text-[#373734]">
-                  <Cloud className="w-3.5 h-3.5 text-[#9c9a92]" />
+                <span className="flex items-center gap-1 text-muted">
+                  <Cloud className="w-3.5 h-3.5 text-muted" />
                   <span>All changes saved</span>
                 </span>
                 <span>•</span>
-                <span className="text-[#d97757] font-medium">{totalLessons} Lessons Total</span>
+                <span className="text-ember font-medium">{totalLessons} Lessons Total</span>
               </div>
             </div>
 
@@ -239,9 +239,9 @@ export function CourseEditor() {
             <div className="flex items-center gap-2.5 self-start lg:self-auto flex-wrap">
               <Link
                 to="/instructor/courses"
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#ffffff] hover:bg-[#efeeeb] text-[#121212] text-xs font-medium transition-colors border border-[#e7e6e1] shadow-2xs"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-card hover:bg-wash text-foreground text-xs font-medium transition-colors border border-rule shadow-2xs"
               >
-                <ArrowLeft className="w-3.5 h-3.5 text-[#7b7974]" />
+                <ArrowLeft className="w-3.5 h-3.5 text-muted" />
                 <span>Back to Courses</span>
               </Link>
 
@@ -249,9 +249,9 @@ export function CourseEditor() {
                 to={`/courses/${course.id}`}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-[#ffffff] hover:bg-[#efeeeb] text-[#121212] text-xs font-medium transition-colors border border-[#e7e6e1] shadow-2xs"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-card hover:bg-wash text-foreground text-xs font-medium transition-colors border border-rule shadow-2xs"
               >
-                <ExternalLink className="w-3.5 h-3.5 text-[#7b7974]" />
+                <ExternalLink className="w-3.5 h-3.5 text-muted" />
                 <span>Public Preview</span>
               </Link>
 
@@ -259,9 +259,9 @@ export function CourseEditor() {
                 <button
                   type="button"
                   onClick={() => setShowApprovalModal(true)}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[#121212] hover:bg-black text-[#f8f8f6] text-xs font-medium transition-all shadow-xs active:scale-[0.98] cursor-pointer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-card hover:bg-black text-[#f8f8f6] text-xs font-medium transition-all shadow-xs active:scale-[0.98] cursor-pointer"
                 >
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#d97757]" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-ember" />
                   <span>Submit for Approval</span>
                 </button>
               )}
@@ -271,21 +271,21 @@ export function CourseEditor() {
       </section>
 
       {/* ── Editorial Navigation Tabs Bar ── */}
-      <section className="w-full bg-[#f8f8f6]">
+      <section className="w-full bg-wash">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 pt-3">
-          <div className="flex items-center gap-1.5 bg-[#efeeeb] p-1 rounded-xl max-w-fit border border-[#e7e6e1]/80 shadow-2xs">
+          <div className="flex items-center gap-1.5 bg-wash p-1 rounded-[10px] max-w-fit border border-rule/80 shadow-2xs">
             <button
               type="button"
               onClick={() => setActiveTab('curriculum')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-body font-medium transition-all cursor-pointer ${
                 activeTab === 'curriculum'
-                  ? 'bg-[#ffffff] text-[#121212] shadow-xs'
-                  : 'text-[#7b7974] hover:text-[#121212] hover:bg-[#ffffff]/50'
+                  ? 'bg-card text-foreground shadow-xs'
+                  : 'text-muted hover:text-foreground hover:bg-card/50'
               }`}
             >
-              <Layers className="w-4 h-4 text-[#121212]" />
+              <Layers className="w-4 h-4 text-foreground" />
               <span>Curriculum Builder</span>
-              <span className="ml-1 px-1.5 py-0.2 rounded-full bg-[#efeeeb] text-[#373734] font-mono text-[10px]">
+              <span className="ml-1 px-1.5 py-0.2 rounded-full bg-wash text-muted font-mono text-[10px]">
                 {totalLessons}
               </span>
             </button>
@@ -295,13 +295,13 @@ export function CourseEditor() {
               onClick={() => setActiveTab('info')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-body font-medium transition-all cursor-pointer ${
                 activeTab === 'info'
-                  ? 'bg-[#ffffff] text-[#121212] shadow-xs'
-                  : 'text-[#7b7974] hover:text-[#121212] hover:bg-[#ffffff]/50'
+                  ? 'bg-card text-foreground shadow-xs'
+                  : 'text-muted hover:text-foreground hover:bg-card/50'
               }`}
             >
-              <BookOpen className="w-4 h-4 text-[#7b7974]" />
+              <BookOpen className="w-4 h-4 text-muted" />
               <span>Basic Information</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#d97757]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-ember" />
             </button>
           </div>
         </div>
@@ -328,7 +328,7 @@ export function CourseEditor() {
           <div className="flex flex-col gap-6 max-w-4xl mx-auto">
             {/* Success Banner */}
             {saveSuccess && (
-              <div className="p-4 rounded-xl bg-[#eaf4ea] text-[#245222] border border-[#4b7a47]/20 flex items-center justify-between shadow-2xs animate-in fade-in">
+              <div className="p-4 rounded-[10px] bg-[#eaf4ea] text-[#245222] border border-[#4b7a47]/20 flex items-center justify-between shadow-2xs animate-in fade-in">
                 <div className="flex items-center gap-2.5">
                   <CheckCircle className="w-4 h-4 text-[#4b7a47] shrink-0" />
                   <span className="font-body text-xs sm:text-sm font-medium">
@@ -341,7 +341,7 @@ export function CourseEditor() {
 
             {/* Error Banner */}
             {updateCourse.isError && (
-              <div className="p-4 rounded-xl bg-[#ffdad6] text-[#93000a] border border-[#ba1a1a]/20 flex items-center justify-between shadow-2xs">
+              <div className="p-4 rounded-[10px] bg-[#ffdad6] text-[#93000a] border border-[#ba1a1a]/20 flex items-center justify-between shadow-2xs">
                 <div className="flex items-center gap-2.5">
                   <AlertCircle className="w-4 h-4 text-[#ba1a1a] shrink-0" />
                   <span className="font-body text-xs sm:text-sm font-medium">
@@ -352,13 +352,13 @@ export function CourseEditor() {
             )}
 
             {/* Main Form Paper Surface */}
-            <form onSubmit={handleSaveInfo} className="bg-[#ffffff] rounded-2xl p-6 sm:p-8 border border-[#e7e6e1] shadow-xs flex flex-col gap-6">
+            <form onSubmit={handleSaveInfo} className="bg-card rounded-[10px] p-6 sm:p-8 border border-rule shadow-xs flex flex-col gap-6">
               {/* Header */}
-              <div className="flex flex-col gap-1 pb-4 border-b border-[#e7e6e1]">
-                <h2 className="font-heading text-xl sm:text-2xl text-[#121212] font-normal">
+              <div className="flex flex-col gap-1 pb-4 border-b border-rule">
+                <h2 className="font-sans text-xl sm:text-2xl text-foreground font-normal">
                   Course Details &amp; Settings
                 </h2>
-                <p className="font-body text-xs text-[#7b7974] leading-relaxed">
+                <p className="font-body text-xs text-muted leading-relaxed">
                   Update course title, description, category, difficulty level, and pricing.
                 </p>
               </div>
@@ -366,10 +366,10 @@ export function CourseEditor() {
               {/* Field 1: Course Title */}
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-semibold text-[#121212]">
+                  <label className="text-xs font-semibold text-foreground">
                     Course Title *
                   </label>
-                  <span className="font-mono text-[10px] text-[#7b7974]">
+                  <span className="font-mono text-[10px] text-muted">
                     {isEditable ? 'Editable in DRAFT' : 'Locked (Published Course)'}
                   </span>
                 </div>
@@ -380,17 +380,17 @@ export function CourseEditor() {
                   value={formData.title}
                   onChange={e => setFormData({ ...formData, title: e.target.value })}
                   placeholder="Course title..."
-                  className="w-full px-4 py-2.5 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm font-body border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none transition-colors disabled:opacity-60"
+                  className="w-full px-4 py-2.5 rounded-[10px] bg-wash text-foreground text-xs sm:text-sm font-body border border-rule focus:bg-card focus:border-rule focus:outline-none transition-colors disabled:opacity-60"
                 />
               </div>
 
               {/* Field 2: Description & Markdown */}
               <div className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-semibold text-[#121212]">
+                  <label className="text-xs font-semibold text-foreground">
                     Course Description
                   </label>
-                  <span className="font-mono text-[10px] text-[#7b7974]">
+                  <span className="font-mono text-[10px] text-muted">
                     Markdown &amp; LaTeX ($...$) supported
                   </span>
                 </div>
@@ -400,9 +400,9 @@ export function CourseEditor() {
                   value={formData.description}
                   onChange={e => setFormData({ ...formData, description: e.target.value })}
                   placeholder="Outline course objectives, prerequisites, topics covered, and skills students will gain..."
-                  className="w-full px-4 py-3 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm font-body border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none transition-colors leading-relaxed disabled:opacity-60 resize-y"
+                  className="w-full px-4 py-3 rounded-[10px] bg-wash text-foreground text-xs sm:text-sm font-body border border-rule focus:bg-card focus:border-rule focus:outline-none transition-colors leading-relaxed disabled:opacity-60 resize-y"
                 />
-                <div className="flex items-center justify-between font-mono text-[11px] text-[#7b7974] pt-0.5">
+                <div className="flex items-center justify-between font-mono text-[11px] text-muted pt-0.5">
                   <span>Supports KaTeX formulas and GitHub Flavored Markdown.</span>
                   <span>{formData.description.length} / 1,000 characters</span>
                 </div>
@@ -411,7 +411,7 @@ export function CourseEditor() {
               {/* Field 3: Category & Subject Tags */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-[#121212]">
+                  <label className="text-xs font-semibold text-foreground">
                     Category
                   </label>
                   <input
@@ -420,23 +420,23 @@ export function CourseEditor() {
                     value={formData.category}
                     onChange={e => setFormData({ ...formData, category: e.target.value })}
                     placeholder="e.g., Computer Science, Artificial Intelligence"
-                    className="w-full px-4 py-2.5 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm font-body border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none transition-colors disabled:opacity-60"
+                    className="w-full px-4 py-2.5 rounded-[10px] bg-wash text-foreground text-xs sm:text-sm font-body border border-rule focus:bg-card focus:border-rule focus:outline-none transition-colors disabled:opacity-60"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-[#121212]">
+                  <label className="text-xs font-semibold text-foreground">
                     Course Tags &amp; Keywords
                   </label>
-                  <div className="flex items-center gap-1.5 flex-wrap p-2 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] min-h-[44px]">
+                  <div className="flex items-center gap-1.5 flex-wrap p-2 rounded-[10px] bg-wash border border-rule min-h-[44px]">
                     {tags.map(t => (
-                      <span key={t} className="px-2 py-0.5 rounded-md bg-[#ffffff] border border-[#e7e6e1] text-[#121212] font-mono text-[11px] flex items-center gap-1 shadow-2xs">
+                      <span key={t} className="px-2 py-0.5 rounded-md bg-card border border-rule text-foreground font-mono text-[11px] flex items-center gap-1 shadow-2xs">
                         {t}
                         {isEditable && (
                           <button
                             type="button"
                             onClick={() => handleRemoveTag(t)}
-                            className="text-[#9c9a92] hover:text-[#ba1a1a] cursor-pointer"
+                            className="text-muted hover:text-[#ba1a1a] cursor-pointer"
                           >
                             ×
                           </button>
@@ -450,7 +450,7 @@ export function CourseEditor() {
                         onChange={e => setNewTagInput(e.target.value)}
                         onKeyDown={handleAddTag}
                         placeholder="+ tag (press Enter)"
-                        className="bg-transparent font-mono text-[11px] text-[#121212] outline-none px-1 w-28 placeholder:text-[#9c9a92]"
+                        className="bg-transparent font-mono text-[11px] text-foreground outline-none px-1 w-28 placeholder:text-muted"
                       />
                     )}
                   </div>
@@ -460,7 +460,7 @@ export function CourseEditor() {
               {/* Field 4: Difficulty Level & Price */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-[#121212]">
+                  <label className="text-xs font-semibold text-foreground">
                     Difficulty Level *
                   </label>
                   <div className="relative">
@@ -469,22 +469,22 @@ export function CourseEditor() {
                       disabled={!isEditable}
                       value={formData.difficulty}
                       onChange={e => setFormData({ ...formData, difficulty: e.target.value as CourseDifficulty })}
-                      className="w-full appearance-none px-4 py-2.5 pr-10 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm font-body border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none transition-colors disabled:opacity-60 cursor-pointer"
+                      className="w-full appearance-none px-4 py-2.5 pr-10 rounded-[10px] bg-wash text-foreground text-xs sm:text-sm font-body border border-rule focus:bg-card focus:border-rule focus:outline-none transition-colors disabled:opacity-60 cursor-pointer"
                     >
                       <option value="BEGINNER">BEGINNER</option>
                       <option value="INTERMEDIATE">INTERMEDIATE</option>
                       <option value="ADVANCED">ADVANCED</option>
                     </select>
-                    <ChevronDown className="w-4 h-4 text-[#9c9a92] absolute right-3 top-3 pointer-events-none" />
+                    <ChevronDown className="w-4 h-4 text-muted absolute right-3 top-3 pointer-events-none" />
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-xs font-semibold text-[#121212]">
+                  <label className="text-xs font-semibold text-foreground">
                     Course Price (USD)
                   </label>
                   <div className="relative flex items-center">
-                    <span className="absolute left-3.5 text-xs sm:text-sm text-[#373734] font-semibold pointer-events-none">$</span>
+                    <span className="absolute left-3.5 text-xs sm:text-sm text-muted font-semibold pointer-events-none">$</span>
                     <input
                       type="number"
                       min="0"
@@ -493,10 +493,10 @@ export function CourseEditor() {
                       value={formData.price}
                       onChange={e => setFormData({ ...formData, price: e.target.value })}
                       placeholder="0.00"
-                      className="w-full pl-8 pr-4 py-2.5 rounded-xl bg-[#f8f8f6] text-[#121212] text-xs sm:text-sm font-body border border-[#e7e6e1] focus:bg-[#ffffff] focus:border-[#121212] focus:outline-none transition-colors disabled:opacity-60"
+                      className="w-full pl-8 pr-4 py-2.5 rounded-[10px] bg-wash text-foreground text-xs sm:text-sm font-body border border-rule focus:bg-card focus:border-rule focus:outline-none transition-colors disabled:opacity-60"
                     />
                   </div>
-                  <span className="font-mono text-[10px] text-[#7b7974] pt-0.5">
+                  <span className="font-mono text-[10px] text-muted pt-0.5">
                     Leave blank or 0.00 for free course enrollment.
                   </span>
                 </div>
@@ -504,11 +504,11 @@ export function CourseEditor() {
 
               {/* Field 5: Course Cover Image (16:9) */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-[#121212]">
+                <label className="text-xs font-semibold text-foreground">
                   Course Cover Image (16:9)
                 </label>
-                <div className="flex flex-col sm:flex-row gap-4 p-4 rounded-xl bg-[#f8f8f6] border border-[#e7e6e1] items-start sm:items-center">
-                  <div className="relative w-44 h-24 rounded-lg overflow-hidden shrink-0 shadow-2xs bg-[#121212] border border-[#e7e6e1]">
+                <div className="flex flex-col sm:flex-row gap-4 p-4 rounded-[10px] bg-wash border border-rule items-start sm:items-center">
+                  <div className="relative w-44 h-24 rounded-lg overflow-hidden shrink-0 shadow-2xs bg-card border border-rule">
                     {formData.thumbnailUrl ? (
                       <img
                         src={formData.thumbnailUrl}
@@ -516,21 +516,21 @@ export function CourseEditor() {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center text-[#7b7974] p-2 text-center">
-                        <span className="font-heading text-lg italic text-[#e7e6e1]">Lumina</span>
-                        <span className="font-mono text-[9px] text-[#9c9a92]">Course Thumbnail</span>
+                      <div className="w-full h-full flex flex-col items-center justify-center text-muted p-2 text-center">
+                        <span className="font-sans text-lg italic text-[#e7e6e1]">Lumina</span>
+                        <span className="font-mono text-[9px] text-muted">Course Thumbnail</span>
                       </div>
                     )}
-                    <span className="absolute bottom-1 right-1 bg-[#121212]/90 text-[#f8f8f6] font-mono text-[9px] px-1 rounded">
+                    <span className="absolute bottom-1 right-1 bg-card/90 text-[#f8f8f6] font-mono text-[9px] px-1 rounded">
                       16:9 Ratio
                     </span>
                   </div>
 
                   <div className="flex flex-col gap-2 flex-1">
-                    <p className="font-body text-xs font-semibold text-[#121212]">
+                    <p className="font-body text-xs font-semibold text-foreground">
                       Recommended 16:9 Aspect Ratio
                     </p>
-                    <p className="font-mono text-[11px] text-[#7b7974]">
+                    <p className="font-mono text-[11px] text-muted">
                       Provide an image URL (PNG, JPG, or WebP) for the course catalog thumbnail.
                     </p>
                     <div className="flex items-center gap-2 pt-1">
@@ -540,7 +540,7 @@ export function CourseEditor() {
                         value={formData.thumbnailUrl}
                         onChange={e => setFormData({ ...formData, thumbnailUrl: e.target.value })}
                         placeholder="https://example.com/cover-image.jpg"
-                        className="px-3 py-1.5 rounded-lg bg-[#ffffff] text-[#121212] text-xs font-body border border-[#e7e6e1] focus:outline-none focus:border-[#121212] flex-1 disabled:opacity-60"
+                        className="px-3 py-1.5 rounded-lg bg-card text-foreground text-xs font-body border border-rule focus:outline-none focus:border-rule flex-1 disabled:opacity-60"
                       />
                     </div>
                   </div>
@@ -548,8 +548,8 @@ export function CourseEditor() {
               </div>
 
               {/* Action Footer */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-[#e7e6e1]">
-                <span className="font-mono text-[11px] text-[#9c9a92] self-start sm:self-auto">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-4 border-t border-rule">
+                <span className="font-mono text-[11px] text-muted self-start sm:self-auto">
                   Course ID: {course.id}
                 </span>
 
@@ -557,7 +557,7 @@ export function CourseEditor() {
                   <button
                     type="submit"
                     disabled={updateCourse.isPending}
-                    className="px-6 py-2.5 rounded-lg bg-[#121212] hover:bg-black text-[#f8f8f6] font-body text-xs font-medium transition-all shadow-xs active:scale-[0.98] cursor-pointer disabled:opacity-50"
+                    className="px-6 py-2.5 rounded-lg bg-card hover:bg-black text-[#f8f8f6] font-body text-xs font-medium transition-all shadow-xs active:scale-[0.98] cursor-pointer disabled:opacity-50"
                   >
                     {updateCourse.isPending ? 'Saving...' : 'Save Changes'}
                   </button>
@@ -573,23 +573,23 @@ export function CourseEditor() {
       {/* ============================================== */}
       {showApprovalModal && (
         <div 
-          className="fixed inset-0 z-50 bg-[#121212]/50 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in"
+          className="fixed inset-0 z-50 bg-card/50 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in"
           onClick={(e) => {
             if (e.target === e.currentTarget) setShowApprovalModal(false);
           }}
         >
-          <div className="bg-[#ffffff] rounded-2xl shadow-xl max-w-lg w-full p-6 sm:p-7 flex flex-col gap-5 relative border border-[#e7e6e1] animate-in zoom-in-95 duration-150">
+          <div className="bg-card rounded-[10px] shadow-xl max-w-lg w-full p-6 sm:p-7 flex flex-col gap-5 relative border border-rule animate-in zoom-in-95 duration-150">
             {/* Header */}
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#efeeeb] flex items-center justify-center text-[#d97757] shrink-0">
+                <div className="w-10 h-10 rounded-[10px] bg-wash flex items-center justify-center text-ember shrink-0">
                   <Gavel className="w-5 h-5" />
                 </div>
                 <div className="flex flex-col">
-                  <h3 className="font-heading text-lg sm:text-xl text-[#121212] font-normal">
+                  <h3 className="font-sans text-lg sm:text-xl text-foreground font-normal">
                     Submit Course for Review
                   </h3>
-                  <span className="font-mono text-[10px] text-[#7b7974]">
+                  <span className="font-mono text-[10px] text-muted">
                     Course ID: LUM-{course.id.slice(0, 6).toUpperCase()}
                   </span>
                 </div>
@@ -598,30 +598,30 @@ export function CourseEditor() {
               <button
                 type="button"
                 onClick={() => setShowApprovalModal(false)}
-                className="text-[#9c9a92] hover:text-[#121212] p-1 rounded-lg"
+                className="text-muted hover:text-foreground p-1 rounded-lg"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <p className="font-body text-xs text-[#373734] leading-relaxed">
+            <p className="font-body text-xs text-muted leading-relaxed">
               Submitting this course sends it to the moderation team. Once reviewed and approved, it will be published to the public catalog.
             </p>
 
             {/* Pre-flight Validation Checklist */}
-            <div className="bg-[#efeeeb]/70 rounded-xl p-4 flex flex-col gap-2.5 border border-[#e7e6e1]">
-              <span className="font-mono text-[11px] uppercase tracking-wider text-[#373734] font-semibold">
+            <div className="bg-wash/70 rounded-[10px] p-4 flex flex-col gap-2.5 border border-rule">
+              <span className="font-mono text-[11px] uppercase tracking-wider text-muted font-semibold">
                 Course Readiness Checklist
               </span>
 
               {/* Check 1 */}
-              <div className="flex items-center gap-2 text-xs font-body text-[#121212]">
+              <div className="flex items-center gap-2 text-xs font-body text-foreground">
                 <CheckCircle className="w-4 h-4 text-[#4b7a47] shrink-0" />
                 <span>Course Title &amp; Description complete</span>
               </div>
 
               {/* Check 2 */}
-              <div className="flex items-center gap-2 text-xs font-body text-[#121212]">
+              <div className="flex items-center gap-2 text-xs font-body text-foreground">
                 {sections.length > 0 ? (
                   <CheckCircle className="w-4 h-4 text-[#4b7a47] shrink-0" />
                 ) : (
@@ -633,11 +633,11 @@ export function CourseEditor() {
               </div>
 
               {/* Check 3 */}
-              <div className="flex items-center gap-2 text-xs font-body text-[#121212]">
+              <div className="flex items-center gap-2 text-xs font-body text-foreground">
                 {quizOrAssignmentCount > 0 ? (
                   <CheckCircle className="w-4 h-4 text-[#4b7a47] shrink-0" />
                 ) : (
-                  <AlertCircle className="w-4 h-4 text-[#d97757] shrink-0" />
+                  <AlertCircle className="w-4 h-4 text-ember shrink-0" />
                 )}
                 <span>
                   {quizOrAssignmentCount > 0 
@@ -648,11 +648,11 @@ export function CourseEditor() {
             </div>
 
             {/* Modal Actions */}
-            <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-[#e7e6e1]">
+            <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-rule">
               <button
                 type="button"
                 onClick={() => setShowApprovalModal(false)}
-                className="px-4 py-2 rounded-lg text-xs font-medium text-[#7b7974] hover:bg-[#efeeeb] transition-colors cursor-pointer"
+                className="px-4 py-2 rounded-lg text-xs font-medium text-muted hover:bg-wash transition-colors cursor-pointer"
               >
                 Cancel &amp; Continue Editing
               </button>
@@ -660,7 +660,7 @@ export function CourseEditor() {
                 type="button"
                 onClick={handleConfirmApprovalSubmission}
                 disabled={submitCourse.isPending}
-                className="px-5 py-2 rounded-lg bg-[#121212] hover:bg-black text-[#f8f8f6] font-body text-xs font-medium transition-all shadow-xs cursor-pointer disabled:opacity-50"
+                className="px-5 py-2 rounded-lg bg-card hover:bg-black text-[#f8f8f6] font-body text-xs font-medium transition-all shadow-xs cursor-pointer disabled:opacity-50"
               >
                 {submitCourse.isPending ? 'Submitting...' : 'Confirm & Submit for Review'}
               </button>
