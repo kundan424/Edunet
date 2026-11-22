@@ -9,7 +9,7 @@ interface RatingDisplayProps {
 
 export function RatingDisplay({ rating, count, size = 'md', showText = true }: RatingDisplayProps) {
   if (rating === null || rating === undefined) {
-    return <span className="text-gray-500 italic text-sm">No ratings yet</span>;
+    return <span className="text-muted italic text-xs font-mono">No ratings yet</span>;
   }
 
   const rounded = Math.round(rating * 10) / 10;
@@ -22,16 +22,16 @@ export function RatingDisplay({ rating, count, size = 'md', showText = true }: R
     }
   }
 
-  const sizeClass = size === 'sm' ? 'text-sm' : size === 'lg' ? 'text-2xl' : 'text-lg';
+  const sizeClass = size === 'sm' ? 'text-xs' : size === 'lg' ? 'text-xl' : 'text-sm';
 
   return (
     <div className="flex items-center gap-2">
-      <div className={`text-saffron-yellow font-bold ${sizeClass} tracking-widest`}>
+      <div className={`text-ember font-normal ${sizeClass} tracking-wider`}>
         {stars.join('')}
       </div>
       {showText && (
-        <span className="font-bold text-midnight-ink">
-          {rounded.toFixed(1)} {count !== undefined && <span className="text-gray-500 font-normal">({count})</span>}
+        <span className="font-sans font-medium text-foreground text-xs sm:text-sm">
+          {rounded.toFixed(1)} {count !== undefined && <span className="text-muted font-mono font-normal">({count})</span>}
         </span>
       )}
     </div>
@@ -57,10 +57,10 @@ export function RatingInput({ value, onChange, disabled = false }: RatingInputPr
           onClick={() => onChange(star)}
           onMouseEnter={() => setHover(star)}
           onMouseLeave={() => setHover(null)}
-          className={`text-3xl focus:outline-none focus:ring-2 focus:ring-signal-blue rounded-full ${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:scale-110 transition-transform'}`}
+          className={`text-2xl focus:outline-none focus:ring-1 focus:ring-ember ${disabled ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:scale-110 transition-transform'}`}
           aria-label={`Rate ${star} stars out of 5`}
         >
-          <span className={(hover ?? value) >= star ? 'text-saffron-yellow' : 'text-gray-300'}>
+          <span className={(hover ?? value) >= star ? 'text-ember' : 'text-muted/40'}>
             ★
           </span>
         </button>

@@ -9,21 +9,21 @@ export function PasswordInput({ label, className = '', ...props }: PasswordInput
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="flex flex-col gap-2">
-      {label && <label className="font-bold text-sm uppercase tracking-wider">{label}</label>}
+    <div className="flex flex-col gap-1.5">
+      {label && <label className="text-xs font-medium text-foreground">{label}</label>}
       <div className="relative">
         <input
           {...props}
           type={showPassword ? 'text' : 'password'}
-          className={`w-full border-2 border-midnight-ink p-3 bg-white font-usual text-base focus:ring-2 focus:ring-signal-blue focus:outline-none pr-12 ${className}`}
+          className={`w-full border border-rule p-2.5 bg-wash text-foreground font-sans text-sm rounded-none placeholder:text-muted focus:border-ember focus:outline-none pr-10 transition-colors ${className}`}
         />
         <button
           type="button"
           onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-midnight-ink/60 hover:text-midnight-ink focus:outline-none p-1"
+          className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted hover:text-foreground focus:outline-none p-1 cursor-pointer transition-colors"
           aria-label={showPassword ? 'Hide password' : 'Show password'}
         >
-          {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
         </button>
       </div>
     </div>

@@ -9,11 +9,11 @@ export function PillButton({ children, className, ...props }: PillButtonProps) {
   return (
     <button
       className={cn(
-        "rounded-full border border-midnight-ink bg-cream-paper text-midnight-ink",
-        "font-usual text-4 font-bold wrap-break-word",
-        "px-6 py-3 md:px-7.5 md:py-3.5",
-        "hover:bg-midnight-ink hover:text-cream-paper transition-colors duration-200 ease-in-out",
-        "focus:outline-none focus:ring-2 focus:ring-signal-blue focus:ring-offset-2 focus:ring-offset-cream-paper",
+        "rounded-none border border-action-border bg-action-bg text-action-text",
+        "font-sans text-sm font-normal",
+        "px-6 py-2.5 sm:px-7 sm:py-3",
+        "hover:bg-ember hover:border-ember hover:text-white transition-colors duration-150 ease-in-out cursor-pointer",
+        "focus:outline-none focus:ring-1 focus:ring-ember",
         className
       )}
       {...props}
@@ -29,12 +29,12 @@ export function GhostLink({ children, className, href }: { children: ReactNode, 
     <Tag
       href={href}
       className={cn(
-        "font-usual text-4 font-bold text-midnight-ink inline-flex items-center gap-1 group cursor-pointer",
+        "font-sans text-sm font-medium text-foreground hover:text-ember inline-flex items-center gap-1 group cursor-pointer transition-colors",
         className
       )}
     >
       {children}
-      <span className="text-xs transition-transform group-hover:translate-x-1">▸</span>
+      <span className="text-xs transition-transform group-hover:translate-x-1">→</span>
     </Tag>
   );
 }

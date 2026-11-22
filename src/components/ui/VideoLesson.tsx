@@ -80,18 +80,18 @@ export function VideoLesson({ courseId, lessonId, title, onComplete, onProgress 
     <div className="flex flex-col gap-6 w-full">
       
       {/* Lecture Header */}
-      <div className="flex flex-col gap-1 pb-4 border-b border-[#e7e6e1]">
-        <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold">
+      <div className="flex flex-col gap-1 pb-4 border-b border-rule">
+        <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-wider text-ember font-semibold">
           <Play className="w-3.5 h-3.5 fill-[#d97757]" />
           <span>Faculty Video Lecture</span>
         </div>
-        <h2 className="font-heading text-xl sm:text-2xl text-[#121212] font-semibold leading-snug">
+        <h2 className="font-sans text-xl sm:text-2xl text-foreground font-semibold leading-snug">
           {title}
         </h2>
       </div>
 
       {/* Video Container */}
-      <div className="aspect-video bg-[#121212] rounded-2xl relative border border-[#e7e6e1] overflow-hidden shadow-sm flex items-center justify-center">
+      <div className="aspect-video bg-card rounded-[10px] relative border border-rule overflow-hidden shadow-sm flex items-center justify-center">
         <video 
           ref={videoRef}
           src={videoUrl}
@@ -103,7 +103,7 @@ export function VideoLesson({ courseId, lessonId, title, onComplete, onProgress 
 
       {/* Video Action Footer */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
-        <div className="flex items-center gap-2 text-xs text-[#7b7974] font-mono">
+        <div className="flex items-center gap-2 text-xs text-muted font-mono">
           <ShieldCheck className="w-4 h-4 text-[#3c8254]" />
           <span>Lecture progress auto-syncs to your syllabus transcript</span>
         </div>
@@ -111,7 +111,7 @@ export function VideoLesson({ courseId, lessonId, title, onComplete, onProgress 
         <button
           type="button"
           onClick={onComplete}
-          className="px-5 py-2.5 rounded-xl bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer self-end sm:self-auto"
+          className="px-5 py-2.5 rounded-[10px] bg-card hover:bg-[#000000] text-[#f8f8f6] text-xs font-medium transition-all shadow-xs flex items-center justify-center gap-2 cursor-pointer self-end sm:self-auto"
         >
           <CheckCircle2 className="w-3.5 h-3.5 text-[#3c8254]" />
           <span>Mark as Completed</span>
