@@ -41,37 +41,37 @@ export function Register() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center py-8 md:py-14 w-full">
-      <div className="w-full max-w-[440px] bg-[#ffffff] rounded-2xl p-7 sm:p-9 shadow-[0_4px_24px_rgba(0,0,0,0.03)] border border-[#e7e6e1] flex flex-col">
+    <div className="flex flex-col items-center justify-center py-8 md:py-14 w-full bg-canvas text-foreground transition-colors duration-150">
+      <div className="w-full max-w-[440px] bg-card rounded-[10px] p-7 sm:p-9 shadow-none border border-rule flex flex-col">
         
         {/* Brand Monogram & Badge */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#121212] text-[#f8f8f6] font-serif text-base font-bold flex items-center justify-center shadow-xs">
-              L
+            <div className="w-8 h-8 rounded-none bg-foreground text-canvas font-mono text-sm font-bold flex items-center justify-center">
+              E
             </div>
-            <span className="font-heading text-lg font-semibold text-[#121212] tracking-tight">
-              Lumina
+            <span className="font-sans text-lg font-medium text-foreground tracking-tight">
+              Edunet
             </span>
           </div>
-          <span className="text-[10px] font-mono uppercase tracking-wider text-[#d97757] font-semibold bg-[#efeeeb] px-2 py-0.5 rounded border border-[#e7e6e1]">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-ember font-medium bg-wash px-2.5 py-0.5 rounded-none border border-rule">
             Sign Up
           </span>
         </div>
 
         {/* Header */}
         <div className="flex flex-col gap-1.5 mb-6 text-left">
-          <h1 className="font-heading text-2xl font-semibold text-[#121212] tracking-tight">
+          <h1 className="font-sans text-2xl font-medium text-foreground tracking-[-0.025em]">
             Create an Account
           </h1>
-          <p className="font-body text-xs sm:text-sm text-[#7b7974] leading-relaxed">
+          <p className="font-sans text-xs sm:text-sm text-muted leading-relaxed">
             Join over 140,000 learners mastering in-demand skills and earning certificates.
           </p>
         </div>
 
         {/* Error Notice */}
         {error && (
-          <div className="mb-5 p-3 rounded-lg bg-[#ffdad6]/60 border border-[#ffdad6] text-[#ba1a1a] text-xs break-words">
+          <div className="mb-5 p-3 rounded-none bg-red-500/10 border border-red-500/30 text-red-500 text-xs font-mono break-words">
             {error}
           </div>
         )}
@@ -81,8 +81,8 @@ export function Register() {
           
           {/* Account Role Selection */}
           <div className="flex flex-col gap-1.5 text-left">
-            <label className="text-xs font-semibold text-[#121212]">
-              I want to join as
+            <label className="text-xs font-medium text-foreground font-mono uppercase">
+              Join as
             </label>
             <div className="grid grid-cols-2 gap-2.5">
               
@@ -90,19 +90,19 @@ export function Register() {
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, role: 'STUDENT' })}
-                className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                className={`p-3 rounded-none border text-left transition-all cursor-pointer flex flex-col justify-between ${
                   formData.role === 'STUDENT'
-                    ? 'border-[#121212] bg-[#efeeeb] ring-1 ring-[#121212]'
-                    : 'border-[#e7e6e1] bg-[#ffffff] hover:bg-[#efeeeb]/50'
+                    ? 'border-ember bg-wash'
+                    : 'border-rule bg-card hover:bg-wash'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <GraduationCap className={`w-4 h-4 ${formData.role === 'STUDENT' ? 'text-[#d97757]' : 'text-[#7b7974]'}`} />
-                  {formData.role === 'STUDENT' && <Check className="w-3.5 h-3.5 text-[#121212]" />}
+                  <GraduationCap className={`w-4 h-4 ${formData.role === 'STUDENT' ? 'text-ember' : 'text-muted'}`} />
+                  {formData.role === 'STUDENT' && <Check className="w-3.5 h-3.5 text-ember" />}
                 </div>
                 <div>
-                  <div className="font-semibold text-xs text-[#121212]">Student</div>
-                  <div className="text-[10px] text-[#7b7974] leading-tight mt-0.5">Take courses &amp; learn</div>
+                  <div className="font-medium text-xs text-foreground">Student</div>
+                  <div className="text-[10px] text-muted font-mono mt-0.5">Take courses &amp; learn</div>
                 </div>
               </button>
 
@@ -110,19 +110,19 @@ export function Register() {
               <button
                 type="button"
                 onClick={() => setFormData({ ...formData, role: 'INSTRUCTOR' })}
-                className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex flex-col justify-between ${
+                className={`p-3 rounded-none border text-left transition-all cursor-pointer flex flex-col justify-between ${
                   formData.role === 'INSTRUCTOR'
-                    ? 'border-[#121212] bg-[#efeeeb] ring-1 ring-[#121212]'
-                    : 'border-[#e7e6e1] bg-[#ffffff] hover:bg-[#efeeeb]/50'
+                    ? 'border-ember bg-wash'
+                    : 'border-rule bg-card hover:bg-wash'
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <BookOpen className={`w-4 h-4 ${formData.role === 'INSTRUCTOR' ? 'text-[#d97757]' : 'text-[#7b7974]'}`} />
-                  {formData.role === 'INSTRUCTOR' && <Check className="w-3.5 h-3.5 text-[#121212]" />}
+                  <BookOpen className={`w-4 h-4 ${formData.role === 'INSTRUCTOR' ? 'text-ember' : 'text-muted'}`} />
+                  {formData.role === 'INSTRUCTOR' && <Check className="w-3.5 h-3.5 text-ember" />}
                 </div>
                 <div>
-                  <div className="font-semibold text-xs text-[#121212]">Instructor</div>
-                  <div className="text-[10px] text-[#7b7974] leading-tight mt-0.5">Create courses &amp; teach</div>
+                  <div className="font-medium text-xs text-foreground">Instructor</div>
+                  <div className="text-[10px] text-muted font-mono mt-0.5">Create courses &amp; teach</div>
                 </div>
               </button>
 
@@ -131,7 +131,7 @@ export function Register() {
 
           {/* Full Name */}
           <div className="flex flex-col gap-1.5 text-left">
-            <label className="text-xs font-semibold text-[#121212]" htmlFor="reg-name">
+            <label className="text-xs font-medium text-foreground" htmlFor="reg-name">
               Full Name
             </label>
             <input 
@@ -141,13 +141,13 @@ export function Register() {
               onChange={e => setFormData({ ...formData, name: e.target.value })}
               placeholder="Dr. Elena Rostova"
               required
-              className="w-full h-10 px-3.5 bg-[#ffffff] text-[#121212] font-body text-xs sm:text-sm rounded-lg border border-[#e7e6e1] placeholder:text-[#9c9a92] focus:outline-none focus:ring-1 focus:ring-[#121212] focus:border-[#121212] transition-all"
+              className="w-full h-10 px-3.5 bg-wash text-foreground font-sans text-xs sm:text-sm rounded-none border border-rule placeholder:text-muted focus:outline-none focus:border-ember transition-colors"
             />
           </div>
 
           {/* Academic Email */}
           <div className="flex flex-col gap-1.5 text-left">
-            <label className="text-xs font-semibold text-[#121212]" htmlFor="reg-email">
+            <label className="text-xs font-medium text-foreground" htmlFor="reg-email">
               Academic or Work Email
             </label>
             <input 
@@ -157,13 +157,13 @@ export function Register() {
               onChange={e => setFormData({ ...formData, email: e.target.value })}
               placeholder="name@institution.edu"
               required
-              className="w-full h-10 px-3.5 bg-[#ffffff] text-[#121212] font-body text-xs sm:text-sm rounded-lg border border-[#e7e6e1] placeholder:text-[#9c9a92] focus:outline-none focus:ring-1 focus:ring-[#121212] focus:border-[#121212] transition-all"
+              className="w-full h-10 px-3.5 bg-wash text-foreground font-sans text-xs sm:text-sm rounded-none border border-rule placeholder:text-muted focus:outline-none focus:border-ember transition-colors"
             />
           </div>
 
           {/* Password Field */}
           <div className="flex flex-col gap-1.5 text-left">
-            <label className="text-xs font-semibold text-[#121212]" htmlFor="reg-password">
+            <label className="text-xs font-medium text-foreground" htmlFor="reg-password">
               Password (Minimum 8 characters)
             </label>
             <div className="relative flex items-center">
@@ -175,13 +175,13 @@ export function Register() {
                 placeholder="••••••••••••"
                 required
                 minLength={6}
-                className="w-full h-10 pl-3.5 pr-10 bg-[#ffffff] text-[#121212] font-body text-xs sm:text-sm rounded-lg border border-[#e7e6e1] placeholder:text-[#9c9a92] focus:outline-none focus:ring-1 focus:ring-[#121212] focus:border-[#121212] transition-all"
+                className="w-full h-10 pl-3.5 pr-10 bg-wash text-foreground font-sans text-xs sm:text-sm rounded-none border border-rule placeholder:text-muted focus:outline-none focus:border-ember transition-colors"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
-                className="absolute right-2.5 p-1 text-[#9c9a92] hover:text-[#121212] transition-colors cursor-pointer"
+                className="absolute right-2.5 p-1 text-muted hover:text-foreground transition-colors cursor-pointer"
               >
                 {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
               </button>
@@ -195,10 +195,10 @@ export function Register() {
               type="checkbox"
               checked={agreeHonorCode}
               onChange={e => setAgreeHonorCode(e.target.checked)}
-              className="w-3.5 h-3.5 mt-0.5 rounded border-[#e7e6e1] text-[#121212] focus:ring-[#121212] cursor-pointer"
+              className="w-3.5 h-3.5 mt-0.5 rounded-none border-rule text-ember focus:ring-ember cursor-pointer"
             />
-            <label htmlFor="honor-code" className="text-xs text-[#7b7974] cursor-pointer select-none leading-relaxed">
-              I agree to the <span className="text-[#121212] font-medium">Terms of Service</span> and <span className="text-[#121212] font-medium">Privacy Policy</span>.
+            <label htmlFor="honor-code" className="text-xs text-muted cursor-pointer select-none leading-relaxed">
+              I agree to the <span className="text-foreground font-medium">Terms of Service</span> and <span className="text-foreground font-medium">Privacy Policy</span>.
             </label>
           </div>
 
@@ -206,7 +206,7 @@ export function Register() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full h-10 mt-2 bg-[#121212] hover:bg-[#000000] text-[#f8f8f6] font-medium text-xs sm:text-sm rounded-xl transition-colors flex items-center justify-center gap-2 shadow-xs cursor-pointer disabled:opacity-60"
+            className="btn-superset-primary w-full mt-2"
           >
             <span>{loading ? 'Creating Account...' : 'Create Account'}</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -214,16 +214,16 @@ export function Register() {
         </form>
 
         {/* Footer */}
-        <div className="mt-6 pt-4 border-t border-[#e7e6e1] text-center text-xs text-[#7b7974]">
+        <div className="mt-6 pt-4 border-t border-rule text-center text-xs text-muted">
           Already have an account?{' '}
-          <Link to="/login" className="font-semibold text-[#121212] underline underline-offset-4 hover:text-[#d97757] transition-colors">
+          <Link to="/login" className="font-medium text-ember hover:underline transition-colors">
             Sign In →
           </Link>
         </div>
 
         {/* Security Seal */}
-        <div className="mt-4 flex items-center justify-center gap-1.5 text-[11px] font-mono text-[#9c9a92]">
-          <ShieldCheck className="w-3.5 h-3.5 text-[#3c8254]" />
+        <div className="mt-4 flex items-center justify-center gap-1.5 text-[11px] font-mono text-muted">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
           <span>Secure Account &amp; Privacy Protected</span>
         </div>
 

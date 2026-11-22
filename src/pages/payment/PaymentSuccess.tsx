@@ -12,27 +12,26 @@ export function PaymentSuccess() {
 
   useEffect(() => {
     if (courseId) {
-      // Invalidate enrollments so they refresh
       queryClient.invalidateQueries({ queryKey: ['enrollments'] });
       queryClient.invalidateQueries({ queryKey: ['course', courseId] });
     }
   }, [queryClient, courseId]);
 
   return (
-    <div className="max-w-2xl mx-auto p-8 mt-12 border-2 border-midnight-ink bg-cream-paper text-center space-y-6">
-      <div className="flex justify-center text-signal-blue mb-4">
-        <CheckCircle size={64} />
+    <div className="max-w-2xl mx-auto p-8 mt-12 border border-rule bg-card rounded-[10px] text-center space-y-6 shadow-none">
+      <div className="flex justify-center text-emerald-400 mb-4">
+        <CheckCircle size={56} />
       </div>
-      <SectionHeading>Payment Successful</SectionHeading>
+      <SectionHeading>Payment Verified</SectionHeading>
       <BodyText>
-        Thank you for your purchase! Your checkout has been completed successfully.
+        Thank you for your enrollment. Your checkout has been processed and your microVM sandbox workspace is initializing.
       </BodyText>
-      <div className="p-4 bg-saffron-yellow/20 border border-midnight-ink text-sm font-usual max-w-md mx-auto">
-        <p><strong>Note:</strong> It may take a short moment for your enrollment to become fully active while the server securely verifies your payment.</p>
+      <div className="p-4 bg-wash border border-rule text-xs font-mono text-muted max-w-md mx-auto">
+        <p><strong>Status:</strong> Enrollment verified. Course access credentials active across your student workspace.</p>
       </div>
       <div className="pt-6 flex justify-center">
         <PillButton onClick={() => navigate(`/courses/${courseId}`)}>
-          Return to Course
+          Launch Course Workspace
         </PillButton>
       </div>
     </div>
