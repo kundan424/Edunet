@@ -36,76 +36,114 @@ export function CapabilityChapters() {
             </Link>
           </div>
 
-          {/* Media Column (Light Gradient Glass Product Window) */}
+          {/* Media Column (Domain Hub Themed Capability Card) */}
           <div className="relative flex items-center justify-center">
-            {/* Ambient Pearl/White Stage Lighting */}
-            <div 
-              className="absolute inset-0 -m-8 pointer-events-none rounded-full blur-2xl opacity-75 dark:opacity-30"
-              style={{
-                background: 'radial-gradient(55% 45% at 50% 40%, rgba(255, 255, 255, 0.95), rgba(220, 232, 255, 0.55) 50%, rgba(0, 0, 0, 0) 75%)'
-              }}
-            />
-
-            {/* 14px Light-Gradient Glass Product Window */}
-            <div 
-              className="relative z-10 w-full rounded-[14px] overflow-hidden backdrop-blur-2xl transition-transform duration-300 hover:scale-[1.01] bg-gradient-to-br from-white/95 via-[#f9fbff]/90 to-[#ecf2fc]/80 dark:bg-none dark:bg-white/[0.12] border border-white/90 dark:border-white/20 shadow-[0_22px_48px_-12px_rgba(25,35,60,0.08),_inset_0_1px_2px_rgba(255,255,255,0.95),_inset_0_-1px_1px_rgba(0,0,0,0.03)] dark:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.4),_inset_0_1px_1px_rgba(255,255,255,0.25)]"
-            >
-              {/* Light Gradient Glass Title Bar */}
-              <div className="h-10 px-4 bg-gradient-to-r from-white/95 via-[#f7faff]/90 to-white/95 dark:bg-none dark:bg-white/[0.08] border-b border-black/[0.06] dark:border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-600 dark:text-slate-300 backdrop-blur-md">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
-                  <span className="ml-2 font-medium text-slate-700 dark:text-slate-200">edunet-cli</span>
+            {/* Embedded Capability Card with 3 dots on top */}
+            <div className="relative z-10 w-full max-w-[440px] rounded-[16px] p-4.5 sm:p-5 bg-card border border-rule transition-colors">
+              
+              {/* Top Bar with 3 Window Dots */}
+              <div className="flex items-center justify-between pb-3 mb-3 border-b border-rule">
+                <div className="flex items-center gap-2.5">
+                  {/* 3 dots on top */}
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+                  </div>
+                  <div className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-muted-surface border border-rule font-mono text-[10px] font-semibold text-foreground tracking-wider">
+                    <span>edunet-cli</span>
+                  </div>
                 </div>
-                <span className="text-emerald-600 dark:text-emerald-400 font-semibold tracking-wide bg-emerald-500/10 dark:bg-emerald-500/20 px-2 py-0.5 rounded text-[10px]">VM_ACTIVE</span>
+                <span className="px-2.5 py-0.5 rounded-full bg-muted-surface border border-rule font-mono text-[10px] font-semibold text-foreground tracking-wider">
+                  VM_ACTIVE
+                </span>
               </div>
 
-              {/* Window Content */}
-              <div className="p-5 font-mono text-xs space-y-3 bg-gradient-to-b from-white/30 to-[#eef3fb]/40 dark:bg-none dark:bg-black/20">
-                <div className="flex items-center justify-between p-3.5 bg-gradient-to-b from-white/95 to-[#f7faff]/90 dark:bg-none dark:bg-white/[0.07] border border-black/[0.05] dark:border-white/10 rounded-[8px] shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-md bg-ember/10 flex items-center justify-center shrink-0">
-                      <Terminal className="w-4 h-4 text-ember" />
-                    </div>
-                    <div>
-                      <div className="text-slate-900 dark:text-white font-sans text-xs font-semibold">Docker &amp; K8s Harness</div>
-                      <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Dedicated 2GB RAM container</div>
-                    </div>
+              {/* Title & Description */}
+              <h3 className="font-sans text-lg sm:text-xl font-bold tracking-tight text-foreground mb-1.5">
+                Interactive MicroVM Sandbox
+              </h3>
+              <p className="font-sans text-xs sm:text-[13px] leading-relaxed text-muted mb-3">
+                Dedicated container runtimes with pre-installed toolchains, automated quizzes, and low-latency terminal interactions.
+              </p>
+
+              {/* Tags */}
+              <div className="flex flex-wrap gap-1.5 mb-3.5">
+                {['DOCKER', 'KUBERNETES', 'MICROVM', 'TERMINAL'].map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2 py-0.5 rounded-full bg-muted-surface border border-rule font-mono text-[10px] font-medium text-muted uppercase tracking-wider"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Inner Specifications Card (Initial Capability Items) */}
+              <div className="rounded-[12px] border border-rule bg-muted-surface/30 p-3 sm:p-3.5 mb-3.5">
+                <div className="flex items-center justify-between pb-2 mb-2.5 border-b border-rule font-mono text-[10px] uppercase tracking-wider">
+                  <div className="flex items-center gap-2 text-muted font-semibold">
+                    <span className="w-1.5 h-1.5 rounded-full bg-foreground" />
+                    <span>RUNTIME SPECIFICATIONS (3)</span>
                   </div>
-                  <span className="text-[10px] text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 dark:bg-emerald-500/20 px-2.5 py-1 rounded font-semibold border border-emerald-500/20">Connected</span>
+                  <span className="font-bold text-foreground">CONNECTED</span>
                 </div>
 
-                <div className="flex items-center justify-between p-3.5 bg-gradient-to-b from-white/95 to-[#f7faff]/90 dark:bg-none dark:bg-white/[0.07] border border-black/[0.05] dark:border-white/10 rounded-[8px] shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-md bg-slate-100 dark:bg-white/10 flex items-center justify-center shrink-0">
-                      <Video className="w-4 h-4 text-slate-700 dark:text-white" />
+                <div className="space-y-2 font-mono">
+                  {/* Item 1 */}
+                  <div className="flex items-center justify-between gap-3 text-xs">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className="w-6 h-6 rounded bg-muted-surface flex items-center justify-center shrink-0 border border-rule">
+                        <Terminal className="w-3 h-3 text-foreground" />
+                      </div>
+                      <div className="truncate">
+                        <span className="text-foreground font-medium">Docker &amp; K8s Harness</span>
+                        <span className="text-muted text-[10px] block sm:inline sm:ml-2">2GB Dedicated RAM</span>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-slate-900 dark:text-white font-sans text-xs font-semibold">Modular HD Video Lessons</div>
-                      <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Timestamped bookmarks &amp; notes</div>
-                    </div>
+                    <span className="text-[10px] text-foreground shrink-0 font-medium bg-muted-surface px-2 py-0.5 rounded border border-rule">
+                      Connected
+                    </span>
                   </div>
-                  <span className="text-[10px] text-slate-600 dark:text-slate-300 bg-slate-100/90 dark:bg-white/10 px-2.5 py-1 rounded font-mono border border-black/5 dark:border-white/10">1080p 60fps</span>
-                </div>
 
-                <div className="flex items-center justify-between p-3.5 bg-gradient-to-b from-white/95 to-[#f7faff]/90 dark:bg-none dark:bg-white/[0.07] border border-black/[0.05] dark:border-white/10 rounded-[8px] shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-md bg-ember/10 flex items-center justify-center shrink-0">
-                      <FileCheck className="w-4 h-4 text-ember" />
+                  {/* Item 2 */}
+                  <div className="flex items-center justify-between gap-3 text-xs">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className="w-6 h-6 rounded bg-muted-surface flex items-center justify-center shrink-0 border border-rule">
+                        <Video className="w-3 h-3 text-foreground" />
+                      </div>
+                      <div className="truncate">
+                        <span className="text-foreground font-medium">Modular HD Lessons</span>
+                        <span className="text-muted text-[10px] block sm:inline sm:ml-2">Bookmarks &amp; Notes</span>
+                      </div>
                     </div>
-                    <div>
-                      <div className="text-slate-900 dark:text-white font-sans text-xs font-semibold">Concept Retention Quizzes</div>
-                      <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">Instant grading and feedback</div>
-                    </div>
+                    <span className="text-[10px] text-muted shrink-0 bg-muted-surface px-2 py-0.5 rounded border border-rule">
+                      1080p 60fps
+                    </span>
                   </div>
-                  <span className="text-[10px] text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 dark:bg-emerald-500/20 px-2.5 py-1 rounded font-semibold border border-emerald-500/20">Automated</span>
-                </div>
 
-                <div className="pt-2 border-t border-black/[0.06] dark:border-white/10 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono px-1">
-                  <span>Latency: 12ms</span>
-                  <span>TLS 1.3 Verified</span>
+                  {/* Item 3 */}
+                  <div className="flex items-center justify-between gap-3 text-xs">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className="w-6 h-6 rounded bg-muted-surface flex items-center justify-center shrink-0 border border-rule">
+                        <FileCheck className="w-3 h-3 text-foreground" />
+                      </div>
+                      <div className="truncate">
+                        <span className="text-foreground font-medium">Retention Quizzes</span>
+                        <span className="text-muted text-[10px] block sm:inline sm:ml-2">Instant Grading</span>
+                      </div>
+                    </div>
+                    <span className="text-[10px] text-foreground shrink-0 font-medium bg-muted-surface px-2 py-0.5 rounded border border-rule">
+                      Automated
+                    </span>
+                  </div>
                 </div>
+              </div>
+
+              {/* Footer Row */}
+              <div className="flex items-center justify-between pt-1 text-[11px] font-mono text-muted">
+                <span>Latency: 12ms</span>
+                <span>TLS 1.3 Verified</span>
               </div>
 
             </div>
@@ -119,64 +157,82 @@ export function CapabilityChapters() {
            ========================================================================= */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           
-          {/* Media Column (Light Gradient Glass Product Window on Left) */}
+          {/* Media Column (Domain Hub Themed Capability Card - Credential Verifier) */}
           <div className="relative order-2 lg:order-1 flex items-center justify-center">
-            {/* Ambient Pearl/White Stage Lighting */}
-            <div 
-              className="absolute inset-0 -m-8 pointer-events-none rounded-full blur-2xl opacity-75 dark:opacity-30"
-              style={{
-                background: 'radial-gradient(55% 45% at 50% 40%, rgba(255, 255, 255, 0.95), rgba(220, 232, 255, 0.55) 50%, rgba(0, 0, 0, 0) 75%)'
-              }}
-            />
-
-            {/* 14px Light-Gradient Glass Product Window */}
-            <div 
-              className="relative z-10 w-full rounded-[14px] overflow-hidden backdrop-blur-2xl transition-transform duration-300 hover:scale-[1.01] bg-gradient-to-br from-white/95 via-[#f9fbff]/90 to-[#ecf2fc]/80 dark:bg-none dark:bg-white/[0.12] border border-white/90 dark:border-white/20 shadow-[0_22px_48px_-12px_rgba(25,35,60,0.08),_inset_0_1px_2px_rgba(255,255,255,0.95),_inset_0_-1px_1px_rgba(0,0,0,0.03)] dark:shadow-[0_20px_45px_-12px_rgba(0,0,0,0.4),_inset_0_1px_1px_rgba(255,255,255,0.25)]"
-            >
-              {/* Light Gradient Glass Title Bar */}
-              <div className="h-10 px-4 bg-gradient-to-r from-white/95 via-[#f7faff]/90 to-white/95 dark:bg-none dark:bg-white/[0.08] border-b border-black/[0.06] dark:border-white/10 flex items-center justify-between text-[11px] font-mono text-slate-600 dark:text-slate-300 backdrop-blur-md">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
-                  <span className="ml-2 font-medium text-slate-700 dark:text-slate-200">credential-verifier</span>
+            {/* Embedded Capability Card with 3 dots on top */}
+            <div className="relative z-10 w-full max-w-[440px] rounded-[16px] p-4.5 sm:p-5 bg-card border border-rule transition-colors">
+              
+              {/* Top Bar with 3 Window Dots */}
+              <div className="flex items-center justify-between pb-3 mb-3 border-b border-rule">
+                <div className="flex items-center gap-2.5">
+                  {/* 3 dots on top */}
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+                  </div>
+                  <div className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-muted-surface border border-rule font-mono text-[10px] font-semibold text-foreground tracking-wider">
+                    <span>credential-verifier</span>
+                  </div>
                 </div>
-                <span className="text-ember font-semibold tracking-wide bg-ember/10 px-2 py-0.5 rounded text-[10px]">VERIFIED</span>
+                <span className="px-2.5 py-0.5 rounded-full bg-muted-surface border border-rule font-mono text-[10px] font-semibold text-foreground tracking-wider">
+                  VERIFIED
+                </span>
               </div>
 
-              {/* Certificate Verification Mockup */}
-              <div className="p-5 font-mono text-xs space-y-3 bg-gradient-to-b from-white/30 to-[#eef3fb]/40 dark:bg-none dark:bg-black/20">
-                <div className="p-4 bg-gradient-to-b from-white/95 to-[#f7faff]/90 dark:bg-none dark:bg-white/[0.07] border border-black/[0.05] dark:border-white/10 rounded-[8px] space-y-2 shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
-                  <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-white/50">
-                    <span className="font-semibold tracking-wider">CREDENTIAL ID</span>
-                    <span className="text-ember font-mono font-semibold">EDN-9428-DIST</span>
-                  </div>
-                  <div className="font-sans text-base font-semibold text-slate-900 dark:text-white">
-                    Full-Stack Architecture Specialization
-                  </div>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 font-sans leading-relaxed">
-                    Issued with distinction to Alex Morgan. Cryptographically audited against course quiz evaluations and assignment capstone criteria.
-                  </p>
-                </div>
+              {/* Title & Description */}
+              <div className="flex items-center justify-between text-[10px] font-mono text-muted mb-1 font-semibold tracking-wider">
+                <span>CREDENTIAL ID</span>
+                <span className="text-foreground font-mono font-semibold">EDN-9428-DIST</span>
+              </div>
+              <h3 className="font-sans text-lg sm:text-xl font-bold tracking-tight text-foreground mb-1.5">
+                Full-Stack Architecture Specialization
+              </h3>
+              <p className="font-sans text-xs sm:text-[13px] leading-relaxed text-muted mb-3">
+                Issued with distinction to Alex Morgan. Cryptographically audited against course quiz evaluations and assignment capstone criteria.
+              </p>
 
-                <div className="grid grid-cols-2 gap-2 text-[11px]">
-                  <div className="p-3 bg-gradient-to-b from-white/95 to-[#f7faff]/90 dark:bg-none dark:bg-white/[0.07] border border-black/[0.05] dark:border-white/10 rounded-[8px]">
-                    <span className="text-slate-500 dark:text-white/50 block text-[10px] font-semibold">ISSUER</span>
-                    <span className="text-slate-900 dark:text-white font-sans font-medium">Faculty Board</span>
-                  </div>
-                  <div className="p-3 bg-gradient-to-b from-white/95 to-[#f7faff]/90 dark:bg-none dark:bg-white/[0.07] border border-black/[0.05] dark:border-white/10 rounded-[8px]">
-                    <span className="text-slate-500 dark:text-white/50 block text-[10px] font-semibold">ACCREDITATION</span>
-                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">ECTS Compatible</span>
-                  </div>
-                </div>
-
-                <div className="pt-2 border-t border-black/[0.06] dark:border-white/10 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono px-1">
-                  <span className="flex items-center gap-1.5 text-slate-700 dark:text-white/80">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-ember" />
-                    Public Verification URL
+              {/* Tags */}
+              <div className="flex flex-wrap gap-1.5 mb-3.5">
+                {['ARCHITECTURE', 'CAPSTONE', 'ACCREDITED', 'ECTS-COMPATIBLE'].map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2 py-0.5 rounded-full bg-muted-surface border border-rule font-mono text-[10px] font-medium text-muted uppercase tracking-wider"
+                  >
+                    #{tag}
                   </span>
-                  <span>Shareable to LinkedIn</span>
+                ))}
+              </div>
+
+              {/* Inner Verification Details Card */}
+              <div className="rounded-[12px] border border-rule bg-muted-surface/30 p-3 sm:p-3.5 mb-3.5">
+                <div className="flex items-center justify-between pb-2 mb-2.5 border-b border-rule font-mono text-[10px] uppercase tracking-wider">
+                  <div className="flex items-center gap-2 text-muted font-semibold">
+                    <span className="w-1.5 h-1.5 rounded-full bg-foreground" />
+                    <span>VERIFICATION RECORD (2)</span>
+                  </div>
+                  <span className="font-bold text-foreground">AUDITED</span>
                 </div>
+
+                <div className="grid grid-cols-2 gap-2 text-[11px] font-mono">
+                  <div className="p-2.5 bg-card border border-rule rounded-[6px]">
+                    <span className="text-muted block text-[10px] font-semibold uppercase tracking-wider">ISSUER</span>
+                    <span className="text-foreground font-sans font-medium text-xs mt-0.5 block">Faculty Board</span>
+                  </div>
+                  <div className="p-2.5 bg-card border border-rule rounded-[6px]">
+                    <span className="text-muted block text-[10px] font-semibold uppercase tracking-wider">ACCREDITATION</span>
+                    <span className="text-foreground font-semibold text-xs mt-0.5 block">ECTS Compatible</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer Row */}
+              <div className="flex items-center justify-between pt-1 text-[11px] font-mono text-muted">
+                <span className="flex items-center gap-1.5 text-foreground font-sans">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-foreground" />
+                  Public Verification URL
+                </span>
+                <span>Shareable to LinkedIn</span>
               </div>
 
             </div>

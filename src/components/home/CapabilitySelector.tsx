@@ -92,56 +92,69 @@ export function CapabilitySelector() {
         {/* Split Capability Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           
-          {/* Left: Product Window (Code Section with Transparent White & Black Gradient BG) */}
+          {/* Left: Product Window (Domain Hub Themed Workflow Card) */}
           <div className="lg:col-span-7 relative flex items-center justify-center">
-            {/* Ambient Lighting Glow */}
-            <div 
-              className="absolute inset-0 -m-8 pointer-events-none rounded-full blur-2xl opacity-75 dark:opacity-30"
-              style={{
-                background: 'radial-gradient(55% 45% at 50% 40%, rgba(255, 255, 255, 0.95), rgba(220, 232, 255, 0.55) 50%, rgba(0, 0, 0, 0) 75%)'
-              }}
-            />
-
-            {/* 14px Glass Card with Transparent White and Black Gradient Background */}
-            <div 
-              className="relative z-10 w-full rounded-[14px] overflow-hidden backdrop-blur-2xl transition-transform duration-300 hover:scale-[1.005] bg-gradient-to-br from-white/95 via-[#f9fbff]/90 to-[#ecf2fc]/80 dark:bg-gradient-to-b dark:from-white/[0.12] dark:via-[#14151a]/95 dark:to-[#08090c] border border-white/90 dark:border-white/15 shadow-[0_22px_48px_-12px_rgba(25,35,60,0.08),_inset_0_1px_2px_rgba(255,255,255,0.95),_inset_0_-1px_1px_rgba(0,0,0,0.03)] dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.7),_inset_0_1px_1px_rgba(255,255,255,0.2)] p-6 sm:p-8 flex flex-col justify-between min-h-[440px]"
-            >
+            {/* Embedded Capability Card with 3 dots on top */}
+            <div className="relative z-10 w-full max-w-[440px] rounded-[16px] p-4.5 sm:p-5 bg-card border border-rule transition-colors flex flex-col justify-between">
               <div>
-                {/* Header Bar */}
-                <div className="flex items-center justify-between pb-4 mb-6 border-b border-black/[0.06] dark:border-white/10">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-none bg-ember" />
-                    <span className="font-mono text-[11px] uppercase tracking-wider text-slate-600 dark:text-white/60 font-medium">
-                      {workflows[selectedIdx].visual.badge}
-                    </span>
+                {/* Top Bar with 3 Window Dots */}
+                <div className="flex items-center justify-between pb-3 mb-3 border-b border-rule">
+                  <div className="flex items-center gap-2.5">
+                    {/* 3 dots on top */}
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f56]" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]" />
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#27c93f]" />
+                    </div>
+                    <div className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-muted-surface border border-rule font-mono text-[10px] font-semibold text-foreground tracking-wider">
+                      <span>{workflows[selectedIdx].visual.badge}</span>
+                    </div>
                   </div>
-                  <span className="font-mono text-xs text-slate-900 dark:text-white/90 font-medium">
-                    {workflows[selectedIdx].visual.title}
+                  <span className="px-2.5 py-0.5 rounded-full bg-muted-surface border border-rule font-mono text-[10px] font-semibold text-foreground tracking-wider">
+                    OPERATIONAL
                   </span>
                 </div>
 
-                {/* Workflow Details Inner Container */}
-                <div className="space-y-3 font-mono text-xs bg-gradient-to-b from-white/30 to-[#eef3fb]/40 dark:bg-gradient-to-b dark:from-white/[0.04] dark:to-black/50 p-5 sm:p-6 rounded-[10px] border border-black/[0.05] dark:border-white/10 backdrop-blur-sm">
-                  {workflows[selectedIdx].visual.items.map((item, idx) => (
-                    <div 
-                      key={idx} 
-                      className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 p-3.5 bg-gradient-to-b from-white/95 to-[#f7faff]/90 dark:bg-gradient-to-r dark:from-white/[0.08] dark:to-white/[0.02] border border-black/[0.05] dark:border-white/10 rounded-[8px] shadow-[0_1px_3px_rgba(0,0,0,0.02)] dark:shadow-none hover:border-ember/40 transition-colors"
-                    >
-                      <span className="text-[10px] text-slate-500 dark:text-white/50 uppercase tracking-wider font-semibold">
-                        {item.label}
-                      </span>
-                      <span className="text-slate-900 dark:text-white font-medium text-xs sm:text-[13px] font-sans">
-                        {item.val}
-                      </span>
+                {/* Title & Description */}
+                <h3 className="font-sans text-lg sm:text-xl font-bold tracking-tight text-foreground mb-1.5">
+                  {workflows[selectedIdx].visual.title}
+                </h3>
+                <p className="font-sans text-xs sm:text-[13px] leading-relaxed text-muted mb-3">
+                  {workflows[selectedIdx].description}
+                </p>
+
+                {/* Inner Workflow Telemetry Card */}
+                <div className="rounded-[12px] border border-rule bg-muted-surface/30 p-3 sm:p-3.5 mb-3.5">
+                  <div className="flex items-center justify-between pb-2 mb-2.5 border-b border-rule font-mono text-[10px] uppercase tracking-wider">
+                    <div className="flex items-center gap-2 text-muted font-semibold">
+                      <span className="w-1.5 h-1.5 rounded-full bg-foreground" />
+                      <span>SESSION TELEMETRY ({workflows[selectedIdx].visual.items.length})</span>
                     </div>
-                  ))}
+                    <span className="font-bold text-foreground">ACTIVE</span>
+                  </div>
+
+                  <div className="space-y-2 font-mono">
+                    {workflows[selectedIdx].visual.items.map((item, idx) => (
+                      <div 
+                        key={idx} 
+                        className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 p-2 bg-card border border-rule/80 rounded-[6px]"
+                      >
+                        <span className="text-[10px] text-muted uppercase tracking-wider font-semibold">
+                          {item.label}
+                        </span>
+                        <span className="text-foreground font-medium text-xs font-sans">
+                          {item.val}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
 
               {/* Status Footer */}
-              <div className="pt-5 mt-5 border-t border-black/[0.06] dark:border-white/10 flex items-center justify-between text-xs text-slate-500 dark:text-white/50 font-mono">
+              <div className="pt-2 border-t border-rule flex items-center justify-between text-[11px] text-muted font-mono">
                 <span>EDUNET WORKFLOW ENGINE</span>
-                <span className="text-emerald-600 dark:text-emerald-400 font-semibold tracking-wide">
+                <span className="text-foreground font-semibold tracking-wide">
                   ALL SYSTEMS OPERATIONAL
                 </span>
               </div>
