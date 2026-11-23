@@ -3,24 +3,52 @@ import { ArrowRight, Award } from 'lucide-react';
 
 export function HomeHero() {
   return (
-    <section className="relative w-full overflow-hidden pt-20 sm:pt-28 lg:pt-32 pb-16 sm:pb-20 bg-gradient-to-b from-white via-white to-canvas dark:from-canvas-subtle dark:via-canvas dark:to-canvas text-foreground transition-colors duration-150">
+    <section className="relative w-full overflow-hidden pt-20 sm:pt-28 lg:pt-32 pb-16 sm:pb-20 bg-canvas text-foreground transition-colors duration-150">
       
-      {/* Luminous White Gradient Stage Background */}
+      {/* Lighter Shade of Ember Gradient Background (Matching Reference) */}
       <div className="absolute inset-0 pointer-events-none select-none overflow-hidden">
-        {/* Top-down white radial highlight for light mode */}
-        <div 
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1280px] h-[550px] pointer-events-none opacity-90 dark:opacity-0"
-          style={{
-            background: 'radial-gradient(ellipse 75% 65% at 50% 0%, #ffffff 0%, rgba(255, 255, 255, 0.85) 50%, rgba(240, 242, 245, 0.35) 85%, transparent 100%)'
-          }}
-        />
-        {/* Soft subtle warm accent wash */}
-        <div 
-          className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] max-w-[95vw] h-[380px] rounded-full pointer-events-none opacity-40 dark:opacity-20"
-          style={{
-            background: 'radial-gradient(50% 50% at 50% 50%, rgba(210, 86, 17, 0.05) 0%, transparent 80%)'
-          }}
-        />
+        {/* Dark Mode: Atmospheric glowing ambient stage gradient */}
+        <div className="hidden dark:block absolute inset-0">
+          {/* Layer 1: Wide ambient wash across upper screen */}
+          <div 
+            className="absolute -top-[12%] left-1/2 -translate-x-1/2 w-[150%] h-full pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse 80% 65% at 50% 10%, rgba(232, 128, 74, 0.45) 0%, rgba(210, 86, 17, 0.22) 35%, rgba(150, 55, 10, 0.08) 65%, transparent 85%)'
+            }}
+          />
+          {/* Layer 2: Core luminous glow in lighter shade of primary ember (#e8804a / #f58c55) */}
+          <div 
+            className="absolute -top-[15%] left-1/2 -translate-x-1/2 w-full h-[85%] pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse 65% 55% at 50% 12%, rgba(245, 138, 80, 0.58) 0%, rgba(232, 128, 74, 0.38) 35%, rgba(210, 86, 17, 0.12) 60%, transparent 80%)'
+            }}
+          />
+          {/* Layer 3: Top-center highlight bloom */}
+          <div 
+            className="absolute -top-[8%] left-1/2 -translate-x-1/2 w-[60%] max-w-[800px] h-[55%] pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse 55% 45% at 50% 10%, rgba(255, 160, 105, 0.42) 0%, rgba(232, 128, 74, 0.2) 45%, transparent 75%)',
+              filter: 'blur(28px)'
+            }}
+          />
+        </div>
+
+        {/* Light Mode: Subtle warm lighter-ember radial glow */}
+        <div className="block dark:hidden absolute inset-0">
+          <div 
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-[130%] h-[90%] pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(232, 128, 74, 0.16) 0%, rgba(232, 128, 74, 0.06) 45%, transparent 75%)'
+            }}
+          />
+          <div 
+            className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] max-w-[750px] h-[45%] pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(245, 138, 80, 0.2) 0%, rgba(232, 128, 74, 0.08) 50%, transparent 80%)',
+              filter: 'blur(20px)'
+            }}
+          />
+        </div>
       </div>
 
       <div className="relative z-10 max-w-[1280px] mx-auto px-4 sm:px-8">
